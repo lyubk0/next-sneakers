@@ -25,7 +25,11 @@ export async function GET() {
 					items: {
 						orderBy: (items, { desc }) => [desc(items.created_at)],
 						with: {
-							product: true,
+							product: {
+								with: {
+									sizes: true,
+								},
+							},
 
 							size: true,
 						},
@@ -41,7 +45,11 @@ export async function GET() {
 					items: {
 						orderBy: (items, { desc }) => [desc(items.created_at)],
 						with: {
-							product: true,
+							product: {
+								with: {
+									sizes: true,
+								},
+							},
 
 							size: true,
 						},

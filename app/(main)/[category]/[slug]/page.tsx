@@ -1,8 +1,8 @@
+import { DetailsSection } from '@/components/pages/product-page/details-section'
+import { ImageSection } from '@/components/pages/product-page/image-section'
 import { Container } from '@/components/shared/container'
-import { DetailsSection } from '@/components/shared/pages/product-page/details-section'
-import { ImageSection } from '@/components/shared/pages/product-page/image-section'
-import { WhiteBlock } from '@/components/shared/white-block'
 import { ApiServer } from '@/services/api-server'
+
 interface Props {
 	params: {
 		category: string
@@ -23,10 +23,10 @@ export default async function Sneaker({ params }: Props) {
 
 	return (
 		<Container>
-			<WhiteBlock className='flex gap-8'>
+			<div className='flex gap-10'>
 				<ImageSection product={product} />
 				<DetailsSection product={product} />
-			</WhiteBlock>
+			</div>
 			{/* <RecommendationsSection className='mt-8' products={products} /> */}
 		</Container>
 	)

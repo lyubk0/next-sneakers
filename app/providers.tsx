@@ -17,7 +17,7 @@ export const Providers = ({ children }: PropsWithChildren<Props>) => {
 				position='bottom-center'
 				reverseOrder={false}
 				toastOptions={{
-					style: { borderRadius: '18px', border: '1px solid oklch(0.94 0 0)' },
+					style: { borderRadius: '16px', border: 'none' },
 				}}
 			/>
 			<NuqsAdapter>{children}</NuqsAdapter>

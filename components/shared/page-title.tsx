@@ -5,14 +5,14 @@ import { Title } from './title'
 
 interface Props {
 	title: string
-	Icon: Icon
+	Icon?: Icon
 	className?: string
 }
 
 export const PageTitle = ({ title, Icon, className }: Props) => {
 	return (
-		<Title size='md' className={cn(className, 'font-bold mb-5')}>
-			<Icon size={26} weight='duotone' />
+		<Title size='lg' className={cn(className, 'font-bold mb-9')}>
+			{Icon && <Icon size={26} weight='duotone' />}
 			{title}
 		</Title>
 	)

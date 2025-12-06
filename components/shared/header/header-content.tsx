@@ -9,18 +9,12 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { signOut, useSession } from '@/lib/auth-client'
 import { cn } from '@/lib/utils'
-import {
-	HeartIcon,
-	MagnifyingGlassIcon,
-	SignOutIcon,
-	UserCircleIcon,
-} from '@phosphor-icons/react'
-import Image from 'next/image'
+import { SignOutIcon } from '@phosphor-icons/react'
+import { IconHeart, IconUser, IconZoom } from '@tabler/icons-react'
 import Link from 'next/link'
 import { Title } from '../title'
 import { CartButton } from './cart-button'
 import { NavButton } from './nav-button'
-
 interface Props {
 	className?: string
 }
@@ -30,25 +24,23 @@ export const HeaderContent = ({ className }: Props) => {
 
 	return (
 		<div className={cn(className, 'py-8 flex items-center justify-between')}>
-			<div className='flex items-center gap-4'>
-				<Image src={'/logo.svg'} width={40} height={40} alt='Logo' />
+			<Link href={'/'}>
 				<div className='flex flex-col'>
-					<Title className='font-bold !text-[1.17em] leading-tight'>
+					<Title size='sm' className='font-extrabold'>
 						NEXT SNEAKERS
 					</Title>
-					<p className='text-muted-foreground/70'>Магазин найкращих кросівок</p>
 				</div>
-			</div>
+			</Link>
 			<div className='flex  gap-5 items-center'>
 				<CartButton />
 
-				<NavButton Icon={MagnifyingGlassIcon} />
+				<NavButton Icon={IconZoom} />
 				<Link href='/favorites'>
-					<NavButton Icon={HeartIcon} />
+					<NavButton Icon={IconHeart} />
 				</Link>
 				{!session?.user && (
 					<Link href='/sign-in'>
-						<NavButton Icon={UserCircleIcon} />
+						<NavButton Icon={IconUser} />
 					</Link>
 				)}
 				{!isPending && session?.user && (

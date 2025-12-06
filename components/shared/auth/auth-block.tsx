@@ -37,11 +37,11 @@ export const AuthBlock = ({ className, isSignIn }: Props) => {
 			</div>
 
 			<div className='flex w-full gap-2 mt-5'>
-				<Button className='flex-1' variant={'flat'}>
+				<Button size={'lg'} className='flex-1' variant={'flat'}>
 					<Image src={'/google.svg'} height={20} width={20} alt='Google' />
 					Google
 				</Button>
-				<Button className='flex-1' variant={'flat'}>
+				<Button size={'lg'} className='flex-1' variant={'flat'}>
 					<Image src={'/github.svg'} height={20} width={20} alt='GitHub' />
 					GitHub
 				</Button>
@@ -51,6 +51,7 @@ export const AuthBlock = ({ className, isSignIn }: Props) => {
 				<Underline
 					href={isSignIn ? '/sign-up' : '/sign-in'}
 					colorClass='text-primary'
+					className='text-base'
 				>
 					{isSignIn ? 'Реєстрація' : 'Увійти'}
 				</Underline>

@@ -3,8 +3,9 @@
 import { Cart } from '@/@types/cart'
 import { CartDrawerItem } from '@/components/shared/cart-drawer/cart-drawer-item'
 import { cn } from '@/lib/utils'
-import { ArrowLeftIcon, PackageIcon, ReceiptIcon } from '@phosphor-icons/react'
+import { ArrowLeftIcon } from '@phosphor-icons/react'
 import Image from 'next/image'
+import Link from 'next/link'
 import { PropsWithChildren, useState } from 'react'
 import { Button } from '../../ui/button'
 import {
@@ -35,26 +36,26 @@ export const CartDrawer = ({
 	return (
 		<Drawer open={open} onOpenChange={setOpen} direction='right'>
 			<DrawerTrigger>{children}</DrawerTrigger>
-			<DrawerContent className={cn(className, '!max-w-lg')}>
+			<DrawerContent className={cn(className, '!max-w-md')}>
 				<DrawerHeader>
 					<DrawerTitle className='text-2xl font-bold'>Корзина</DrawerTitle>
 				</DrawerHeader>
 				{cart && cart?.items.length === 0 && (
-					<div className='flex flex-col space-y-3 h-full justify-center items-center'>
+					<div className='flex flex-col  h-full justify-center items-center'>
 						<Image
 							height={120}
 							width={120}
-							src={'/empty-cart.jpg'}
+							src={'/empty-cart.svg'}
 							alt='empty cart'
 							quality={100}
 						/>
-						<Title size='sm' className='font-semibold'>
+						<Title size='sm' className='font-semibold mb-1'>
 							Корзина порожня
 						</Title>
-						<p className='text-muted-foreground text-center'>
+						<p className='text-card-muted-foreground text-center mb-6'>
 							Додайте хоча б один товар, щоб зробити замовлення
 						</p>
-						<Button onClick={handleClose} className='group' size={'lg'}>
+						<Button onClick={handleClose} className='group' size={'xl'}>
 							<ArrowLeftIcon
 								className='group-hover:-translate-x-1 duration-150 ease-out'
 								weight='bold'
@@ -66,34 +67,29 @@ export const CartDrawer = ({
 
 				{cart && cart.items?.length > 0 && (
 					<>
-						<ul className='flex h-[685px] overflow-y-auto flex-col gap-7'>
+						<ul className='flex h-[685px] overflow-y-auto flex-col gap-9'>
 							{cart?.items?.map(item => (
 								<li key={item.id}>
 									<CartDrawerItem cartItem={item} />
+									<div className='w-full h-[1px] bg-muted mt-6'></div>
 								</li>
 							))}
 						</ul>
 
 						<div className='-mx-7 p-5 bg-white'>
-							<div className='flex gap-8 flex-col'>
+							<div className='flex gap-6 flex-col'>
 								<div className='flex flex-col gap-2'>
-									<div className='flex text-muted-foreground justify-between items-center'>
-										<p className='flex items-center gap-1'>
-											<PackageIcon size={20} />
-											Доставка
-										</p>
-										<p>80 грн</p>
-									</div>
-									<div className='flex font-bold justify-between items-center'>
-										<p className='flex items-center gap-1'>
-											{' '}
-											<ReceiptIcon size={20} />
-											Всього
-										</p>
+									<div className='flex font-medium justify-between items-center'>
+										<p className='flex items-center gap-1'> Всього:</p>
 										<p>{cart?.totalPrice} грн</p>
 									</div>
 								</div>
-								<Button size={'lg'}>Оформити замовлення</Button>
+								<Link className='w-full' href='/checkout'>
+									{' '}
+									<Button className='w-full' size={'xl'}>
+										Оформити замовлення
+									</Button>
+								</Link>
 							</div>
 						</div>
 					</>

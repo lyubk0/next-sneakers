@@ -9,7 +9,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { EnvelopeIcon, LockKeyIcon, SignInIcon } from '@phosphor-icons/react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { FormInput } from '../../form-components/form-input'
-import { SignInFormData, signInSchema } from '../schemas/sign-in-form-schema'
+import { SignInFormData, signInSchema } from './schemas/sign-in-form-schema'
 
 interface Props {
 	className?: string
@@ -66,7 +66,7 @@ export const SignInForm = ({ className }: Props) => {
 								/>
 								<Underline
 									colorClass='text-foreground'
-									className='cursor-pointer'
+									className='cursor-pointer text-sm'
 								>
 									Запам&apos;ятати мене
 								</Underline>
@@ -78,6 +78,7 @@ export const SignInForm = ({ className }: Props) => {
 				<Button
 					loading={signInMutation.isPending}
 					type='submit'
+					size={'lg'}
 					className='w-full group mt-5'
 				>
 					<SignInIcon

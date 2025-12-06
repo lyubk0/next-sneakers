@@ -1,4 +1,4 @@
-import { SignInFormData } from '@/components/shared/auth/schemas/sign-in-form-schema'
+import { SignInFormData } from '@/components/shared/auth/forms/schemas/sign-in-form-schema'
 import { signIn } from '@/lib/auth-client'
 import { useMutation } from '@tanstack/react-query'
 

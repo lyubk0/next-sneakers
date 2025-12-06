@@ -1,9 +1,9 @@
 'use client'
 
+import { Button } from '@/components/ui/button'
 import { useRemoveCartItem } from '@/hooks/queries/cart/use-remove-cart-item'
 import { useUpdateCartItemQuantity } from '@/hooks/queries/cart/use-update-cart-item-quantity'
-import { cn } from '@/lib/utils'
-import { MinusIcon, PlusIcon, TrashIcon } from '@phosphor-icons/react'
+import { IconMinus, IconPlus } from '@tabler/icons-react'
 import { useState } from 'react'
 
 interface Props {
@@ -21,6 +21,7 @@ export const CartItemCounter = ({ cartItemId, quantity, className }: Props) => {
 		useRemoveCartItem()
 
 	const handleUpdateQuantity = async (action: 'increment' | 'decrement') => {
+		if (quantity === 1 && action === 'decrement') return
 		setDisabled(true)
 
 		await new Promise(resolve =>
@@ -41,39 +42,23 @@ export const CartItemCounter = ({ cartItemId, quantity, className }: Props) => {
 	}
 
 	return (
-		<div className='rounded-[12px] gap-3 justify-center  bg-muted flex items-center px-2 py-1 w-max'>
-			{quantity === 1 && (
-				<button
-					onClick={handleRemove}
-					className={cn(
-						disabled || (isRemoving && 'opacity-50 pointer-events-none'),
-						'text-red-500 cursor-pointer'
-					)}
-				>
-					<TrashIcon size={18} weight='duotone' />
-				</button>
-			)}
-			{quantity > 1 && (
-				<button
-					className={cn(
-						(disabled || isRemoving) && 'opacity-50 pointer-events-none',
-						'text-muted-foreground/65 cursor-pointer hover:text-primary'
-					)}
-					onClick={() => handleUpdateQuantity('decrement')}
-				>
-					<MinusIcon size={18} weight='bold' />
-				</button>
-			)}
-			{quantity}
-			<button
-				onClick={() => handleUpdateQuantity('increment')}
-				className={cn(
-					(disabled || isRemoving) && 'opacity-50 pointer-events-none',
-					'text-muted-foreground/65 cursor-pointer hover:text-primary'
-				)}
+		<div className='flex p-1 bg-muted rounded-2xl items-center gap-3'>
+			<Button
+				className='bg-white rounded-xl hover:bg-white'
+				onClick={() => handleUpdateQuantity('decrement')}
+				variant={'secondary'}
+				size={'icon'}
 			>
-				<PlusIcon size={18} weight='bold' />
-			</button>
+				<IconMinus />
+			</Button>
+			<span className='inline-block w-5 text-center'>{quantity}</span>
+			<Button
+				className='rounded-xl'
+				onClick={() => handleUpdateQuantity('increment')}
+				size={'icon'}
+			>
+				<IconPlus />
+			</Button>
 		</div>
 	)
 }

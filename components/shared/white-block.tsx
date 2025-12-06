@@ -10,8 +10,6 @@ export const WhiteBlock = ({
 	children,
 }: PropsWithChildren<Props>) => {
 	return (
-		<div className={cn(className, 'bg-white w-full rounded-2xl shadow-md p-6')}>
-			{children}
-		</div>
+		<div className={cn(className, 'bg-white rounded-2xl p-6')}>{children}</div>
 	)
 }

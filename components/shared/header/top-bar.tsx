@@ -1,35 +1,55 @@
 'use client'
 
-import { Category } from '@/@types/category'
-import { cn } from '@/lib/utils'
-import { useQueryState } from 'nuqs'
-import { CategorySelector } from '../category-selector'
+import { Button } from '@/components/ui/button'
+import {
+	ToggleTabs,
+	ToggleTabsItem,
+	ToggleTabsList,
+} from '@/components/ui/toggle-tabs'
+import { useBrands } from '@/hooks/queries/brands/use-brands'
+import {
+	GenderFemaleIcon,
+	GenderMaleIcon,
+	SlidersIcon,
+} from '@phosphor-icons/react'
+import { useState } from 'react'
+import BrandChips from '../brands-chips'
 
 interface Props {
-	categories: Category[]
 	className?: string
 }
 
-export const TopBar = ({ categories, className }: Props) => {
-	const [category, setCategory] = useQueryState(
-		'category',
+export const TopBar = ({ className }: Props) => {
+	const { data: brands, isPending } = useBrands()
+	const [activeBrandId, setActiveBrandId] = useState<number>(0)
 
-		{ defaultValue: 'Кросівки' }
-	)
-
-	const handleCategoryChange = (category: string) => {
-		setCategory(category)
-	}
-
+	if (isPending) return <div>Loading...</div>
+	if (!brands) return <div>Error</div>
 	return (
-		<div
-			className={cn(className, 'flex justify-between items-center flex-wrap')}
-		>
-			<CategorySelector
-				items={categories}
-				value={category}
-				onChange={handleCategoryChange}
-			/>
+		<div className='flex justify-between'>
+			<div className='flex gap-5 items-center '>
+				<ToggleTabs defaultValue='intersex' className={className}>
+					<ToggleTabsList>
+						<ToggleTabsItem value='intersex'>
+							<p className='text-sm'>Усі</p>
+						</ToggleTabsItem>
+						<ToggleTabsItem value='male'>
+							<GenderMaleIcon />
+						</ToggleTabsItem>
+						<ToggleTabsItem value='female'>
+							<GenderFemaleIcon />
+						</ToggleTabsItem>
+					</ToggleTabsList>
+				</ToggleTabs>
+
+				<div className='h-8 w-[1px] bg-muted' />
+				<BrandChips />
+			</div>
+
+			<Button variant={'ghost'}>
+				<SlidersIcon />
+				Фільтри
+			</Button>
 		</div>
 	)
 }

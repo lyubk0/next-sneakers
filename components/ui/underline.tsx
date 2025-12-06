@@ -22,11 +22,11 @@ export const Underline = ({
 
 	const content = (
 		<span className='relative inline-block  group'>
-			<span className={cn('text-primary cursor-pointer', colorClass)}>
+			<span className={cn('text-primary text-base cursor-pointer', colorClass)}>
 				{children}
 			</span>
 			<div
-				className={clsx(
+				className={cn(
 					'absolute left-0 opacity-0 -translate-y-1 group-hover:opacity-100 group-hover:translate-y-0 duration-150 ease-out right-0 top-[80%] mt-1 flex gap-1 justify-center',
 					className
 				)}

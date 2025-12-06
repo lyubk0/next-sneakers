@@ -3,11 +3,11 @@
 import useEmblaCarousel, {
 	type UseEmblaCarouselType,
 } from 'embla-carousel-react'
-import { ArrowLeft, ArrowRight } from 'lucide-react'
 import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
+import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -128,7 +128,7 @@ function Carousel({
 		>
 			<div
 				onKeyDownCapture={handleKeyDown}
-				className={cn('relative', className)}
+				className={cn('relative group', className)}
 				role='region'
 				aria-roledescription='carousel'
 				data-slot='carousel'
@@ -146,14 +146,13 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
 		<div
 			ref={carouselRef}
-			className='overflow-hidden'
+			className={cn('overflow-hidden', className)}
 			data-slot='carousel-content'
 		>
 			<div
 				className={cn(
 					'flex',
-					orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col',
-					className
+					orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col'
 				)}
 				{...props}
 			/>
@@ -193,7 +192,7 @@ function CarouselPrevious({
 			variant={variant}
 			size={size}
 			className={cn(
-				'absolute size-8 bg-white rounded-full',
+				'absolute size-10 [&_svg:not([class*="size-"])]:!size-5 border-none bg-white text-foreground !shadow-none opacity-0 disabled:!opacity-0 group-hover:!opacity-100 transition-opacity duration-200 hover:bg-white/70 rounded-full',
 				orientation === 'horizontal'
 					? 'top-1/2 left-4 -translate-y-1/2'
 					: 'top-4 left-1/2 -translate-x-1/2 rotate-90',
@@ -203,7 +202,7 @@ function CarouselPrevious({
 			onClick={scrollPrev}
 			{...props}
 		>
-			<ArrowLeft />
+			<IconArrowLeft />
 			<span className='sr-only'>Previous slide</span>
 		</Button>
 	)
@@ -211,7 +210,7 @@ function CarouselPrevious({
 
 function CarouselNext({
 	className,
-	variant = 'outline',
+	variant = 'default',
 	size = 'icon',
 	...props
 }: React.ComponentProps<typeof Button>) {
@@ -223,7 +222,7 @@ function CarouselNext({
 			variant={variant}
 			size={size}
 			className={cn(
-				'absolute size-8 bg-white rounded-full',
+				'absolute size-10 [&_svg:not([class*="size-"])]:!size-5 border-none bg-white text-foreground opacity-0 disabled:!opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white/70 rounded-full',
 				orientation === 'horizontal'
 					? 'top-1/2 right-4 -translate-y-1/2'
 					: 'bottom-4 left-1/2 -translate-x-1/2 rotate-90',
@@ -233,7 +232,7 @@ function CarouselNext({
 			onClick={scrollNext}
 			{...props}
 		>
-			<ArrowRight />
+			<IconArrowRight />
 			<span className='sr-only'>Next slide</span>
 		</Button>
 	)
@@ -245,7 +244,7 @@ function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
 		<div
 			className={cn(
-				'absolute bottom-4 left-1/2 p-2 bg-black/70 rounded-full  -translate-x-1/2 flex justify-center gap-2',
+				'absolute left-4 top-0 rounded-full  flex justify-center gap-1',
 				className
 			)}
 			data-slot='carousel-dots'
@@ -256,10 +255,8 @@ function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
 					key={idx}
 					onClick={() => api?.scrollTo(idx)}
 					className={cn(
-						'h-2 rounded-full transition-all',
-						selectedIndex === idx
-							? 'w-8 bg-primary'
-							: 'w-2 bg-white hover:bg-white/90'
+						'size-1.5 cursor-pointer rounded-full transition-all',
+						selectedIndex === idx ? ' bg-primary' : ' bg-[#d2d2d2]'
 					)}
 					aria-label={`Go to slide ${idx + 1}`}
 					aria-current={selectedIndex === idx}

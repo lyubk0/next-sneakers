@@ -15,16 +15,15 @@ export const FormInput = ({ className, name, ...props }: Props) => {
 	} = useFormContext()
 	const errorText = errors[name]?.message as string | undefined
 	return (
-		<div className={className}>
-			<div className='relative'>
-				<Input
-					className={cn(
-						errorText && 'focus-visible:ring-red-400 selection:bg-red-400 '
-					)}
-					{...register(name)}
-					{...props}
-				/>
-			</div>
+		<div className='w-full flex-1'>
+			<Input
+				className={cn(
+					errorText && 'focus-visible:ring-red-400 selection:bg-red-400 ',
+					className
+				)}
+				{...props}
+				{...register(name)}
+			/>
 
 			{errorText && <ErrorText className='mt-2'>{errorText}</ErrorText>}
 		</div>

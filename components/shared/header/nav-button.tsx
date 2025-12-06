@@ -1,7 +1,7 @@
-import { Icon } from '@phosphor-icons/react'
+import { TablerIcon } from '@tabler/icons-react'
 
 interface Props {
-	Icon: Icon
+	Icon: TablerIcon
 	className?: string
 }
 
@@ -9,9 +9,9 @@ export const NavButton = ({ Icon, className }: Props) => {
 	return (
 		<div
 			role='button'
-			className='ease-out text-muted-foreground duration-150 active:scale-[0.97] hover:text-primary cursor-pointer'
+			className='ease-out text-foreground duration-150 active:scale-[0.97] hover:text-primary cursor-pointer'
 		>
-			<Icon size={22} weight='duotone' />
+			<Icon size={20} />
 		</div>
 	)
 }

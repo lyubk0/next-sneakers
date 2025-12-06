@@ -1,5 +1,5 @@
+import { HomeContainer } from '@/components/pages/home-page/home-container'
 import { Container } from '@/components/shared/container'
-import { HomeContainer } from '@/components/shared/pages/home-page/home-container'
 import type { SearchParams } from 'nuqs/server'
 
 interface Props {

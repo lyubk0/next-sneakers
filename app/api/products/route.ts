@@ -1,8 +1,8 @@
 import { db } from '@/db/drizzle'
-import { category, favorite, product } from '@/db/schema'
+import { category, favorite } from '@/db/schema'
 import { auth } from '@/lib/auth'
 import { getOrCreateGuestId } from '@/lib/user'
-import { eq, getTableColumns, sql } from 'drizzle-orm'
+import { eq } from 'drizzle-orm'
 import { headers } from 'next/headers'
 import { NextRequest, NextResponse } from 'next/server'
 
@@ -23,29 +23,25 @@ export async function GET(req: NextRequest) {
 
 	if (!cat) return NextResponse.json([])
 
-	const favoriteCheck = userId
-		? sql<boolean>`EXISTS (
-        SELECT 1 FROM ${favorite}
-        WHERE ${favorite.product_id} = ${product.id}
-        AND ${favorite.user_id} = ${userId}
-      )`
-		: guestId
-		? sql<boolean>`EXISTS (
-        SELECT 1 FROM ${favorite}
-        WHERE ${favorite.product_id} = ${product.id}
-        AND ${favorite.guest_id} = ${guestId}
-      )`
-		: sql<boolean>`false`
+	const products = await db.query.product.findMany({
+		with: {
+			category: true,
+			sizes: true,
+		},
+	})
 
-	const products = await db
-		.select({
-			...getTableColumns(product),
-			category: getTableColumns(category),
-			isFavorite: favoriteCheck,
-		})
-		.from(product)
-		.leftJoin(category, eq(category.id, product.categoryId))
-		.where(eq(product.categoryId, cat.id))
+	const favoriteProducts = await db.query.favorite.findMany({
+		where: userId
+			? eq(favorite.user_id, userId)
+			: eq(favorite.guest_id, guestId),
+	})
 
-	return NextResponse.json(products)
+	const favoriteIds = new Set(favoriteProducts.map(f => f.product_id))
+
+	const productsWithFavorite = products.map(p => ({
+		...p,
+		isFavorite: favoriteIds.has(p.id),
+	}))
+
+	return NextResponse.json(productsWithFavorite)
 }

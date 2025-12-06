@@ -1,4 +1,5 @@
 export * from './auth'
+export * from './brand'
 export * from './cart'
 export * from './cart-item'
 export * from './category'

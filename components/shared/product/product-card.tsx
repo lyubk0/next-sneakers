@@ -1,64 +1,96 @@
 'use client'
 
 import { Product } from '@/@types/product'
-import { useToggleFavorite } from '@/hooks/queries/favorite/use-toggle-favorite'
+import {
+	Carousel,
+	CarouselApi,
+	CarouselContent,
+	CarouselDots,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
+} from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
-import { HeartIcon } from '@phosphor-icons/react'
+import { motion } from 'motion/react'
 import Image from 'next/image'
-import { MouseEvent } from 'react'
+import { useState } from 'react'
+import { HeartButton } from '../heart-button'
+import { Title } from '../title'
 
 interface Props {
 	product: Product
 	className?: string
 }
+const imageUrls = ['/krossi.png', '/krossi.png', '/krossi.png']
 
 export const ProductCard = ({ product, className }: Props) => {
-	const { mutateAsync: toggleFavorite } = useToggleFavorite()
-
-	const handleClickFavorite = async (e: MouseEvent) => {
-		e.preventDefault()
-		e.stopPropagation()
-		await toggleFavorite(product.id)
-	}
-
+	const [currentIndex, setCurrentIndex] = useState(0)
+	const [api, setApi] = useState<CarouselApi | undefined>(undefined)
 	return (
-		<div
+		<motion.div
 			className={cn(
 				className,
-				'p-4 w-[300px] shadow-xs cursor-auto space-y-3 rounded-2xl h-full bg-card flex flex-col',
-				'transition-[box-shadow,translate, border] hover:border-border/75 duration-200 ease-in-out',
-				'hover:shadow-[0_20px_35px_0_#0000000f] hover:-translate-y-[5px]'
+				'w-[350px] group cursor-pointer space-y-3 rounded-2xl h-full bg-card flex flex-col'
 			)}
+			initial='rest'
+			whileHover='hover'
+			animate='rest'
 		>
-			<div className='h-[240px] select-none w-full relative'>
-				<HeartIcon
-					onClick={handleClickFavorite}
-					size={18}
-					weight='duotone'
-					className={cn(
-						'absolute active:scale-[0.97] z-10 right-3 top-3 text-muted-foreground cursor-pointer hover:text-red-500 duration-150 ease-out',
-						product.isFavorite && 'text-red-500'
-					)}
+			<Carousel
+				className='relative select-none'
+				opts={{ align: 'start', watchDrag: false }}
+				setApi={setApi}
+			>
+				<HeartButton
+					productId={product.id}
+					isFavorite={product.isFavorite}
+					className='absolute right-4 top-4 z-10'
+					iconSize={20}
 				/>
-				<Image
-					src={product.images[0]}
-					alt='sneaker'
-					fill
-					className='rounded-[18px] object-cover'
+				<CarouselContent className='rounded-2xl '>
+					{imageUrls.map(img => (
+						<CarouselItem className='flex justify-center group-hover:bg-[#f0f0f0] duration-100 ease-out select-none relative items-center h-[350px] bg-muted '>
+							<Image
+								src={img}
+								alt={''}
+								height={270}
+								width={270}
+								quality={100}
+							/>
+						</CarouselItem>
+					))}
+				</CarouselContent>
+				<CarouselPrevious
+					onClick={e => {
+						e.preventDefault()
+						api?.scrollPrev()
+						setCurrentIndex(api?.selectedScrollSnap || 0)
+					}}
 				/>
-			</div>
+				<CarouselNext
+					onClick={e => {
+						e.preventDefault()
+						api?.scrollNext()
+						setCurrentIndex(api?.selectedScrollSnap || 0)
+					}}
+				/>
+				<CarouselDots className='mt-4 opacity-0 group-hover:opacity-100 duration-150 ease-out' />
+			</Carousel>
 
-			<div className='flex flex-col flex-1 justify-between'>
-				<p className='cursor-pointer font-medium hover:text-primary duration-100 ease-out tracking-[1px]'>
-					{product.name}
-				</p>
-				<div className='flex justify-between items-end mt-4'>
+			<div className='flex flex-col gap-2 flex-1 justify-between'>
+				<div className='relative inline-block'>
+					<Title size='sm' className='font-bold'>
+						{product.name}
+					</Title>
+				</div>
+				<div className='flex justify-between items-end'>
 					<div className='flex flex-col'>
-						<span className='text-muted-foreground/60 text-sm'>Ціна</span>
-						<p className='text-sm font-semibold'>{product.price} грн.</p>
+						<Title size='sm' className='font-semibold'>
+							{product.price} грн
+						</Title>
 					</div>
 				</div>
 			</div>
-		</div>
+		</motion.div>
 	)
 }

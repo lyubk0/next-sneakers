@@ -14,7 +14,7 @@ export const ProductList = ({ className }: Props) => {
 	const mockData = [...Array(20)]
 	const { data: products, isPending } = useProducts()
 	return (
-		<ProductGrid>
+		<ProductGrid className={className}>
 			{isPending &&
 				mockData.map((_, i) => (
 					<li key={i}>

@@ -22,10 +22,11 @@ export const getProductBySlug = async ({
 	const productFull = await db.query.product.findFirst({
 		where: eq(product.slug, productSlug),
 		with: {
+			category: true,
 			sizes: true,
 		},
 		extras: fields => ({
-			isFavorited: userId
+			isFavorite: userId
 				? sql<boolean>`EXISTS (
             SELECT 1 FROM ${sql.raw('"favorite"')}
             WHERE ${sql.raw('"favorite"."product_id"')} = ${fields.id}

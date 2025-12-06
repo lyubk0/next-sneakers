@@ -53,8 +53,8 @@ export const Accordion = ({
 							className='hover:bg-accent cursor-pointer flex w-full items-center justify-between gap-2 px-4 py-3 text-left transition-colors'
 							aria-expanded={isExpanded}
 						>
-							<h3 className='font-medium text-base flex items-center gap-2 text-muted-foreground'>
-								{item.icon && <item.icon size={20} weight='duotone' />}
+							<h3 className='font-medium text-sm flex items-center gap-2 '>
+								{item.icon && <item.icon size={18} weight='duotone' />}
 								{item.title}
 							</h3>
 							<motion.div
@@ -63,7 +63,7 @@ export const Accordion = ({
 								className='flex-shrink-0'
 							>
 								<CaretDownIcon
-									size={20}
+									size={18}
 									weight='bold'
 									className='text-muted-foreground'
 								/>

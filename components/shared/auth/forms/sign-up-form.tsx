@@ -7,7 +7,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { EnvelopeIcon, LockKeyIcon, SignInIcon } from '@phosphor-icons/react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FormInput } from '../../form-components/form-input'
-import { SignUpFormData, signUpSchema } from '../schemas/sign-up-form-schema'
+import { SignUpFormData, signUpSchema } from './schemas/sign-up-form-schema'
 interface Props {
 	className?: string
 }
