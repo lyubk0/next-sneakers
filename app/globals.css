@@ -61,7 +61,7 @@
 	--card-muted-foreground: oklch(0.6483 0.0073 286.19);
 	--popover: oklch(1 0 0);
 	--popover-foreground: oklch(0.145 0 0);
-	--primary: oklch(0% 0 0);
+	--primary: oklch(0.235 0 0);
 	--primary-foreground: oklch(0.985 0 0);
 	--secondary: oklch(0.97 0 0);
 	--secondary-foreground: oklch(0.205 0 0);
@@ -70,7 +70,7 @@
 	--accent: oklch(0.97 0 0);
 	--accent-foreground: oklch(0.205 0 0);
 	--destructive: oklch(0.577 0.245 27.325);
-	--border: oklch(0.3715 0 0 / 7.84%);
+	--border: oklch(0.928 0 0);
 	--input: oklch(0.3705 0 0 / 8%);
 	--ring: oklch(0.708 0 0);
 	--chart-1: oklch(0.646 0.222 41.116);
@@ -149,19 +149,6 @@
 	}
 }
 
-@layer utilities {
-	.shadow-inset-custom {
-		--tw-shadow-colored: inset 0px 0px 0px 1px var(--tw-shadow-color);
-		--tw-shadow-color: hsl(0 0% 25% / 16%);
-		box-shadow: var(--tw-shadow-colored);
-	}
-
-	.border-shadow {
-		box-shadow: 0px 0px 0px 1px rgba(0, 0, 0, 0.06),
-			0px 1px 2px -1px rgba(0, 0, 0, 0.06), 0px 2px 4px 0px rgba(0, 0, 0, 0.04);
-	}
-}
-
 * {
-	font-family: 'Geist';
+	font-family: var(--font-saans), system-ui, sans-serif;
 }

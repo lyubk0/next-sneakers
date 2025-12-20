@@ -1,7 +1,11 @@
 import { Cart } from '@/@types/cart'
-import { useCreateInvoice } from '@/hooks/queries/monobank/use-create-invoice'
+import { Button } from '@/components/ui/button'
+import { useCreateOrder } from '@/hooks/queries/orders/use-create-order'
+import { useCreateCheckoutSession } from '@/hooks/stripe/use-create-checkout-session'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { useRouter } from 'next/navigation'
 import { FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import {
 	personalInfoSchema,
 	PersonalInfoValues,
@@ -11,15 +15,12 @@ import { UserInfoSection } from './user-info-section'
 
 interface Props {
 	cart?: Cart
-	setMonobankInvoiceUrl: (url: string) => void
 	className?: string
 }
 
-export const PersonalInfoForm = ({
-	cart,
-	setMonobankInvoiceUrl,
-	className,
-}: Props) => {
+export const PersonalInfoForm = ({ cart, className }: Props) => {
+	const router = useRouter()
+
 	const form = useForm<PersonalInfoValues>({
 		resolver: zodResolver(personalInfoSchema),
 		defaultValues: {
@@ -34,12 +35,22 @@ export const PersonalInfoForm = ({
 
 	const { handleSubmit } = form
 
-	const createInvoiceMutation = useCreateInvoice()
+	const createCheckoutSession = useCreateCheckoutSession()
+	const createOrder = useCreateOrder()
 
 	const onSubmit = async (data: PersonalInfoValues) => {
 		if (!cart) return
-		const response = await createInvoiceMutation.mutateAsync(cart)
-		console.log('Invoice URL:', response)
+		console.log('Form Data:', data)
+
+		const checkoutSessionUrl = await createCheckoutSession.mutateAsync(cart)
+
+		if (!checkoutSessionUrl)
+			return toast.error('Не вдалося створити сесію оплати. Спробуйте ще раз.')
+
+		const createdOrder = await createOrder.mutateAsync({
+			cart,
+			checkoutSessionUrl,
+		})
 	}
 
 	return (
@@ -52,6 +63,7 @@ export const PersonalInfoForm = ({
 				<UserInfoSection />
 
 				<ShippingAddressSection />
+				<Button type='submit'>Submit</Button>
 			</form>
 		</FormProvider>
 	)

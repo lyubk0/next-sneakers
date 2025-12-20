@@ -4,7 +4,7 @@ import { cart } from './cart'
 import { product } from './product'
 import { size } from './size'
 
-export const cart_item = pgTable('cart_item', {
+export const cartItem = pgTable('cart_item', {
 	id: serial('id').primaryKey(),
 
 	cart_id: integer('cart_id')
@@ -25,17 +25,17 @@ export const cart_item = pgTable('cart_item', {
 	updated_at: timestamp('updated_at', { mode: 'date' }).defaultNow().notNull(),
 })
 
-export const cartItemRelations = relations(cart_item, ({ one }) => ({
+export const cartItemRelations = relations(cartItem, ({ one }) => ({
 	cart: one(cart, {
-		fields: [cart_item.cart_id],
+		fields: [cartItem.cart_id],
 		references: [cart.id],
 	}),
 	product: one(product, {
-		fields: [cart_item.product_id],
+		fields: [cartItem.product_id],
 		references: [product.id],
 	}),
 	size: one(size, {
-		fields: [cart_item.size_id],
+		fields: [cartItem.size_id],
 		references: [size.id],
 	}),
 }))

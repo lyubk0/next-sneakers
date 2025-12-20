@@ -1,7 +1,7 @@
 import clsx from 'clsx'
 import { createElement, FC, PropsWithChildren } from 'react'
 
-type TitleSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl' | '2xl'
+type TitleSize = 'xs' | 'xs2' | 'sm' | 'sm2' | 'md' | 'lg' | 'xl' | '2xl'
 
 interface Props {
 	size?: TitleSize
@@ -15,7 +15,9 @@ export const Title: FC<PropsWithChildren<Props>> = ({
 }) => {
 	const mapTagBySize = {
 		xs: 'h5',
+		xs2: 'h5',
 		sm: 'h4',
+		sm2: 'h4',
 		md: 'h3',
 		lg: 'h2',
 		xl: 'h1',
@@ -24,7 +26,9 @@ export const Title: FC<PropsWithChildren<Props>> = ({
 
 	const mapClassNameBySize = {
 		xs: 'text-[16px]',
+		xs2: 'text-[18px]',
 		sm: 'text-[20px]',
+		sm2: 'text-[24px]',
 		md: 'text-[26px]',
 		lg: 'text-[32px]',
 		xl: 'text-[40px]',

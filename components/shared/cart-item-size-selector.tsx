@@ -1,10 +1,10 @@
 import { Size } from '@/@types/size'
+import { cn } from '@/lib/utils'
 import {
 	Select,
 	SelectContent,
 	SelectGroup,
 	SelectItem,
-	SelectLabel,
 	SelectTrigger,
 	SelectValue,
 } from '../ui/select'
@@ -22,12 +22,11 @@ export const CartItemSizeSelector = ({
 }: Props) => {
 	return (
 		<Select defaultValue={selectedSizeId}>
-			<SelectTrigger className={className}>
+			<SelectTrigger className={cn(className, 'p-0 gap-1 bg-transparent')}>
 				<SelectValue />
 			</SelectTrigger>
 			<SelectContent align='start'>
 				<SelectGroup>
-					<SelectLabel>Розміри</SelectLabel>
 					{sizes.map(size => (
 						<SelectItem key={size.id} value={size.id.toString()}>
 							{size.eur_size}

@@ -1,6 +1,6 @@
 import { relations } from 'drizzle-orm'
 import { pgTable, serial, timestamp, varchar } from 'drizzle-orm/pg-core'
-import { cart_item } from './cart-item'
+import { cartItem } from './cart-item'
 
 export const cart = pgTable('cart', {
 	id: serial('id').primaryKey(),
@@ -11,5 +11,5 @@ export const cart = pgTable('cart', {
 })
 
 export const cartRelation = relations(cart, ({ many }) => ({
-	items: many(cart_item),
+	items: many(cartItem),
 }))

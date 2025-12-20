@@ -7,7 +7,7 @@ import { cn } from '@/lib/utils'
 import { Spinner } from '../shared/spinner'
 
 const buttonVariants = cva(
-	"inline-flex items-center cursor-pointer duration-100 ease-out justify-center gap-2 whitespace-nowrap rounded-xl font-medium transition-all text-sm disabled:pointer-events-none  [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+	"inline-flex items-center cursor-pointer duration-100 ease-out justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-all text-sm disabled:pointer-events-none  [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
 	{
 		variants: {
 			variant: {
@@ -15,7 +15,7 @@ const buttonVariants = cva(
 				destructive:
 					'bg-destructive text-white hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60',
 				outline:
-					'shadow-inset-custom bg-transparent  hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
+					'border border-black bg-transparent  hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50',
 				secondary: 'bg-muted text-foreground border-none hover:bg-muted/80',
 				flat: 'bg-primary/15 text-primary hover:bg-primary/20',
 				ghost:

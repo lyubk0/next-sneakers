@@ -79,14 +79,14 @@ export const ProductCard = ({ product, className }: Props) => {
 
 			<div className='flex flex-col gap-2 flex-1 justify-between'>
 				<div className='relative inline-block'>
-					<Title size='sm' className='font-bold'>
+					<Title size='xs' className='font-semibold uppercase !text-sm'>
 						{product.name}
 					</Title>
 				</div>
 				<div className='flex justify-between items-end'>
 					<div className='flex flex-col'>
-						<Title size='sm' className='font-semibold'>
-							{product.price} грн
+						<Title size='xs' className='font-semibold !text-sm'>
+							${product.price}
 						</Title>
 					</div>
 				</div>

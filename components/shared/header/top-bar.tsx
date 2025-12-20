@@ -31,7 +31,7 @@ export const TopBar = ({ className }: Props) => {
 				<ToggleTabs defaultValue='intersex' className={className}>
 					<ToggleTabsList>
 						<ToggleTabsItem value='intersex'>
-							<p className='text-sm'>Усі</p>
+							<p className='text-sm'>All</p>
 						</ToggleTabsItem>
 						<ToggleTabsItem value='male'>
 							<GenderMaleIcon />
@@ -48,7 +48,7 @@ export const TopBar = ({ className }: Props) => {
 
 			<Button variant={'ghost'}>
 				<SlidersIcon />
-				Фільтри
+				Filters
 			</Button>
 		</div>
 	)

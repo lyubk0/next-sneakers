@@ -28,13 +28,16 @@ export const HeartButton = ({
 		<div
 			role='button'
 			className={cn(
-				'active:scale-[0.97] text-[#bdbdbd] cursor-pointer hover:text-red-500 duration-150 ease-out',
-				isFavorite && 'text-red-500',
+				'active:scale-[0.97] text-[#adadad] cursor-pointer hover:text-foreground duration-150 ease-out',
+				isFavorite && 'text-foreground',
 				className
 			)}
 			onClick={handleClickFavorite}
 		>
-			<IconHeart className={cn(isFavorite && 'fill-red-500')} size={iconSize} />
+			<IconHeart
+				className={cn(isFavorite && 'fill-foreground')}
+				size={iconSize}
+			/>
 		</div>
 	)
 }

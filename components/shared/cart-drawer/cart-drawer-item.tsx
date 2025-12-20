@@ -6,7 +6,6 @@ import { cn } from '@/lib/utils'
 import { IconTrash } from '@tabler/icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CartItemSizeSelector } from '../cart-item-size-selector'
 import { Title } from '../title'
 
 interface Props {
@@ -25,7 +24,7 @@ export const CartDrawerItem = ({ cartItem, className }: Props) => {
 				isRemoving && 'opacity-50 pointer-events-none'
 			)}
 		>
-			<div className='flex gap-4 items-start'>
+			<div className='flex gap-4 w-full items-start'>
 				<div className='bg-muted rounded-xl w-[110px] h-[110px] flex items-center justify-center'>
 					<Image
 						src={'/krossi.png'}
@@ -35,33 +34,38 @@ export const CartDrawerItem = ({ cartItem, className }: Props) => {
 						quality={100}
 					/>
 				</div>
-				<div className='flex flex-col gap-2 h-full justify-between flex-1'>
-					<div className='flex items-start gap-2'>
-						<Link
-							href={`/${cartItem?.product?.category?.slug}/${cartItem.product.slug}`}
-						>
-							{' '}
-							<Title size='xs' className='font-semibold'>
-								{cartItem.product.name}
-							</Title>
-						</Link>
-						<button className='hover:text-red-500 text-card-muted-foreground duration-100 ease-out cursor-pointer'>
-							{' '}
-							<IconTrash size={20} />
-						</button>
-					</div>
-					<CartItemSizeSelector
-						selectedSizeId={cartItem.size.id.toString()}
-						sizes={cartItem.product.sizes}
-					/>
-					<div className='flex items-end justify-between w-full'>
-						<p className='font-semibold'>
-							{cartItem.product.price * cartItem.quantity} грн
+				<div className='flex flex-col gap-4 h-full flex-1 justify-between'>
+					<div className='flex items-start w-full justify-between gap-3'>
+						<div className='flex  flex-col gap-0'>
+							<Link
+								href={`/${cartItem?.product?.category?.slug}/${cartItem.product.slug}`}
+							>
+								{' '}
+								<Title
+									size='xs'
+									className='font-semibold tracking-[0.014em] !text-sm'
+								>
+									{cartItem.product.name}
+								</Title>
+							</Link>
+							<div className='flex gap-1 tracking-[0.014em] font-semibold text-sm items-center'>
+								{cartItem.size.eur_size}
+							</div>
+						</div>
+						<p className='font-semibold text-sm'>
+							${cartItem.product.price * cartItem.quantity}
 						</p>
+					</div>
+
+					<div className='flex items-center justify-between w-full'>
 						<CartItemCounter
 							cartItemId={cartItem.id}
 							quantity={cartItem.quantity}
 						/>
+						<button className='cursor-pointer'>
+							{' '}
+							<IconTrash size={20} />
+						</button>
 					</div>
 				</div>
 			</div>

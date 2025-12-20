@@ -11,8 +11,8 @@ import { signOut, useSession } from '@/lib/auth-client'
 import { cn } from '@/lib/utils'
 import { SignOutIcon } from '@phosphor-icons/react'
 import { IconHeart, IconUser, IconZoom } from '@tabler/icons-react'
+import Image from 'next/image'
 import Link from 'next/link'
-import { Title } from '../title'
 import { CartButton } from './cart-button'
 import { NavButton } from './nav-button'
 interface Props {
@@ -25,11 +25,7 @@ export const HeaderContent = ({ className }: Props) => {
 	return (
 		<div className={cn(className, 'py-8 flex items-center justify-between')}>
 			<Link href={'/'}>
-				<div className='flex flex-col'>
-					<Title size='sm' className='font-extrabold'>
-						NEXT SNEAKERS
-					</Title>
-				</div>
+				<Image src={'/logo.svg'} height={150} width={150} alt='Logo' />
 			</Link>
 			<div className='flex  gap-5 items-center'>
 				<CartButton />

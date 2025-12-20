@@ -36,9 +36,11 @@ export const CartDrawer = ({
 	return (
 		<Drawer open={open} onOpenChange={setOpen} direction='right'>
 			<DrawerTrigger>{children}</DrawerTrigger>
-			<DrawerContent className={cn(className, '!max-w-md')}>
+			<DrawerContent className={cn(className)}>
 				<DrawerHeader>
-					<DrawerTitle className='text-2xl font-bold'>Корзина</DrawerTitle>
+					<DrawerTitle className='text-2xl font-bold uppercase'>
+						bag
+					</DrawerTitle>
 				</DrawerHeader>
 				{cart && cart?.items.length === 0 && (
 					<div className='flex flex-col  h-full justify-center items-center'>
@@ -71,7 +73,6 @@ export const CartDrawer = ({
 							{cart?.items?.map(item => (
 								<li key={item.id}>
 									<CartDrawerItem cartItem={item} />
-									<div className='w-full h-[1px] bg-muted mt-6'></div>
 								</li>
 							))}
 						</ul>
@@ -79,15 +80,17 @@ export const CartDrawer = ({
 						<div className='-mx-7 p-5 bg-white'>
 							<div className='flex gap-6 flex-col'>
 								<div className='flex flex-col gap-2'>
-									<div className='flex font-medium justify-between items-center'>
-										<p className='flex items-center gap-1'> Всього:</p>
-										<p>{cart?.totalPrice} грн</p>
+									<div className='flex justify-between text-sm items-center'>
+										<p className='flex items-center font-medium    gap-1'>
+											Total
+										</p>
+										<p className='font-semibold'>{cart?.totalPrice} USD</p>
 									</div>
 								</div>
 								<Link className='w-full' href='/checkout'>
 									{' '}
-									<Button className='w-full' size={'xl'}>
-										Оформити замовлення
+									<Button className='w-full uppercase' size={'xl'}>
+										Go to Checkout
 									</Button>
 								</Link>
 							</div>

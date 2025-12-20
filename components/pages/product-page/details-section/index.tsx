@@ -4,13 +4,11 @@ import { Product } from '@/@types/product'
 import { Title } from '@/components/shared/title'
 import { useAddToCart } from '@/hooks/queries/cart/use-add-to-cart'
 import { useCart } from '@/hooks/queries/cart/use-cart'
-import { Rating } from '@smastrom/react-rating'
 import { useQueryState } from 'nuqs'
 import toast from 'react-hot-toast'
 import { ProductActions } from './product-actions'
 import { ProductSizeSelector } from './product-size-selector'
 
-import { Separator } from '@/components/ui/separator'
 import '@smastrom/react-rating/style.css'
 
 interface Props {
@@ -56,11 +54,11 @@ export const DetailsSection = ({ product, className }: Props) => {
 	return (
 		<div className='flex-1'>
 			<div className='flex max-w-[80%] flex-col'>
-				<div className='flex flex-col gap-2'>
-					<Title className='font-bold' size='md'>
+				<div className='flex flex-col'>
+					<Title className='font-semibold uppercase' size='sm2'>
 						{product?.name}
 					</Title>
-					<div className='flex relative -left-[1px] items-center gap-2'>
+					{/* <div className='flex relative -left-[1px] items-center gap-2'>
 						<Rating
 							style={{ maxWidth: 100 }}
 							value={4.5}
@@ -69,26 +67,19 @@ export const DetailsSection = ({ product, className }: Props) => {
 						/>
 						<Separator className='!h-5' orientation='vertical' />
 						<span className='text-card-muted-foreground text-sm'>
-							10 відгуків
+							10 reviews
 						</span>
-					</div>
-					<div className='flex mt-2 items-center justify-between'>
-						<p className='font-bold text-[22px]'>{product.price} грн</p>
-					</div>
+					</div> */}
+					<Title className='font-semibold' size='sm2'>
+						${product?.price}
+					</Title>
 				</div>
-				<p className='text-card-muted-foreground mt-5'>
-					New Balance 9060 — ці кросівки є стильним і функціональним взуттям,
-					яке поєднує в собі сучасний дизайн і передові технології. Вони є
-					одними з нових моделей від всесвітньо відомого бренду New Balance,
-					який славиться своєю якістю та комфортом. New Balance 9060 — це
-					взуття, розроблене для тих, хто цінує комфорт, якість та стиль. Вони
-					ідеально підходять для будь-якої активності, від спорту до
-					повсякденного життя. Якщо Ви шукаєте надійну та сучасну пару кросівок,
-					New Balance 9060 саме те, що Вам потрібно.
+				<p className='font-medium text-card-muted-foreground mt-5'>
+					{product.description}
 				</p>
-				<div className='flex mt-5 h-full flex-col gap-10'>
+				<div className='flex mt-5 h-full flex-1 flex-col gap-10'>
 					<div className='flex flex-col'>
-						<p className='mb-2 font-medium text-sm'>Розмір</p>
+						<p className='mb-2 font-medium text-sm'>Size</p>
 						<ProductSizeSelector
 							product={product}
 							setSize={setSize}
