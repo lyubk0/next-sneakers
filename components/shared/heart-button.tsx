@@ -1,6 +1,7 @@
 import { useToggleFavorite } from '@/hooks/queries/favorite/use-toggle-favorite'
 import { cn } from '@/lib/utils'
-import { IconHeart } from '@tabler/icons-react'
+import { FavouriteIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { MouseEvent } from 'react'
 
 interface Props {
@@ -28,15 +29,17 @@ export const HeartButton = ({
 		<div
 			role='button'
 			className={cn(
-				'active:scale-[0.97] text-[#adadad] cursor-pointer hover:text-foreground duration-150 ease-out',
-				isFavorite && 'text-foreground',
+				'active:scale-[0.97] text-[#adadad] cursor-pointer hover:text-red-500 duration-150 ease-out',
+				isFavorite && 'text-red-500',
 				className
 			)}
 			onClick={handleClickFavorite}
 		>
-			<IconHeart
-				className={cn(isFavorite && 'fill-foreground')}
+			<HugeiconsIcon
+				strokeWidth={2}
 				size={iconSize}
+				className={cn(isFavorite && 'fill-red-500')}
+				icon={FavouriteIcon}
 			/>
 		</div>
 	)

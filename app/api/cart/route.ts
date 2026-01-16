@@ -1,92 +1,46 @@
-import { createOrUpdateCart } from '@/actions/cart'
+import { createCart } from '@/actions/cart'
+import { getOrCreateGuestId } from '@/actions/get-or-create-guest-id'
 import { db } from '@/db/drizzle'
 import { cart } from '@/db/schema'
-import { auth } from '@/lib/auth'
-import { getOrCreateGuestId } from '@/lib/user'
+import { calculateTotal } from '@/lib/calculate-total'
 import { eq } from 'drizzle-orm'
-import { headers } from 'next/headers'
 import { NextResponse } from 'next/server'
+
+export const CART_WITH = {
+	items: {
+		orderBy: (items: any, { desc }: any) => [desc(items.created_at)],
+		with: {
+			product: {
+				with: {
+					sizes: true,
+				},
+			},
+			size: true,
+		},
+	},
+} as const
 
 export async function GET() {
 	try {
-		const session = await auth.api.getSession({
-			headers: await headers(),
-		})
-
-		const userId = session?.user?.id
 		const guestId = await getOrCreateGuestId()
 
-		let cartData
+		let userCart = await db.query.cart.findFirst({
+			where: eq(cart.guest_id, guestId),
+			with: CART_WITH,
+		})
 
-		if (userId) {
-			const userCart = await db.query.cart.findFirst({
-				where: eq(cart.user_id, userId),
-				with: {
-					items: {
-						orderBy: (items, { desc }) => [desc(items.created_at)],
-						with: {
-							product: {
-								with: {
-									sizes: true,
-								},
-							},
-
-							size: true,
-						},
-					},
-				},
-			})
-
-			cartData = userCart
-		} else {
-			const guestCart = await db.query.cart.findFirst({
-				where: eq(cart.guest_id, guestId),
-				with: {
-					items: {
-						orderBy: (items, { desc }) => [desc(items.created_at)],
-						with: {
-							product: {
-								with: {
-									sizes: true,
-								},
-							},
-
-							size: true,
-						},
-					},
-				},
-			})
-			cartData = guestCart
+		if (!userCart) {
+			userCart = await createCart(guestId)
 		}
 
-		if (!cartData) {
-			const newOrUpdatedCart = await createOrUpdateCart()
-			return NextResponse.json(
-				{ ...newOrUpdatedCart, items: [], totalPrice: 0 },
-				{
-					status: 200,
-				}
-			)
-		}
+		const totalPrice = calculateTotal(userCart.items || [])
 
-		const totalPrice = cartData?.items.reduce((sum, item) => {
-			const price = item.product?.price ?? 0
-			return sum + price * item.quantity
-		}, 0)
-
-		return NextResponse.json(
-			{ ...cartData, totalPrice },
-			{
-				status: 200,
-			}
-		)
+		return NextResponse.json({ ...userCart, totalPrice }, { status: 200 })
 	} catch (error) {
 		console.error('API Error:', error)
 		return NextResponse.json(
 			{ error: 'Internal server error' },
-			{
-				status: 500,
-			}
+			{ status: 500 }
 		)
 	}
 }

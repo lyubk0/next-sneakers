@@ -1,10 +1,16 @@
 import { product } from '@/db/schema'
 import { InferSelectModel } from 'drizzle-orm'
-import { Category } from './category'
 import { Size } from './size'
 
 export type Product = InferSelectModel<typeof product> & {
-	category: Category
 	sizes: Size[]
-	isFavorite: boolean
+	isFavorite?: boolean
 }
+
+export const SEXES = [
+	{ value: 'men', label: 'Men' },
+	{ value: 'women', label: 'Women' },
+	{ value: 'unisex', label: 'Unisex' },
+] as const
+
+export type Sex = (typeof SEXES)[number]['value']

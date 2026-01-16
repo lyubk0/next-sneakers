@@ -9,8 +9,12 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { signOut, useSession } from '@/lib/auth-client'
 import { cn } from '@/lib/utils'
+import {
+	FavouriteIcon,
+	Search01Icon,
+	UserCircleIcon,
+} from '@hugeicons/core-free-icons'
 import { SignOutIcon } from '@phosphor-icons/react'
-import { IconHeart, IconUser, IconZoom } from '@tabler/icons-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { CartButton } from './cart-button'
@@ -30,13 +34,13 @@ export const HeaderContent = ({ className }: Props) => {
 			<div className='flex  gap-5 items-center'>
 				<CartButton />
 
-				<NavButton Icon={IconZoom} />
+				<NavButton Icon={Search01Icon} />
 				<Link href='/favorites'>
-					<NavButton Icon={IconHeart} />
+					<NavButton Icon={FavouriteIcon} />
 				</Link>
 				{!session?.user && (
 					<Link href='/sign-in'>
-						<NavButton Icon={IconUser} />
+						<NavButton Icon={UserCircleIcon} />
 					</Link>
 				)}
 				{!isPending && session?.user && (

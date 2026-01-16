@@ -1,18 +1,20 @@
 'use client'
 
-import { useProducts } from '@/hooks/queries/products/use-products'
+import { Product } from '@/@types/product'
 import Link from 'next/link'
 import { ProductCard } from './product-card'
 import { ProductCardSkeleton } from './product-card-skeleton'
 import { ProductGrid } from './product-grid'
 
 interface Props {
+	items: Product[]
+	isPending?: boolean
 	className?: string
 }
 
-export const ProductList = ({ className }: Props) => {
-	const mockData = [...Array(20)]
-	const { data: products, isPending } = useProducts()
+const mockData = [...Array(10)]
+
+export const ProductList = ({ items, isPending, className }: Props) => {
 	return (
 		<ProductGrid className={className}>
 			{isPending &&
@@ -21,12 +23,10 @@ export const ProductList = ({ className }: Props) => {
 						<ProductCardSkeleton />
 					</li>
 				))}
-			{products?.map(product => (
-				<Link
-					key={product.id}
-					href={`/${product.category.slug}/${product.slug}`}
-				>
-					<ProductCard product={product} />
+
+			{items?.map(item => (
+				<Link key={item.id} href={`/${item.slug}`}>
+					<ProductCard product={item} />
 				</Link>
 			))}
 		</ProductGrid>

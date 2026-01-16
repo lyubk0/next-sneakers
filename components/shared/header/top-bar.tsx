@@ -1,53 +1,62 @@
 'use client'
 
+import { Sex } from '@/@types/product'
+import BrandChips from '@/app/(main)/_components/brands-chips'
 import { Button } from '@/components/ui/button'
-import {
-	ToggleTabs,
-	ToggleTabsItem,
-	ToggleTabsList,
-} from '@/components/ui/toggle-tabs'
-import { useBrands } from '@/hooks/queries/brands/use-brands'
-import {
-	GenderFemaleIcon,
-	GenderMaleIcon,
-	SlidersIcon,
-} from '@phosphor-icons/react'
-import { useState } from 'react'
-import BrandChips from '../brands-chips'
+import { ToggleTabs } from '@/components/ui/toggle-tabs'
+import { useSexFilter } from '@/hooks/nuqs/use-sex-filter'
+import { useFiltersSidebarStore } from '@/store/use-filters-sidebar-store'
+import { FilterIcon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 interface Props {
 	className?: string
 }
 
 export const TopBar = ({ className }: Props) => {
-	const { data: brands, isPending } = useBrands()
-	const [activeBrandId, setActiveBrandId] = useState<number>(0)
+	const { toggle } = useFiltersSidebarStore()
 
-	if (isPending) return <div>Loading...</div>
-	if (!brands) return <div>Error</div>
+	const { selectedSexes, selectSingleSex, clearSexes } = useSexFilter()
+
+	const handleSexChange = (value: Sex | 'all') => {
+		if (value === 'all') {
+			clearSexes()
+			return
+		}
+
+		selectSingleSex(value)
+	}
+
 	return (
 		<div className='flex justify-between'>
 			<div className='flex gap-5 items-center '>
-				<ToggleTabs defaultValue='intersex' className={className}>
-					<ToggleTabsList>
-						<ToggleTabsItem value='intersex'>
-							<p className='text-sm'>All</p>
-						</ToggleTabsItem>
-						<ToggleTabsItem value='male'>
-							<GenderMaleIcon />
-						</ToggleTabsItem>
-						<ToggleTabsItem value='female'>
-							<GenderFemaleIcon />
-						</ToggleTabsItem>
-					</ToggleTabsList>
-				</ToggleTabs>
+				<ToggleTabs
+					onChange={(value: string) => handleSexChange(value as Sex | 'all')}
+					value={selectedSexes.length === 1 ? selectedSexes[0] : 'all'}
+					options={[
+						{ value: 'all', label: 'All' },
+						{
+							value: 'unisex',
+							label: 'Unisex',
+						},
+						{
+							value: 'men',
+							label: 'Men',
+						},
+						{
+							value: 'women',
+							label: 'Women',
+						},
+					]}
+					className={className}
+				></ToggleTabs>
 
 				<div className='h-8 w-[1px] bg-muted' />
 				<BrandChips />
 			</div>
 
-			<Button variant={'ghost'}>
-				<SlidersIcon />
+			<Button onClick={() => toggle()} variant={'ghost'}>
+				<HugeiconsIcon strokeWidth={2} icon={FilterIcon} />
 				Filters
 			</Button>
 		</div>

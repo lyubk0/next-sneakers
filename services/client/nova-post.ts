@@ -12,6 +12,7 @@ export const getCities = async (
 			methodProperties: {
 				FindByString: searchString,
 				Limit: 5,
+				Language: 'EN',
 			},
 		})
 		return data

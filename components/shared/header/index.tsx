@@ -12,13 +12,10 @@ interface Props {
 export const Header = ({ className }: Props) => {
 	const pathname = usePathname()
 
-	const isHomePage = pathname === '/'
 	return (
 		<header className={'mb-10 pt-3'}>
-			<Container
-				className={cn('bg-muted max-w-[1250px] px-0 rounded-2xl', className)}
-			>
-				<div className={'px-7'}>
+			<Container className={cn('px-0 ', className)}>
+				<div className={'px-5'}>
 					<HeaderContent />
 				</div>
 			</Container>

@@ -14,14 +14,13 @@ import { cn } from '@/lib/utils'
 import { motion } from 'motion/react'
 import Image from 'next/image'
 import { useState } from 'react'
+import { Title } from '../../ui/title'
 import { HeartButton } from '../heart-button'
-import { Title } from '../title'
 
 interface Props {
 	product: Product
 	className?: string
 }
-const imageUrls = ['/krossi.png', '/krossi.png', '/krossi.png']
 
 export const ProductCard = ({ product, className }: Props) => {
 	const [currentIndex, setCurrentIndex] = useState(0)
@@ -30,15 +29,15 @@ export const ProductCard = ({ product, className }: Props) => {
 		<motion.div
 			className={cn(
 				className,
-				'w-[350px] group cursor-pointer space-y-3 rounded-2xl h-full bg-card flex flex-col'
+				'w-full group cursor-pointer space-y-3 rounded-2xl h-full bg-card flex flex-col'
 			)}
 			initial='rest'
 			whileHover='hover'
 			animate='rest'
 		>
 			<Carousel
-				className='relative select-none'
-				opts={{ align: 'start', watchDrag: false }}
+				className='relative  group-hover:bg-[#f0f0f0] duration-100 ease-out select-none  bg-muted flex justify-center h-[350px] items-center  rounded-2xl'
+				opts={{ align: 'start', watchDrag: true, duration: 15 }}
 				setApi={setApi}
 			>
 				<HeartButton
@@ -47,16 +46,10 @@ export const ProductCard = ({ product, className }: Props) => {
 					className='absolute right-4 top-4 z-10'
 					iconSize={20}
 				/>
-				<CarouselContent className='rounded-2xl '>
-					{imageUrls.map(img => (
-						<CarouselItem className='flex justify-center group-hover:bg-[#f0f0f0] duration-100 ease-out select-none relative items-center h-[350px] bg-muted '>
-							<Image
-								src={img}
-								alt={''}
-								height={270}
-								width={270}
-								quality={100}
-							/>
+				<CarouselContent>
+					{product.images.map(img => (
+						<CarouselItem className='flex justify-center  '>
+							<Image src={img} alt={''} height={270} width={270} />
 						</CarouselItem>
 					))}
 				</CarouselContent>

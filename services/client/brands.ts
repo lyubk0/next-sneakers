@@ -1,12 +1,12 @@
 import { Brand } from '@/@types/brand'
+import axios from 'axios'
 
 export const getAll = async (): Promise<Brand[]> => {
-	const response = await fetch(`/api/brands`)
-	const data = await response.json()
+	try {
+		const { data } = await axios.get(`/api/brands`)
 
-	if (!response.ok) {
-		throw new Error(data.error || 'Failed to fetch cart')
+		return data
+	} catch (error) {
+		throw new Error('Failed to fetch brands')
 	}
-
-	return data
 }

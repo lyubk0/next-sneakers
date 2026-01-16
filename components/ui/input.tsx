@@ -1,12 +1,16 @@
+import { ErrorText } from '@/components/ui/error-text'
 import { cn } from '@/lib/utils'
-import type { Icon } from '@phosphor-icons/react'
+import { HugeiconsIcon, IconSvgElement } from '@hugeicons/react'
 import Image from 'next/image'
 import type * as React from 'react'
 
 export interface InputProps extends React.ComponentProps<'input'> {
 	containerClassName?: string
-	leftIcon?: Icon
-	rightIcon?: Icon
+	label?: string
+	required?: boolean
+	errorText?: string
+	leftIcon?: IconSvgElement
+	rightIcon?: IconSvgElement
 	leftImage?: string
 	rightImage?: string
 	leftText?: string
@@ -17,6 +21,11 @@ function Input({
 	className,
 	containerClassName,
 	type,
+	label,
+	required,
+	errorText,
+	name,
+	id,
 	leftIcon: LeftIcon,
 	rightIcon: RightIcon,
 	leftImage,
@@ -28,58 +37,74 @@ function Input({
 	const haveLeftElement = LeftIcon || leftImage || leftText
 	const haveRightElement = RightIcon || rightImage || rightText
 
+	const inputId = id ?? name
+
 	return (
-		<div className={cn('relative', containerClassName)}>
-			{/* Left element */}
-			{(LeftIcon || leftImage || leftText) && (
-				<div className='pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex  text-card-muted-foreground gap-2'>
-					{LeftIcon ? (
-						<LeftIcon size={20} weight='duotone' />
-					) : leftImage ? (
-						<Image src={leftImage} width={20} height={20} alt='left icon' />
-					) : null}
-
-					{leftText && (
-						<span className='text-foreground font-medium pt-0.5'>
-							{leftText}
-						</span>
-					)}
-				</div>
+		<div className={cn('flex flex-col', containerClassName)}>
+			{label && (
+				<label htmlFor={inputId} className='mb-2 block text-sm font-medium'>
+					{label}
+					{required && <span className='ml-0.5 text-red-500'>*</span>}
+				</label>
 			)}
 
-			{/* Input */}
-			<input
-				type={type}
-				data-slot='input'
-				autoComplete='off'
-				className={cn(
-					'file:text-foreground placeholder:text-muted-foreground selection:bg-primary font-medium selection:text-primary-foreground dark:bg-input/30 h-11 w-full min-w-0 rounded-xl bg-input px-3 py-1 text-base transition-[color,box-shadow] outline-none file:inline-flex file:h-7 file:border-0 file:bg-transparent file:text-sm file:font-medium disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
-					'focus-visible:border-ring focus-visible:ring-primary/95 focus-visible:ring-[2px]',
-					'aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive',
-					haveLeftElement && 'pl-11',
-					haveRightElement && 'pr-11',
-					className
+			<div className='relative'>
+				{/* Left element */}
+				{haveLeftElement && (
+					<div className='pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex gap-2 text-card-muted-foreground'>
+						{LeftIcon ? (
+							<HugeiconsIcon strokeWidth={2} icon={LeftIcon} size={20} />
+						) : leftImage ? (
+							<Image src={leftImage} width={20} height={20} alt='left icon' />
+						) : null}
+
+						{leftText && (
+							<span className='font-medium text-foreground'>{leftText}</span>
+						)}
+					</div>
 				)}
-				{...props}
-			/>
 
-			{/* Right element */}
-			{(RightIcon || rightImage || rightText) && (
-				<div className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center text-muted-foreground gap-1'>
-					{rightText && <span className='text-foreground'>{rightText}</span>}
-					{RightIcon ? (
-						<RightIcon size={20} weight='duotone' />
-					) : rightImage ? (
-						<Image
-							src={rightImage}
-							width={20}
-							height={20}
-							className='ml-1'
-							alt='right icon'
-						/>
-					) : null}
-				</div>
-			)}
+				{/* Input */}
+				<input
+					id={inputId}
+					name={name}
+					type={type}
+					aria-invalid={!!errorText}
+					autoComplete='off'
+					data-slot='input'
+					className={cn(
+						'file:text-foreground placeholder:text-muted-foreground selection:text-primary-foreground font-medium dark:bg-input/30 h-[48px] w-full rounded-2xl bg-input px-4 py-3 text-base outline-none transition-[color,box-shadow]',
+						errorText
+							? 'selection:bg-red-500 focus-visible:ring-red-500 focus-visible:ring-2'
+							: 'selection:bg-primary focus-visible:ring-primary/95 focus-visible:ring-2',
+						haveLeftElement && 'pl-11',
+						haveRightElement && 'pr-11',
+						'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
+						className
+					)}
+					{...props}
+				/>
+
+				{/* Right element */}
+				{haveRightElement && (
+					<div className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-muted-foreground'>
+						{rightText && <span className='text-foreground'>{rightText}</span>}
+						{RightIcon ? (
+							<HugeiconsIcon strokeWidth={2} icon={RightIcon} size={20} />
+						) : rightImage ? (
+							<Image
+								src={rightImage}
+								width={20}
+								height={20}
+								className='ml-1'
+								alt='right icon'
+							/>
+						) : null}
+					</div>
+				)}
+			</div>
+
+			{errorText && <ErrorText className='mt-2'>{errorText}</ErrorText>}
 		</div>
 	)
 }

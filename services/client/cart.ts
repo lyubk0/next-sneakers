@@ -1,12 +1,12 @@
 import { Cart } from '@/@types/cart'
+import axios from 'axios'
 
 export const getCart = async (): Promise<Cart> => {
-	const response = await fetch(`/api/cart`)
-	const data = await response.json()
+	try {
+		const { data } = await axios.get(`/api/cart`)
 
-	if (!response.ok) {
-		throw new Error(data.error || 'Failed to fetch cart')
+		return data
+	} catch (error) {
+		throw new Error('Failed to fetch cart data')
 	}
-
-	return data
 }

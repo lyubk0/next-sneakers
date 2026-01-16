@@ -3,7 +3,8 @@
 import { Skeleton } from '@/components/ui/skeleton'
 import { useCart } from '@/hooks/queries/cart/use-cart'
 import { cn } from '@/lib/utils'
-import { IconShoppingBag } from '@tabler/icons-react'
+import { ShoppingBag01Icon } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import { CartDrawer } from '../cart-drawer'
 
 interface Props {
@@ -29,7 +30,7 @@ export const CartButton = ({ className }: Props) => {
 					<Skeleton className='w-[100px] h-5 rounded-full' />
 				) : (
 					<div className='flex gap-2 items-center'>
-						<IconShoppingBag size={20} />
+						<HugeiconsIcon icon={ShoppingBag01Icon} strokeWidth={2} size={20} />
 					</div>
 				)}
 			</div>

@@ -22,7 +22,6 @@ export const getProductBySlug = async ({
 	const productFull = await db.query.product.findFirst({
 		where: eq(product.slug, productSlug),
 		with: {
-			category: true,
 			sizes: true,
 		},
 		extras: fields => ({

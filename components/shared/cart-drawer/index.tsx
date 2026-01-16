@@ -15,7 +15,7 @@ import {
 	DrawerTitle,
 	DrawerTrigger,
 } from '../../ui/drawer'
-import { Title } from '../title'
+import { Title } from '../../ui/title'
 
 interface Props {
 	cart?: Cart
@@ -32,15 +32,13 @@ export const CartDrawer = ({
 	const handleClose = () => {
 		setOpen(false)
 	}
-	console.log(cart)
+
 	return (
 		<Drawer open={open} onOpenChange={setOpen} direction='right'>
 			<DrawerTrigger>{children}</DrawerTrigger>
-			<DrawerContent className={cn(className)}>
+			<DrawerContent className={cn(className, '!w-[420px] !max-w-none')}>
 				<DrawerHeader>
-					<DrawerTitle className='text-2xl font-bold uppercase'>
-						bag
-					</DrawerTitle>
+					<DrawerTitle className='text-xl font-bold uppercase'>bag</DrawerTitle>
 				</DrawerHeader>
 				{cart && cart?.items.length === 0 && (
 					<div className='flex flex-col  h-full justify-center items-center'>
@@ -69,7 +67,7 @@ export const CartDrawer = ({
 
 				{cart && cart.items?.length > 0 && (
 					<>
-						<ul className='flex h-[685px] overflow-y-auto flex-col gap-9'>
+						<ul className='flex h-[800px] overflow-y-auto flex-col gap-9'>
 							{cart?.items?.map(item => (
 								<li key={item.id}>
 									<CartDrawerItem cartItem={item} />
@@ -81,9 +79,7 @@ export const CartDrawer = ({
 							<div className='flex gap-6 flex-col'>
 								<div className='flex flex-col gap-2'>
 									<div className='flex justify-between text-sm items-center'>
-										<p className='flex items-center font-medium    gap-1'>
-											Total
-										</p>
+										<p className='flex items-center font-medium gap-1'>Total</p>
 										<p className='font-semibold'>{cart?.totalPrice} USD</p>
 									</div>
 								</div>

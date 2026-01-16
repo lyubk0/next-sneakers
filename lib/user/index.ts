@@ -1,1 +1,1 @@
-export * from './get-or-create-guest-id'
+export * from '../../actions/get-or-create-guest-id'

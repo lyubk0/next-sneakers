@@ -14,7 +14,7 @@ export const queryKeys = {
 	brands: () => ['brands'] as const,
 
 	// favorites
-	favorites: (userId: string | null) => ['favorites', userId] as const,
+	favorites: () => ['favorites'] as const,
 
 	// cart
 	cart: (userOrGuestId: string) => ['cart', userOrGuestId] as const,

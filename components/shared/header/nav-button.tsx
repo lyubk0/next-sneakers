@@ -1,7 +1,7 @@
-import { TablerIcon } from '@tabler/icons-react'
+import { HugeiconsIcon, IconSvgElement } from '@hugeicons/react'
 
 interface Props {
-	Icon: TablerIcon
+	Icon: IconSvgElement
 	className?: string
 }
 
@@ -11,7 +11,7 @@ export const NavButton = ({ Icon, className }: Props) => {
 			role='button'
 			className='ease-out text-foreground duration-150 active:scale-[0.97] hover:text-primary cursor-pointer'
 		>
-			<Icon size={20} />
+			<HugeiconsIcon icon={Icon} strokeWidth={2} size={20} />
 		</div>
 	)
 }

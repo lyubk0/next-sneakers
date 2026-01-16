@@ -7,7 +7,8 @@ import * as React from 'react'
 
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
-import { IconArrowLeft, IconArrowRight } from '@tabler/icons-react'
+import { ArrowLeft, ArrowRight } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 
 type CarouselApi = UseEmblaCarouselType[1]
 type UseCarouselParameters = Parameters<typeof useEmblaCarousel>
@@ -192,7 +193,7 @@ function CarouselPrevious({
 			variant={variant}
 			size={size}
 			className={cn(
-				'absolute size-10 [&_svg:not([class*="size-"])]:!size-5 border-none bg-white text-foreground !shadow-none opacity-0 disabled:!opacity-0 group-hover:!opacity-100 transition-opacity duration-200 hover:bg-white/70 rounded-full',
+				'absolute size-10 [&_svg:not([class*="size-"])]:!size-5 border-none bg-white text-foreground !shadow-none opacity-0 disabled:!opacity-0 group-hover:!opacity-100 transition-opacity duration-200 hover:bg-white rounded-full',
 				orientation === 'horizontal'
 					? 'top-1/2 left-4 -translate-y-1/2'
 					: 'top-4 left-1/2 -translate-x-1/2 rotate-90',
@@ -202,7 +203,7 @@ function CarouselPrevious({
 			onClick={scrollPrev}
 			{...props}
 		>
-			<IconArrowLeft />
+			<HugeiconsIcon strokeWidth={2} icon={ArrowLeft} />
 			<span className='sr-only'>Previous slide</span>
 		</Button>
 	)
@@ -222,7 +223,7 @@ function CarouselNext({
 			variant={variant}
 			size={size}
 			className={cn(
-				'absolute size-10 [&_svg:not([class*="size-"])]:!size-5 border-none bg-white text-foreground opacity-0 disabled:!opacity-0 group-hover:opacity-100 transition-opacity duration-200 hover:bg-white/70 rounded-full',
+				'absolute size-10 [&_svg:not([class*="size-"])]:!size-5 border-none bg-white text-foreground opacity-0 disabled:!opacity-0 group-hover:opacity-100 hover:bg-white transition-opacity duration-200  rounded-full',
 				orientation === 'horizontal'
 					? 'top-1/2 right-4 -translate-y-1/2'
 					: 'bottom-4 left-1/2 -translate-x-1/2 rotate-90',
@@ -232,7 +233,7 @@ function CarouselNext({
 			onClick={scrollNext}
 			{...props}
 		>
-			<IconArrowRight />
+			<HugeiconsIcon strokeWidth={2} icon={ArrowRight} />
 			<span className='sr-only'>Next slide</span>
 		</Button>
 	)

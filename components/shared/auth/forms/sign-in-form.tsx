@@ -2,11 +2,10 @@
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { Underline } from '@/components/ui/underline'
 import { useSignIn } from '@/hooks/queries/auth/use-sign-in'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { EnvelopeIcon, LockKeyIcon, SignInIcon } from '@phosphor-icons/react'
+import { LockPasswordIcon, Mail01Icon } from '@hugeicons/core-free-icons'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
 import { FormInput } from '../../form-components/form-input'
 import { SignInFormData, signInSchema } from './schemas/sign-in-form-schema'
@@ -39,15 +38,19 @@ export const SignInForm = ({ className }: Props) => {
 				className={cn('w-full', className)}
 				onSubmit={handleSubmit(onSubmit)}
 			>
-				<div className='w-full space-y-3 mt-10'>
+				<div className='w-full space-y-3 '>
 					<FormInput
 						name='email'
-						leftIcon={EnvelopeIcon}
+						label='Email'
+						required
+						leftIcon={Mail01Icon}
 						placeholder='Електронна пошта'
 					/>
 					<FormInput
 						name='password'
-						leftIcon={LockKeyIcon}
+						label='Password'
+						required
+						leftIcon={LockPasswordIcon}
 						placeholder='Пароль'
 					/>
 
@@ -57,19 +60,14 @@ export const SignInForm = ({ className }: Props) => {
 						render={({ field }) => (
 							<label
 								htmlFor='rememberMe'
-								className='flex items-center text-start w-full gap-2 mt-3 cursor-pointer select-none'
+								className='flex items-center font-medium text-sm text-start w-full gap-2 mt-3 cursor-pointer select-none'
 							>
 								<Checkbox
 									id='rememberMe'
 									checked={field.value}
 									onCheckedChange={field.onChange}
 								/>
-								<Underline
-									colorClass='text-foreground'
-									className='cursor-pointer text-sm'
-								>
-									Запам&apos;ятати мене
-								</Underline>
+								Запам&apos;ятати мене
 							</label>
 						)}
 					/>
@@ -78,13 +76,9 @@ export const SignInForm = ({ className }: Props) => {
 				<Button
 					loading={signInMutation.isPending}
 					type='submit'
-					size={'lg'}
-					className='w-full group mt-5'
+					size={'xl'}
+					className='w-full mt-5'
 				>
-					<SignInIcon
-						weight='bold'
-						className='group-hover:-translate-x-1 duration-150 ease-out'
-					/>
 					Увійти
 				</Button>
 			</form>

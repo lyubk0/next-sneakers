@@ -1,146 +1,63 @@
-import { Input } from '@/components/ui/input'
-import { Popover, PopoverAnchor, PopoverContent } from '@/components/ui/popover'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Command as CommandPrimitive } from 'cmdk'
-import { useMemo, useRef, useState } from 'react'
-import { useOnClickOutside } from 'usehooks-ts'
-import {
-	Command,
-	CommandEmpty,
-	CommandGroup,
-	CommandItem,
-	CommandList,
-} from './command'
-type Props<T extends string> = {
-	selectedValue: T
-	onSelectedValueChange: (value: T) => void
-	searchValue: string
-	onSearchValueChange: (value: string) => void
-	items: { value: T; label: string }[]
-	isLoading?: boolean
-	emptyMessage?: string
-	placeholder?: string
-	disabled?: boolean
+'use client'
+
+import { cn } from '@/lib/utils'
+import { useState } from 'react'
+import { Input, InputProps } from './input'
+import { Popover, PopoverAnchor, PopoverContent } from './popover'
+
+interface Props extends Omit<InputProps, 'onChange' | 'value'> {
+	items: { label: string; value: string }[]
+	value?: string
+	onChange?: (value: string) => void
+	className?: string
 }
 
-export function AutoComplete<T extends string>({
-	selectedValue,
-	onSelectedValueChange,
-	searchValue,
-	onSearchValueChange,
+export const AutoComplete = ({
 	items,
-	isLoading,
-	emptyMessage = 'No items.',
-	placeholder = 'Search...',
-	disabled,
-}: Props<T>) {
-	const [open, setOpen] = useState(false)
-	const containerRef = useRef<HTMLDivElement>(null)
-
-	useOnClickOutside(
-		containerRef as unknown as React.RefObject<HTMLElement>,
-		() => setOpen(false)
-	)
-
-	const labels = useMemo(
-		() =>
-			items.reduce((acc, item) => {
-				acc[item.value] = item.label
-				return acc
-			}, {} as Record<string, string>),
-		[items]
-	)
-
-	const reset = () => {
-		onSelectedValueChange('' as T)
-		onSearchValueChange('')
-	}
-
-	const onInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
-		if (
-			!e.relatedTarget?.hasAttribute('cmdk-list') &&
-			labels[selectedValue] !== searchValue
-		) {
-			reset()
-		}
-	}
-
-	const onSelectItem = (inputValue: string) => {
-		if (inputValue === selectedValue) {
-			reset()
-		} else {
-			onSelectedValueChange(inputValue as T)
-			onSearchValueChange(labels[inputValue] ?? '')
-		}
-		setOpen(false)
-	}
-
-	const handleSearchValueChange = (value: string) => {
-		if (selectedValue && labels[selectedValue] !== value) {
-			onSelectedValueChange('' as T)
-		}
-		onSearchValueChange(value)
-	}
+	value,
+	onChange,
+	className,
+	...props
+}: Props) => {
+	const [isOpen, setIsOpen] = useState(false)
 
 	return (
-		<div ref={containerRef} className='flex flex-1 items-center'>
-			<Popover open={open} onOpenChange={setOpen}>
-				<Command className='overflow-visible' shouldFilter={false}>
-					<PopoverAnchor asChild>
-						<CommandPrimitive.Input
-							asChild
-							value={searchValue}
-							onValueChange={handleSearchValueChange}
-							onKeyDown={e => setOpen(e.key !== 'Escape')}
-							onMouseDown={() => setOpen(open => !!searchValue || !open)}
-							onFocus={() => setOpen(true)}
-							onBlur={onInputBlur}
-							disabled={disabled}
-						>
-							<Input placeholder={placeholder} />
-						</CommandPrimitive.Input>
-					</PopoverAnchor>
-					{!open && <CommandList aria-hidden='true' className='hidden' />}
-					<PopoverContent
-						className='w-full min-w-[var(--radix-popover-trigger-width)] max-w-[var(--radix-popover-trigger-width)] p-0'
-						onOpenAutoFocus={e => e.preventDefault()}
-						onInteractOutside={e => {
-							if (
-								e.target instanceof Element &&
-								e.target.hasAttribute('cmdk-input')
-							) {
-								e.preventDefault()
-							}
+		<div className={cn(className)}>
+			<Popover open={isOpen} onOpenChange={setIsOpen}>
+				<PopoverAnchor asChild>
+					<Input
+						{...props}
+						value={value ?? ''}
+						onFocus={() => setIsOpen(true)}
+						onChange={e => {
+							onChange?.(e.target.value)
+							setIsOpen(true)
 						}}
-					>
-						<CommandList>
-							{isLoading && (
-								<CommandPrimitive.Loading>
-									<div className='p-1'>
-										<Skeleton className='h-6 w-full' />
-									</div>
-								</CommandPrimitive.Loading>
-							)}
-							{items.length > 0 && !isLoading ? (
-								<CommandGroup>
-									{items.map(option => (
-										<CommandItem
-											key={option.value}
-											value={option.value}
-											onMouseDown={e => e.preventDefault()}
-											onSelect={onSelectItem}
-										>
-											{option.label}
-										</CommandItem>
-									))}
-								</CommandGroup>
-							) : null}
-							{!isLoading ? (
-								<CommandEmpty>{emptyMessage ?? 'No items.'}</CommandEmpty>
-							) : null}
-						</CommandList>
-					</PopoverContent>
-				</Command>
+					/>
+				</PopoverAnchor>
+				<PopoverContent
+					className='w-[var(--radix-popover-trigger-width)]'
+					onOpenAutoFocus={e => e.preventDefault()}
+				>
+					<div className='flex flex-col gap-1.5'>
+						{items.map(item => (
+							<div
+								key={item.value}
+								role='option'
+								onMouseDown={() => {
+									onChange?.(item.label)
+									setIsOpen(false)
+								}}
+								className={cn(
+									'cursor-pointer font-inter font-medium text-[#545454] text-sm bg-white hover:text-foreground duration-150 ease-out p-2.5 px-3 rounded-[10px]',
+									item.label === value && '!text-foreground'
+								)}
+							>
+								{item.label}
+							</div>
+						))}
+					</div>
+				</PopoverContent>
 			</Popover>
 		</div>
 	)

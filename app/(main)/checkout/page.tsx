@@ -1,5 +1,5 @@
-import { CheckoutContainer } from '@/components/pages/cart-page/checkout-container'
+import { CheckoutContainer } from '@/app/(main)/checkout/_components/checkout-container'
 
-export default function CheckoutPage() {
+export default function Checkout() {
 	return <CheckoutContainer />
 }

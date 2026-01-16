@@ -4,7 +4,11 @@ import { Button } from '@/components/ui/button'
 import { useSignUp } from '@/hooks/queries/auth/use-sign-up'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { EnvelopeIcon, LockKeyIcon, SignInIcon } from '@phosphor-icons/react'
+import {
+	LockPasswordIcon,
+	Mail01Icon,
+	UserIcon,
+} from '@hugeicons/core-free-icons'
 import { FormProvider, useForm } from 'react-hook-form'
 import { FormInput } from '../../form-components/form-input'
 import { SignUpFormData, signUpSchema } from './schemas/sign-up-form-schema'
@@ -38,29 +42,32 @@ export const SignUpForm = ({ className }: Props) => {
 				<div className='w-full space-y-3 mt-10'>
 					<FormInput
 						name='fullName'
-						leftIcon={SignInIcon}
+						label='Full name'
+						required
+						leftIcon={UserIcon}
 						placeholder="Повне ім'я"
 					/>
 					<FormInput
 						name='email'
-						leftIcon={EnvelopeIcon}
+						label='Email'
+						required
+						leftIcon={Mail01Icon}
 						placeholder='Електронна пошта'
 					/>
 					<FormInput
 						name='password'
-						leftIcon={LockKeyIcon}
+						label='Password'
+						required
+						leftIcon={LockPasswordIcon}
 						placeholder='Пароль'
 					/>
 				</div>
 				<Button
+					size={'xl'}
 					loading={signUpMutation.isPending}
 					type='submit'
 					className='w-full group mt-5'
 				>
-					<SignInIcon
-						weight='bold'
-						className='group-hover:-translate-x-1 duration-150 ease-out'
-					/>
 					Зареєструватися
 				</Button>
 			</form>

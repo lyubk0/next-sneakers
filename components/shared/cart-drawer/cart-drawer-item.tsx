@@ -3,10 +3,11 @@ import { CartItem as CartItemType } from '@/@types/cart-item'
 import { CartItemCounter } from '@/components/shared/cart-drawer/cart-item-counter'
 import { useRemoveCartItem } from '@/hooks/queries/cart/use-remove-cart-item'
 import { cn } from '@/lib/utils'
-import { IconTrash } from '@tabler/icons-react'
+import { Trash } from '@hugeicons/core-free-icons'
+import { HugeiconsIcon } from '@hugeicons/react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { Title } from '../title'
+import { Title } from '../../ui/title'
 
 interface Props {
 	cartItem: CartItemType
@@ -14,8 +15,7 @@ interface Props {
 }
 
 export const CartDrawerItem = ({ cartItem, className }: Props) => {
-	const { isPending: isRemoving } = useRemoveCartItem()
-	console.log('cartItem', cartItem)
+	const { isPending: isRemoving, mutateAsync } = useRemoveCartItem()
 	return (
 		<div
 			className={cn(
@@ -48,8 +48,9 @@ export const CartDrawerItem = ({ cartItem, className }: Props) => {
 									{cartItem.product.name}
 								</Title>
 							</Link>
-							<div className='flex gap-1 tracking-[0.014em] font-semibold text-sm items-center'>
-								{cartItem.size.eur_size}
+							<div className='flex text-muted-foreground font-semibold text-sm  tracking-[0.014em] gap-0.5'>
+								<span className=''>Size:</span>
+								<span>{cartItem.size.eur_size}</span>
 							</div>
 						</div>
 						<p className='font-semibold text-sm'>
@@ -62,9 +63,11 @@ export const CartDrawerItem = ({ cartItem, className }: Props) => {
 							cartItemId={cartItem.id}
 							quantity={cartItem.quantity}
 						/>
-						<button className='cursor-pointer'>
-							{' '}
-							<IconTrash size={20} />
+						<button
+							onClick={() => mutateAsync(cartItem.id)}
+							className='cursor-pointer'
+						>
+							<HugeiconsIcon strokeWidth={2} size={18} icon={Trash} />
 						</button>
 					</div>
 				</div>

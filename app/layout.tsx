@@ -1,43 +1,11 @@
 import type { Metadata } from 'next'
-import localFont from 'next/font/local'
+import { Inter } from 'next/font/google'
 import './globals.css'
 import { Providers } from './providers'
 
-const saans = localFont({
-	src: [
-		{
-			path: '../public/font/SaansTRIAL-Light.ttf',
-			weight: '300',
-			style: 'normal',
-		},
-		{
-			path: '../public/font/SaansTRIAL-Regular.ttf',
-			weight: '400',
-			style: 'normal',
-		},
-		{
-			path: '../public/font/SaansTRIAL-Medium.ttf',
-			weight: '500',
-			style: 'normal',
-		},
-		{
-			path: '../public/font/SaansTRIAL-SemiBold.ttf',
-			weight: '600',
-			style: 'normal',
-		},
-		{
-			path: '../public/font/SaansTRIAL-Bold.ttf',
-			weight: '700',
-			style: 'normal',
-		},
-		{
-			path: '../public/font/SaansTRIAL-Heavy.ttf',
-			weight: '900',
-			style: 'normal',
-		},
-	],
-	variable: '--font-saans',
-	display: 'swap',
+const inter = Inter({
+	subsets: ['cyrillic'],
+	variable: '--font-inter',
 })
 
 export const metadata: Metadata = {
@@ -52,7 +20,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang='en'>
-			<body className={`${saans.variable} antialiased`}>
+			<body className={`${inter.variable} antialiased`}>
 				<Providers>{children}</Providers>
 			</body>
 		</html>
