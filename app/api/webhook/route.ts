@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string)
 const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET
 
 export async function POST(req: Request) {
@@ -24,8 +24,6 @@ export async function POST(req: Request) {
 		}
 
 		event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret)
-
-		event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret!)
 	} catch (err: unknown) {
 		const message = err instanceof Error ? err.message : 'Unknown webhook error'
 
