@@ -1,7 +1,7 @@
 'use server'
 
 import { Db, Tx } from '@/@types/db'
-import { CART_WITH } from '@/app/api/cart/route'
+import { CART_WITH } from '@/constants/cart-with-constant'
 import { db } from '@/db/drizzle'
 import { cart } from '@/db/schema'
 import { order as orderTable } from '@/db/schema/order'
