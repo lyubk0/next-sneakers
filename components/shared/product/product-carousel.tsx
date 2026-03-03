@@ -50,12 +50,15 @@ export const ProductCarousel = ({
 			/>
 			<CarouselContent className='h-full w-full'>
 				{images.map(img => (
-					<CarouselItem
-						key={img}
-						className='flex justify-center items-center h-full w-full'
-					>
-						<div className='relative m-10 h-full w-full'>
-							<Image src={img} alt={''} fill className='object-contain' />
+					<CarouselItem key={img} className='flex justify-center items-center '>
+						<div className='relative m-10 w-full aspect-square'>
+							<Image
+								loading='lazy'
+								src={img}
+								alt={''}
+								fill
+								className='object-contain'
+							/>
 						</div>
 					</CarouselItem>
 				))}

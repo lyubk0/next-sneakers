@@ -30,7 +30,7 @@ export const SomethingWentWrong = ({
 		<div
 			className={cn(
 				className,
-				'flex flex-col items-center gap-4 md:px-0 px-4 md:text-left text-center',
+				'flex flex-col items-center gap-4 md:px-0 px-4  text-center',
 			)}
 		>
 			<Lottie
