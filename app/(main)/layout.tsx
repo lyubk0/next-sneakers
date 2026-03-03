@@ -1,18 +1,23 @@
 import { Header } from '@/components/shared/header'
+import { Metadata } from 'next'
 import { ReactNode } from 'react'
+
+export const metadata: Metadata = {
+	title: 'Next Sneakers | The best Sneakers',
+	icons: {
+		icon: '/mini-logo.svg',
+	},
+}
 
 export default function MainLayout({
 	children,
-	modals,
 }: Readonly<{
 	children: ReactNode
-	modals: ReactNode
 }>) {
 	return (
 		<main>
 			<Header />
 			{children}
-			{modals}
 		</main>
 	)
 }

@@ -5,8 +5,9 @@ import * as React from 'react'
 
 import { cn } from '@/lib/utils'
 
-interface DualRangeSliderProps
-	extends React.ComponentProps<typeof SliderPrimitive.Root> {
+interface DualRangeSliderProps extends React.ComponentProps<
+	typeof SliderPrimitive.Root
+> {
 	labelPosition?: 'top' | 'bottom'
 	label?: (value: number | undefined) => React.ReactNode
 }
@@ -24,7 +25,7 @@ const DualRangeSlider = React.forwardRef<
 			ref={ref}
 			className={cn(
 				'relative flex w-full touch-none select-none items-center',
-				className
+				className,
 			)}
 			{...props}
 		>
@@ -39,7 +40,7 @@ const DualRangeSlider = React.forwardRef<
 								className={cn(
 									'absolute flex w-full justify-center',
 									labelPosition === 'top' && '-top-7',
-									labelPosition === 'bottom' && 'top-4'
+									labelPosition === 'bottom' && 'top-4',
 								)}
 							>
 								{label(value)}

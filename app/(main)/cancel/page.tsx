@@ -1,3 +1,9 @@
+import { Metadata } from 'next'
+
+export const metadata: Metadata = {
+	title: 'Next Sneakers | Cancel',
+}
+
 export default function CancelPage() {
 	return (
 		<div className='flex flex-col items-center justify-center h-screen'>

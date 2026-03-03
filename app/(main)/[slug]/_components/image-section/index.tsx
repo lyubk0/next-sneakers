@@ -1,29 +1,25 @@
 'use client'
 
 import { Product } from '@/@types/product'
-import { HeartButton } from '@/components/shared/heart-button'
-import {
-	Carousel,
-	CarouselApi,
-	CarouselContent,
-	CarouselDots,
-	CarouselItem,
-	CarouselNext,
-	CarouselPrevious,
-} from '@/components/ui/carousel'
+import { useCarouselSync } from '@/hooks/use-carousel-sync'
 import { motion } from 'motion/react'
-import Image from 'next/image'
-import { useState } from 'react'
+
+import { ProductCarousel } from '@/components/shared/product/product-carousel'
+import { MouseEvent } from 'react'
 import { ImageThumbnail } from './image-thumbnail'
 
 interface Props {
 	product: Product
+	isFavoriteLoading?: boolean
 	className?: string
 }
 
-export const ImageSection = ({ product, className }: Props) => {
-	const [currentIndex, setCurrentIndex] = useState(0)
-	const [api, setApi] = useState<CarouselApi | undefined>(undefined)
+export const ImageSection = ({
+	product,
+	isFavoriteLoading,
+	className,
+}: Props) => {
+	const { currentIndex, setCurrentIndex, api, setApi } = useCarouselSync()
 
 	const handleSelectImage = (index: number) => {
 		setCurrentIndex(index)
@@ -32,44 +28,23 @@ export const ImageSection = ({ product, className }: Props) => {
 
 	return (
 		<div className='flex flex-col flex-1  gap-4'>
-			<Carousel
-				className='relative select-none bg-muted rounded-2xl'
-				opts={{ align: 'start', watchDrag: true, duration: 15 }}
+			<ProductCarousel
+				images={product.images}
+				productId={product.id}
+				isFavorite={product.isFavorite || false}
+				isFavoriteLoading={isFavoriteLoading}
 				setApi={setApi}
-			>
-				<HeartButton
-					productId={product.id}
-					isFavorite={product.isFavorite}
-					className='absolute right-4 top-4 z-10'
-					iconSize={20}
-				/>
-				<CarouselContent className='rounded-2xl'>
-					{product.images.map(img => (
-						<CarouselItem className='flex justify-center  '>
-							<Image
-								src={img}
-								alt={''}
-								height={500}
-								width={500}
-								quality={100}
-							/>
-						</CarouselItem>
-					))}
-				</CarouselContent>
-				<CarouselPrevious
-					onClick={() => {
-						api?.scrollPrev()
-						setCurrentIndex(api?.selectedScrollSnap || 0)
-					}}
-				/>
-				<CarouselNext
-					onClick={() => {
-						api?.scrollNext()
-						setCurrentIndex(api?.selectedScrollSnap || 0)
-					}}
-				/>
-				<CarouselDots className='mt-4' />
-			</Carousel>
+				onPrev={(event: MouseEvent) => {
+					api?.scrollTo((api?.selectedScrollSnap() || 0) - 1)
+					event.preventDefault()
+					event.stopPropagation()
+				}}
+				onNext={(event: MouseEvent) => {
+					api?.scrollTo((api?.selectedScrollSnap() || 0) + 1)
+					event.preventDefault()
+					event.stopPropagation()
+				}}
+			/>
 
 			<div className='grid grid-cols-4 gap-4'>
 				{product.images.map((url, index) => (
@@ -81,7 +56,7 @@ export const ImageSection = ({ product, className }: Props) => {
 						<ImageThumbnail
 							imgUrl={url}
 							onClick={() => handleSelectImage(index)}
-							active={currentIndex === index}
+							isActive={currentIndex === index}
 						/>
 					</motion.div>
 				))}

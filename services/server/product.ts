@@ -1,7 +1,7 @@
 import { db } from '@/db/drizzle'
 import { product } from '@/db/schema'
 import { auth } from '@/lib/auth'
-import { getOrCreateGuestId } from '@/lib/user'
+import { getGuestId } from '@/lib/get-guest-id'
 import { eq, sql } from 'drizzle-orm'
 import { headers } from 'next/headers'
 
@@ -12,34 +12,32 @@ interface GetProductBySlugParams {
 export const getProductBySlug = async ({
 	productSlug,
 }: GetProductBySlugParams) => {
-	const session = await auth.api.getSession({
-		headers: await headers(),
-	})
+	try {
+		const session = await auth.api.getSession({
+			headers: await headers(),
+		})
 
-	const userId = session?.user?.id
-	const guestId = await getOrCreateGuestId()
+		const guestId = await getGuestId()
 
-	const productFull = await db.query.product.findFirst({
-		where: eq(product.slug, productSlug),
-		with: {
-			sizes: true,
-		},
-		extras: fields => ({
-			isFavorite: userId
-				? sql<boolean>`EXISTS (
-            SELECT 1 FROM ${sql.raw('"favorite"')}
-            WHERE ${sql.raw('"favorite"."product_id"')} = ${fields.id}
-            AND ${sql.raw('"favorite"."user_id"')} = ${userId}
-          )`.as('is_favorited')
-				: guestId
-				? sql<boolean>`EXISTS (
-            SELECT 1 FROM ${sql.raw('"favorite"')}
-            WHERE ${sql.raw('"favorite"."product_id"')} = ${fields.id}
-            AND ${sql.raw('"favorite"."guest_id"')} = ${guestId}
-          )`.as('is_favorited')
-				: sql<boolean>`false`.as('is_favorited'),
-		}),
-	})
+		const productFull = await db.query.product.findFirst({
+			where: eq(product.slug, productSlug),
+			with: {
+				sizes: true,
+			},
+			extras: fields => ({
+				isFavorite: guestId
+					? sql<boolean>`EXISTS (
+        SELECT 1 FROM "favorite"
+        WHERE "favorite"."product_id" = ${fields.id}
+        AND "favorite"."guest_id" = ${guestId}
+      )`.as('is_favorited')
+					: sql<boolean>`false`.as('is_favorited'),
+			}),
+		})
 
-	return productFull
+		return productFull
+	} catch (error) {
+		console.error('Error fetching product by slug:', error)
+		throw error
+	}
 }

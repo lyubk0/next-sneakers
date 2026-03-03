@@ -1,4 +1,5 @@
-import { Sex, SEXES } from '@/@types/product'
+import { Sex } from '@/@types/product'
+import { SEXES } from '@/constants/product-constants'
 import { useQueryState } from 'nuqs'
 
 const ALL_SEXES_VALUES: Sex[] = SEXES.map(s => s.value)

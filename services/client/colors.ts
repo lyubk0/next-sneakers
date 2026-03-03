@@ -1,4 +1,4 @@
-import { Color } from '@/@types/color'
+import { Color } from '@/@types/color-types'
 import axios from 'axios'
 
 export const getAll = async (): Promise<Color[]> => {

@@ -1,10 +1,17 @@
 'use server'
 
-import { Cart } from '@/@types/cart'
+import { Cart } from '@/@types/cart-types'
+import { getGuestId } from '@/lib/get-guest-id'
 import Stripe from 'stripe'
 
 export const createCheckoutSession = async (cartData: Cart) => {
 	try {
+		const guestId = await getGuestId()
+
+		if (!guestId) {
+			throw new Error('Guest ID not found')
+		}
+
 		const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!)
 		const { items } = cartData
 
@@ -14,7 +21,7 @@ export const createCheckoutSession = async (cartData: Cart) => {
 			payment_method_types: ['card'],
 			line_items: items.map(item => ({
 				price_data: {
-					currency: 'uah',
+					currency: 'usd',
 					product_data: {
 						name: item.product.name,
 					},
@@ -22,8 +29,16 @@ export const createCheckoutSession = async (cartData: Cart) => {
 				},
 				quantity: item.quantity,
 			})),
+			phone_number_collection: { enabled: true },
+			shipping_address_collection: {
+				allowed_countries: ['US', 'PL', 'UA', 'GB', 'FR', 'DE', 'GM'],
+			},
 			success_url: `${process.env.NEXT_PUBLIC_URL}/success`,
-			cancel_url: `${process.env.NEXT_PUBLIC_URL}/cancel`,
+			cancel_url: `${process.env.NEXT_PUBLIC_URL}`,
+			metadata: {
+				cartId: cartData.id,
+				guestId,
+			},
 		})
 
 		return session.url

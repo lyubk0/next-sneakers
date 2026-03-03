@@ -1,3 +1,5 @@
+'use client'
+
 import { Slot } from '@radix-ui/react-slot'
 import { cva, type VariantProps } from 'class-variance-authority'
 import { AnimatePresence, motion } from 'motion/react'
@@ -7,7 +9,7 @@ import { cn } from '@/lib/utils'
 import { Spinner } from './spinner'
 
 const buttonVariants = cva(
-	"inline-flex items-center cursor-pointer duration-100 ease-out justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-all text-sm disabled:pointer-events-none  [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
+	"inline-flex items-center cursor-pointer duration-100 ease-out justify-center gap-2 whitespace-nowrap rounded-full font-medium transition-all text-sm disabled:pointer-events-none disabled:bg-muted disabled:text-muted-foreground [&_svg]:pointer-events-none [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive",
 	{
 		variants: {
 			variant: {
@@ -35,7 +37,7 @@ const buttonVariants = cva(
 			variant: 'default',
 			size: 'default',
 		},
-	}
+	},
 )
 
 function Button({
@@ -43,33 +45,74 @@ function Button({
 	variant,
 	size,
 	asChild = false,
-	loading = false,
+	isScaled = true,
+	isLoading = false,
 	children,
 	...props
 }: React.ComponentProps<'button'> &
 	VariantProps<typeof buttonVariants> & {
 		asChild?: boolean
-		loading?: boolean
+		isLoading?: boolean
+		isScaled?: boolean
 	}) {
 	const Comp = asChild ? Slot : motion.button
+	const [showContent, setShowContent] = React.useState(!isLoading)
+
+	React.useEffect(() => {
+		if (isLoading) {
+			// Сразу показываем загрузку
+			setShowContent(false)
+		} else {
+			// Добавляем задержку перед показом контента
+			const timer = setTimeout(() => {
+				setShowContent(true)
+			}, 150)
+			return () => clearTimeout(timer)
+		}
+	}, [isLoading])
 
 	return (
-		<Comp
-			data-slot='button'
-			className={cn(buttonVariants({ variant, size, className }))}
-			disabled={loading || props.disabled}
-			whileTap={{ scale: 0.97 }}
-			transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
-			{...props}
-		>
-			<AnimatePresence initial={false} mode='wait'>
-				{loading ? (
-					<Spinner className={size === 'sm' ? 'size-4' : 'size-5'} />
-				) : (
-					<>{children}</>
+		<>
+			{' '}
+			{/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+			{/* @ts-ignore */}
+			<Comp
+				data-slot='button'
+				className={cn(
+					buttonVariants({ variant, size, className }),
+					isLoading && 'pointer-events-none bg-muted text-muted-foreground',
 				)}
-			</AnimatePresence>
-		</Comp>
+				disabled={isLoading || props.disabled}
+				whileTap={{ scale: isScaled ? 0.97 : 1 }}
+				transition={{ type: 'spring', duration: 0.5, bounce: 0 }}
+				{...props}
+			>
+				<AnimatePresence initial={false} mode='wait'>
+					{!showContent ? (
+						<motion.div
+							key='spinner'
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 0.15 }}
+						>
+							<Spinner className={size === 'sm' ? 'size-4' : 'size-5'} />
+						</motion.div>
+					) : (
+						<motion.div
+							key='content'
+							initial={{ opacity: 0 }}
+							animate={{ opacity: 1 }}
+							exit={{ opacity: 0 }}
+							transition={{ duration: 0.15 }}
+							className='inline-flex items-center  justify-center gap-2'
+						>
+							{children}
+						</motion.div>
+					)}
+				</AnimatePresence>
+			</Comp>
+		</>
 	)
 }
 

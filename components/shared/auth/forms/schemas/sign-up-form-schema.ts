@@ -4,8 +4,8 @@ import { signInSchema } from './sign-in-form-schema'
 export const signUpSchema = z.object({
 	fullName: z
 		.string()
-		.nonempty("Ім'я є обов'язковим")
-		.max(100, "Ім'я не повинно перевищувати 100 символів"),
+		.nonempty('Full name is required')
+		.max(100, 'Full name must not exceed 100 characters'),
 	...signInSchema.pick({ email: true, password: true }).shape,
 })
 

@@ -1,7 +1,7 @@
 import { db } from '@/db/drizzle'
-import { NextRequest, NextResponse } from 'next/server'
+import { NextResponse } from 'next/server'
 
-export async function GET(req: NextRequest) {
+export async function GET() {
 	try {
 		const colors = await db.query.color.findMany()
 
@@ -11,7 +11,7 @@ export async function GET(req: NextRequest) {
 
 		return NextResponse.json(
 			{ error: 'Internal server error' },
-			{ status: 500 }
+			{ status: 500 },
 		)
 	}
 }

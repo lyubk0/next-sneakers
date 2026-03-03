@@ -59,7 +59,7 @@ function Carousel({
 			...opts,
 			axis: orientation === 'horizontal' ? 'x' : 'y',
 		},
-		plugins
+		plugins,
 	)
 	const [canScrollPrev, setCanScrollPrev] = React.useState(false)
 	const [canScrollNext, setCanScrollNext] = React.useState(false)
@@ -92,7 +92,7 @@ function Carousel({
 				scrollNext()
 			}
 		},
-		[scrollPrev, scrollNext]
+		[scrollPrev, scrollNext],
 	)
 
 	React.useEffect(() => {
@@ -152,8 +152,8 @@ function CarouselContent({ className, ...props }: React.ComponentProps<'div'>) {
 		>
 			<div
 				className={cn(
-					'flex',
-					orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col'
+					'flex w-full h-full',
+					orientation === 'horizontal' ? '-ml-4' : '-mt-4 flex-col ',
 				)}
 				{...props}
 			/>
@@ -172,7 +172,7 @@ function CarouselItem({ className, ...props }: React.ComponentProps<'div'>) {
 			className={cn(
 				'min-w-0 shrink-0 grow-0 basis-full',
 				orientation === 'horizontal' ? 'pl-4' : 'pt-4',
-				className
+				className,
 			)}
 			{...props}
 		/>
@@ -197,7 +197,7 @@ function CarouselPrevious({
 				orientation === 'horizontal'
 					? 'top-1/2 left-4 -translate-y-1/2'
 					: 'top-4 left-1/2 -translate-x-1/2 rotate-90',
-				className
+				className,
 			)}
 			disabled={!canScrollPrev}
 			onClick={scrollPrev}
@@ -227,7 +227,7 @@ function CarouselNext({
 				orientation === 'horizontal'
 					? 'top-1/2 right-4 -translate-y-1/2'
 					: 'bottom-4 left-1/2 -translate-x-1/2 rotate-90',
-				className
+				className,
 			)}
 			disabled={!canScrollNext}
 			onClick={scrollNext}
@@ -245,8 +245,9 @@ function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
 		<div
 			className={cn(
-				'absolute left-4 top-0 rounded-full  flex justify-center gap-1',
-				className
+				'absolute bottom-4 left-1/2 !opacity-100 -translate-x-1/2 rounded-full flex justify-center gap-1',
+				'md:!opacity-0 md:group-hover:!opacity-100 md:left-4 md:translate-x-0 md:top-0 md:transition-opacity md:duration-200',
+				className,
 			)}
 			data-slot='carousel-dots'
 			{...props}
@@ -257,7 +258,7 @@ function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
 					onClick={() => api?.scrollTo(idx)}
 					className={cn(
 						'size-1.5 cursor-pointer rounded-full transition-all',
-						selectedIndex === idx ? ' bg-primary' : ' bg-[#d2d2d2]'
+						selectedIndex === idx ? 'bg-primary' : 'bg-[#d2d2d2]',
 					)}
 					aria-label={`Go to slide ${idx + 1}`}
 					aria-current={selectedIndex === idx}

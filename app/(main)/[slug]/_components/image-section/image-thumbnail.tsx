@@ -3,14 +3,14 @@ import Image from 'next/image'
 
 interface Props {
 	imgUrl?: string
-	active?: boolean
+	isActive?: boolean
 	onClick?: () => void
 	className?: string
 }
 
 export const ImageThumbnail = ({
 	imgUrl,
-	active,
+	isActive,
 	onClick,
 	className,
 }: Props) => {
@@ -18,17 +18,18 @@ export const ImageThumbnail = ({
 		<div
 			onClick={onClick}
 			className={cn(
-				'bg-muted flex-1 cursor-pointer opacity-50 hover:opacity-70 duration-150 rounded-2xl h-[127px] flex items-center justify-center',
-				active && 'hover:!opacity-100 opacity-100',
-				className
+				'bg-muted flex-1 cursor-pointer duration-150 rounded-2xl aspect-square flex items-center justify-center',
+				isActive && 'ring-2 ring-primary',
+				className,
 			)}
 		>
 			<Image
 				src={imgUrl || '/krossi.png'}
 				alt={''}
-				height={105}
-				width={105}
+				height={100}
+				width={100}
 				quality={100}
+				className='w-[70%] h-[70%] object-contain'
 			/>
 		</div>
 	)

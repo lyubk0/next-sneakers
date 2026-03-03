@@ -8,8 +8,6 @@ export const size = pgTable('size', {
 	eur_size: decimal('eur_size', { precision: 5, scale: 2 }),
 	cm_size: decimal('cm_size', { precision: 5, scale: 2 }),
 
-	quantity: integer('quantity').default(0).notNull(),
-
 	product_id: integer('product_id')
 		.references(() => product.id, { onDelete: 'cascade' })
 		.notNull(),

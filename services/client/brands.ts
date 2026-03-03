@@ -1,4 +1,4 @@
-import { Brand } from '@/@types/brand'
+import { Brand } from '@/@types/brand-types'
 import axios from 'axios'
 
 export const getAll = async (): Promise<Brand[]> => {

@@ -1,8 +1,14 @@
 import { parseAsInteger, useQueryState } from 'nuqs'
 
 export const usePriceRangeFilter = () => {
-	const [priceFrom, setPriceFrom] = useQueryState('priceFrom', parseAsInteger)
-	const [priceTo, setPriceTo] = useQueryState('priceTo', parseAsInteger)
+	const [priceFrom, setPriceFrom] = useQueryState(
+		'priceFrom',
+		parseAsInteger.withDefault(0),
+	)
+	const [priceTo, setPriceTo] = useQueryState(
+		'priceTo',
+		parseAsInteger.withDefault(1000),
+	)
 
 	const setPriceRange = ({
 		from,

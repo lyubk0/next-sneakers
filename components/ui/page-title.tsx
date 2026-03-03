@@ -11,7 +11,7 @@ interface Props {
 
 export const PageTitle = ({ title, Icon, className }: Props) => {
 	return (
-		<Title size='lg' className={cn(className, 'font-bold mb-9')}>
+		<Title size='xl' className={cn(className, 'font-bold mb-9')}>
 			{Icon && <Icon size={26} weight='duotone' />}
 			{title}
 		</Title>

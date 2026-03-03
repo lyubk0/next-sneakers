@@ -2,11 +2,11 @@
 
 import { db } from '@/db/drizzle'
 import { favorite } from '@/db/schema'
-import { getOrCreateGuestId } from '@/lib/user'
+import { getGuestId } from '@/lib/get-guest-id'
 import { eq } from 'drizzle-orm'
 
 export const toggleFavorite = async (
-	productId: number
+	productId: number,
 ): Promise<{ added: boolean }> => {
 	try {
 		const favoriteItem = await db.query.favorite.findFirst({
@@ -17,7 +17,7 @@ export const toggleFavorite = async (
 			await db.delete(favorite).where(eq(favorite.id, favoriteItem.id))
 			return { added: false }
 		} else {
-			const guestId = await getOrCreateGuestId()
+			const guestId = await getGuestId()
 
 			await db.insert(favorite).values({
 				product_id: productId,

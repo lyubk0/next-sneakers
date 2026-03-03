@@ -1,8 +1,11 @@
+'use client'
+
 import { ErrorText } from '@/components/ui/error-text'
 import { cn } from '@/lib/utils'
+import { ViewIcon, ViewOffSlashIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon, IconSvgElement } from '@hugeicons/react'
-import Image from 'next/image'
 import type * as React from 'react'
+import { useState } from 'react'
 
 export interface InputProps extends React.ComponentProps<'input'> {
 	containerClassName?: string
@@ -11,10 +14,6 @@ export interface InputProps extends React.ComponentProps<'input'> {
 	errorText?: string
 	leftIcon?: IconSvgElement
 	rightIcon?: IconSvgElement
-	leftImage?: string
-	rightImage?: string
-	leftText?: string
-	rightText?: string
 }
 
 function Input({
@@ -28,16 +27,16 @@ function Input({
 	id,
 	leftIcon: LeftIcon,
 	rightIcon: RightIcon,
-	leftImage,
-	rightImage,
-	leftText,
-	rightText,
 	...props
 }: InputProps) {
-	const haveLeftElement = LeftIcon || leftImage || leftText
-	const haveRightElement = RightIcon || rightImage || rightText
+	const [showPassword, setShowPassword] = useState(false)
+
+	const haveLeftElement = LeftIcon
+	const haveRightElement = RightIcon
+	const isPasswordType = type === 'password'
 
 	const inputId = id ?? name
+	const inputType = isPasswordType ? (showPassword ? 'text' : 'password') : type
 
 	return (
 		<div className={cn('flex flex-col', containerClassName)}>
@@ -49,26 +48,16 @@ function Input({
 			)}
 
 			<div className='relative'>
-				{/* Left element */}
 				{haveLeftElement && (
 					<div className='pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 flex gap-2 text-card-muted-foreground'>
-						{LeftIcon ? (
-							<HugeiconsIcon strokeWidth={2} icon={LeftIcon} size={20} />
-						) : leftImage ? (
-							<Image src={leftImage} width={20} height={20} alt='left icon' />
-						) : null}
-
-						{leftText && (
-							<span className='font-medium text-foreground'>{leftText}</span>
-						)}
+						<HugeiconsIcon strokeWidth={2} icon={LeftIcon} size={20} />
 					</div>
 				)}
 
-				{/* Input */}
 				<input
 					id={inputId}
 					name={name}
-					type={type}
+					type={inputType}
 					aria-invalid={!!errorText}
 					autoComplete='off'
 					data-slot='input'
@@ -78,30 +67,30 @@ function Input({
 							? 'selection:bg-red-500 focus-visible:ring-red-500 focus-visible:ring-2'
 							: 'selection:bg-primary focus-visible:ring-primary/95 focus-visible:ring-2',
 						haveLeftElement && 'pl-11',
-						haveRightElement && 'pr-11',
+						(haveRightElement || isPasswordType) && 'pr-11',
 						'disabled:pointer-events-none disabled:cursor-not-allowed disabled:opacity-50',
-						className
+						className,
 					)}
 					{...props}
 				/>
 
-				{/* Right element */}
-				{haveRightElement && (
+				{isPasswordType ? (
+					<button
+						type='button'
+						onClick={() => setShowPassword(prev => !prev)}
+						className='absolute cursor-pointer right-3 top-1/2 -translate-y-1/2 flex items-center text-muted-foreground hover:text-foreground transition-colors'
+					>
+						<HugeiconsIcon
+							strokeWidth={2}
+							icon={showPassword ? ViewOffSlashIcon : ViewIcon}
+							size={20}
+						/>
+					</button>
+				) : haveRightElement ? (
 					<div className='pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 text-muted-foreground'>
-						{rightText && <span className='text-foreground'>{rightText}</span>}
-						{RightIcon ? (
-							<HugeiconsIcon strokeWidth={2} icon={RightIcon} size={20} />
-						) : rightImage ? (
-							<Image
-								src={rightImage}
-								width={20}
-								height={20}
-								className='ml-1'
-								alt='right icon'
-							/>
-						) : null}
+						<HugeiconsIcon strokeWidth={2} icon={RightIcon} size={20} />
 					</div>
-				)}
+				) : null}
 			</div>
 
 			{errorText && <ErrorText className='mt-2'>{errorText}</ErrorText>}

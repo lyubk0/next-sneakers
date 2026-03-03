@@ -1,26 +1,27 @@
 'use client'
 
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
-import * as React from 'react'
-
 import { cn } from '@/lib/utils'
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox'
 import { motion } from 'motion/react'
+import * as React from 'react'
 
 function Checkbox({
 	className,
+	checked,
 	...props
 }: React.ComponentProps<typeof CheckboxPrimitive.Root>) {
 	return (
 		<CheckboxPrimitive.Root
 			data-slot='checkbox'
+			checked={checked}
 			className={cn(
-				'peer dark:bg-input/30 cursor-pointer data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground dark:data-[state=checked]:bg-primary bg-input data-[state=checked]:border-primary focus-visible:border-ring focus-visible:ring-ring/50 aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive size-4.5 shrink-0 rounded-[6px] outline-none focus-visible:ring-[3px] disabled:cursor-not-allowed disabled:opacity-50',
-				className
+				'peer size-4.5 shrink-0 rounded-[6px] cursor-pointer bg-input data-[state=checked]:bg-primary data-[state=checked]:text-primary-foreground outline-none',
+				className,
 			)}
 			{...props}
 		>
 			<CheckboxPrimitive.Indicator
-				data-slot='checkbox-indicator'
+				forceMount
 				className='grid place-content-center text-current'
 			>
 				<svg
@@ -34,9 +35,8 @@ function Checkbox({
 						strokeWidth='2'
 						strokeLinecap='round'
 						strokeLinejoin='round'
-						initial={{ pathLength: 0 }}
-						animate={{ pathLength: 1 }}
-						exit={{ pathLength: 0 }}
+						initial={false}
+						animate={{ pathLength: checked ? 1 : 0 }}
 						transition={{
 							type: 'spring',
 							duration: 0.35,

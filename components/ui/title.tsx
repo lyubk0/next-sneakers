@@ -31,8 +31,8 @@ export const Title: FC<PropsWithChildren<Props>> = ({
 		sm2: 'text-[24px]',
 		md: 'text-[26px]',
 		lg: 'text-[32px]',
-		xl: 'text-[40px]',
-		'2xl': 'text-[48px]',
+		xl: 'text-[40px] font-bold',
+		'2xl': 'text-[48px] font-bold [line-height:1.2]',
 	} as const
 
 	return createElement(
@@ -41,9 +41,9 @@ export const Title: FC<PropsWithChildren<Props>> = ({
 			className: clsx(
 				mapClassNameBySize[size],
 				className,
-				'flex items-center gap-2'
+				'flex items-center gap-2',
 			),
 		},
-		children
+		children,
 	)
 }

@@ -26,25 +26,7 @@ const eslintConfig = [
 			'next-env.d.ts',
 		],
 
-		rules: {
-			// ❌ Запрещаем подниматься выше одного уровня
-			'import/no-relative-parent-imports': 'error',
-
-			// ⚠️ Предупреждаем, если импорт идёт на 2 уровня выше
-			'import/no-restricted-paths': [
-				'error',
-				{
-					zones: [
-						{
-							target: './src',
-							from: '../..',
-							message:
-								'Используй абсолютный импорт "@/..." для файлов выше одного уровня.',
-						},
-					],
-				},
-			],
-		},
+		rules: {},
 
 		settings: {
 			'import/resolver': {

@@ -1,6 +1,6 @@
 import { useQueryState } from 'nuqs'
 
-export const useSizeFilter = (sizes: string[] | null) => {
+export const useSizeFilter = () => {
 	const [selectedSizes, setSelectedSizes] = useQueryState<string[] | null>(
 		'sizes',
 		{
@@ -15,7 +15,7 @@ export const useSizeFilter = (sizes: string[] | null) => {
 				if (!value || value.length === 0) return ''
 				return value.join(',')
 			},
-		}
+		},
 	)
 
 	const toggleSize = (size: string) => {

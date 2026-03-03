@@ -1,9 +1,8 @@
 'use client'
 
-import { useUpdateCartItemQuantity } from '@/hooks/queries/cart/use-update-cart-item-quantity'
+import { useUpdateCartItemQuantity } from '@/hooks/tanstack/cart/cart-mutations'
 import { cn } from '@/lib/utils'
 import { IconMinus, IconPlus } from '@tabler/icons-react'
-import { useState } from 'react'
 
 interface Props {
 	cartItemId: number
@@ -12,22 +11,14 @@ interface Props {
 }
 
 export const CartItemCounter = ({ cartItemId, quantity, className }: Props) => {
-	const [disabled, setDisabled] = useState(false)
+	const { mutate, isPending, variables } = useUpdateCartItemQuantity()
 
-	const { mutateAsync: updateCartItemQuantity } = useUpdateCartItemQuantity()
+	const isLoadingThisItem = isPending && variables?.cartItemId === cartItemId
 
-	const handleUpdateQuantity = async (action: 'increment' | 'decrement') => {
+	const handleUpdateQuantity = (action: 'increment' | 'decrement') => {
 		if (quantity === 1 && action === 'decrement') return
-		setDisabled(true)
 
-		await new Promise(resolve =>
-			setTimeout(() => {
-				setDisabled(false)
-
-				resolve(true)
-			}, 130)
-		)
-		await updateCartItemQuantity({
+		mutate({
 			action,
 			cartItemId,
 		})
@@ -38,10 +29,10 @@ export const CartItemCounter = ({ cartItemId, quantity, className }: Props) => {
 			<button
 				className={cn(
 					quantity === 1 && 'text-muted-foreground !cursor-not-allowed',
-					'cursor-pointer'
+					'cursor-pointer',
 				)}
 				onClick={() => handleUpdateQuantity('decrement')}
-				disabled={disabled}
+				disabled={isLoadingThisItem}
 			>
 				<IconMinus size={18} />
 			</button>
@@ -53,7 +44,7 @@ export const CartItemCounter = ({ cartItemId, quantity, className }: Props) => {
 			<button
 				className='cursor-pointer'
 				onClick={() => handleUpdateQuantity('increment')}
-				disabled={disabled}
+				disabled={isLoadingThisItem}
 			>
 				<IconPlus size={18} />
 			</button>

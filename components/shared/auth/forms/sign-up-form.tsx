@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useSignUp } from '@/hooks/queries/auth/use-sign-up'
+import { useSignUp } from '@/hooks/tanstack/auth-mutations'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
@@ -45,30 +45,31 @@ export const SignUpForm = ({ className }: Props) => {
 						label='Full name'
 						required
 						leftIcon={UserIcon}
-						placeholder="Повне ім'я"
+						placeholder='Full name'
 					/>
 					<FormInput
 						name='email'
 						label='Email'
 						required
 						leftIcon={Mail01Icon}
-						placeholder='Електронна пошта'
+						placeholder='Email'
 					/>
 					<FormInput
 						name='password'
 						label='Password'
+						type='password'
 						required
 						leftIcon={LockPasswordIcon}
-						placeholder='Пароль'
+						placeholder='Password'
 					/>
 				</div>
 				<Button
 					size={'xl'}
-					loading={signUpMutation.isPending}
+					isLoading={signUpMutation.isPending}
 					type='submit'
 					className='w-full group mt-5'
 				>
-					Зареєструватися
+					Sign Up
 				</Button>
 			</form>
 		</FormProvider>

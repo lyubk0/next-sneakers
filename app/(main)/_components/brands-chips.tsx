@@ -2,17 +2,18 @@
 
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useBrandsFilter } from '@/hooks/nuqs'
-import { useBrands } from '@/hooks/queries/use-brands'
+import { useBrands } from '@/hooks/tanstack/brand-queries'
+import { useBrandsMultiselect } from '@/hooks/use-brands-multiselect'
 
 const mockBrands = [...Array(3)]
 
 export default function BrandChips() {
 	const { data: brands, isPending } = useBrands()
-	const { selectedBrands, toggleBrand } = useBrandsFilter(brands || [])
+	const { selectedBrands, toggleBrand, selectedBrandsQuery } =
+		useBrandsMultiselect(brands || [])
 
 	return (
-		<div className='flex gap-4 flex-wrap'>
+		<div className='flex overflow-x-auto no-scrollbar gap-4'>
 			{isPending &&
 				mockBrands.map((_, i) => (
 					<Skeleton key={i} className='h-9 w-24 rounded-full' />
@@ -21,7 +22,11 @@ export default function BrandChips() {
 			{brands?.map(brand => (
 				<Button
 					key={brand.id}
-					variant={selectedBrands.includes(brand.id) ? 'default' : 'secondary'}
+					variant={
+						selectedBrandsQuery === null || selectedBrands.includes(brand.id)
+							? 'default'
+							: 'secondary'
+					}
 					onClick={() => toggleBrand(brand.id)}
 				>
 					{brand.name}

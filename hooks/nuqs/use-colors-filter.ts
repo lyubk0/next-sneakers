@@ -1,6 +1,6 @@
 import { useQueryState } from 'nuqs'
 
-export const useColorsFilter = (colors: string[] | null) => {
+export const useColorsFilter = () => {
 	const [selectedColors, setSelectedColors] = useQueryState<string[] | null>(
 		'colors',
 		{
@@ -15,7 +15,7 @@ export const useColorsFilter = (colors: string[] | null) => {
 				if (!value || value.length === 0) return ''
 				return value.join(',')
 			},
-		}
+		},
 	)
 
 	const toggleColor = (color: string) => {

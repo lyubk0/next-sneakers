@@ -1,7 +1,34 @@
 import { DetailsSection } from '@/app/(main)/[slug]/_components/details-section'
-import { ImageSection } from '@/app/(main)/[slug]/_components/image-section'
 import { Container } from '@/components/shared/container'
+import { db } from '@/db/drizzle'
 import { ApiServer } from '@/services/api-server'
+import { Metadata } from 'next'
+import { notFound } from 'next/navigation'
+import { ImageSectionWrapper } from './_components/image-section/image-section-wrapper'
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+	const { slug } = await params
+	const product = await ApiServer.product.getProductBySlug({
+		productSlug: slug,
+	})
+
+	return {
+		title: product ? `Next Sneakers | ${product.name}` : 'Next Sneakers',
+	}
+}
+
+export const revalidate = false
+export const dynamic = 'force-dynamic'
+
+export async function generateStaticParams() {
+	const products = await db.query.product.findMany({
+		columns: {
+			slug: true,
+		},
+	})
+
+	return products.map(product => ({ slug: product.slug }))
+}
 
 interface Props {
 	params: {
@@ -9,7 +36,7 @@ interface Props {
 	}
 }
 
-export default async function Sneaker({ params }: Props) {
+export default async function ProductPage({ params }: Props) {
 	const { slug } = await params
 
 	const product = await ApiServer.product.getProductBySlug({
@@ -18,15 +45,16 @@ export default async function Sneaker({ params }: Props) {
 
 	console.log(product)
 
-	if (!product) return null
+	if (!product) {
+		notFound()
+	}
 
 	return (
-		<Container className='max-w-[1280px]'>
-			<div className='flex gap-10'>
-				<ImageSection product={product} />
+		<Container className='max-w-[1280px] pb-4'>
+			<div className='flex flex-col md:flex-row gap-10'>
+				<ImageSectionWrapper product={product} />
 				<DetailsSection product={product} />
 			</div>
-			{/* <RecommendationsSection className='mt-8' products={products} /> */}
 		</Container>
 	)
 }

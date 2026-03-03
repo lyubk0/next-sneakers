@@ -1,5 +1,6 @@
 'use client'
 
+import { TooltipProvider } from '@/components/ui/tooltip'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { PropsWithChildren } from 'react'
@@ -13,21 +14,27 @@ export const Providers = ({ children }: PropsWithChildren<Props>) => {
 	const queryClient = new QueryClient()
 	return (
 		<QueryClientProvider client={queryClient}>
-			<Toaster
-				position='bottom-center'
-				reverseOrder={false}
-				toastOptions={{
-					style: {
-						borderRadius: '99px',
-						border: 'none',
-						background: 'rgba(255, 255, 255, 0.72)',
-						backgroundColor: '#f2f2f2',
-						boxShadow: 'none',
-						fontWeight: '500',
-					},
-				}}
-			/>
-			<NuqsAdapter>{children}</NuqsAdapter>
+			<TooltipProvider>
+				<Toaster
+					position='bottom-center'
+					reverseOrder={false}
+					toastOptions={{
+						style: {
+							borderRadius: '99px',
+							border: 'none',
+							background: 'white',
+							backgroundColor: 'white',
+							boxShadow: `
+        0 0 15px rgba(0, 0, 0, 0.031),
+        0 2px 30px rgba(0, 0, 0, 0.078),
+        0 0 1px rgba(0, 0, 0, 0.302)
+      `,
+							fontWeight: '500',
+						},
+					}}
+				/>
+				<NuqsAdapter>{children}</NuqsAdapter>
+			</TooltipProvider>
 		</QueryClientProvider>
 	)
 }

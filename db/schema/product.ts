@@ -14,7 +14,7 @@ import { color } from './color'
 import { favorite } from './favorite'
 import { size } from './size'
 
-export const sexEnum = pgEnum('sex_enum', ['unisex', 'men', 'women'])
+export const sexEnum = pgEnum('sex_enum', ['men', 'women'])
 
 export const product = pgTable('product', {
 	id: serial('id').primaryKey(),
@@ -35,7 +35,7 @@ export const product = pgTable('product', {
 		.references(() => brand.id, { onDelete: 'cascade' })
 		.notNull(),
 
-	sex: sexEnum('sex').default('unisex').notNull(),
+	sex: sexEnum('sex').notNull(),
 
 	groupSlug: varchar('group_slug', { length: 255 }).notNull(),
 

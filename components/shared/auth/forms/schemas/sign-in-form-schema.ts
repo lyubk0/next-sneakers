@@ -1,14 +1,11 @@
 import { z } from 'zod'
 
 export const signInSchema = z.object({
-	email: z
-		.string()
-		.min(1, "Електронна пошта є обов'язковою")
-		.email('Невірний формат електронної пошти'),
+	email: z.email({ message: 'Invalid email format' }),
 	password: z
 		.string()
-		.nonempty("Пароль є обов'язковим")
-		.min(8, 'Пароль повинен містити щонайменше 8 символів'),
+		.nonempty('Password is required')
+		.min(8, 'Password must be at least 8 characters long'),
 	rememberMe: z.boolean().optional(),
 })
 

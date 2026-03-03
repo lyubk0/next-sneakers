@@ -1,24 +1,26 @@
 import { Container } from '@/components/shared/container'
 import { TopBar } from '@/components/shared/header/top-bar'
-import type { SearchParams } from 'nuqs/server'
 
-import { FiltersSidebarContainer } from './_components/filters-sidebar/filters-sidebar-container'
-import { ProductListContainer } from './_components/product-list-container'
+import { Metadata } from 'next'
+import { Suspense } from 'react'
+import { ProductListContainer } from '../../components/shared/product/product-list-container'
+import { FiltersDrawer } from './_components/filters-drawer'
 
-interface Props {
-	searchParams: Promise<SearchParams>
+export const metadata: Metadata = {
+	title: 'Next Sneakers | Home',
 }
 
-export default async function Home({ searchParams }: Props) {
+export default function HomePage() {
 	return (
-		<Container>
+		<Suspense>
 			<TopBar />
-			<div className='flex gap-17'>
-				<FiltersSidebarContainer className='mt-8' />
+			<FiltersDrawer />
+
+			<Container>
 				<div className='flex-1'>
 					<ProductListContainer className='mt-8' />
 				</div>
-			</div>
-		</Container>
+			</Container>
+		</Suspense>
 	)
 }

@@ -9,7 +9,7 @@ const sneakerImageUrls = [
 	'/green-krossi.png',
 	'/red-krossi.png',
 ]
-const SLIDE_DURATION = 5 // seconds
+const SLIDE_DURATION = 5
 
 const SneakerImage = ({ src }: { src: string }) => {
 	const controls = useAnimation()
@@ -35,7 +35,7 @@ const SneakerImage = ({ src }: { src: string }) => {
 		run()
 
 		return () => {
-			controls.stop() // ⬅ критично для правильного exit
+			controls.stop()
 		}
 	}, [controls])
 

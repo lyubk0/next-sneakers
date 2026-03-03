@@ -1,30 +1,23 @@
 'use server'
 
-import { NewCartItem, UpdateCartItem } from '@/@types/cart-item'
+import { NewCartItem } from '@/@types/cart-item-types'
+import { Db, Tx } from '@/@types/db'
 import { db } from '@/db/drizzle'
 import { cart, cartItem } from '@/db/schema'
-import { UpdateCartItemQuantityParams } from '@/hooks/queries/cart/use-update-cart-item-quantity'
-import { getOrCreateGuestId } from '@/lib/user'
+import { UpdateCartItemQuantityParams } from '@/hooks/tanstack/cart/cart-mutations'
+
+import { getGuestId } from '@/lib/get-guest-id'
 import { and, eq } from 'drizzle-orm'
-
-export const createCart = async (guestId: string) => {
-	const [newCart] = await db
-		.insert(cart)
-		.values({
-			guest_id: guestId,
-		})
-		.returning()
-
-	return {
-		...newCart,
-		items: [],
-	}
-}
 
 export const addToCart = async (productData: NewCartItem) => {
 	try {
-		const guestId = await getOrCreateGuestId()
+		const guestId = await getGuestId()
 
+		if (!guestId) {
+			throw new Error('Guest ID not found')
+		}
+
+		console.log('Adding to cart for guestId:', guestId)
 		const userCart = await db.query.cart.findFirst({
 			where: eq(cart.guest_id, guestId),
 		})
@@ -32,7 +25,7 @@ export const addToCart = async (productData: NewCartItem) => {
 		const existingCartItem = await db.query.cartItem.findFirst({
 			where: and(
 				eq(cartItem.size_id, productData.size_id),
-				eq(cartItem.cart_id, userCart!.id)
+				eq(cartItem.cart_id, userCart!.id),
 			),
 		})
 
@@ -52,17 +45,6 @@ export const addToCart = async (productData: NewCartItem) => {
 	}
 }
 
-export const updateCartItem = async (cartItemData: UpdateCartItem) => {
-	try {
-		const { id, ...data } = cartItemData
-
-		await db.update(cartItem).set(data).where(eq(cartItem.id, id))
-	} catch (error) {
-		console.error('Error updating cart item:', error)
-		throw new Error('Failed to update cart item')
-	}
-}
-
 export const updateCartItemQuantity = async ({
 	action,
 	cartItemId,
@@ -73,6 +55,10 @@ export const updateCartItemQuantity = async ({
 		})
 
 		if (!existingCartItem) throw new Error('Cart item not found')
+
+		if (existingCartItem.quantity === 1 && action === 'decrement') {
+			return
+		}
 
 		const newQuantity =
 			action === 'increment'
@@ -95,5 +81,18 @@ export const removeCartItem = async (cartItemId: number) => {
 	} catch (error) {
 		console.error('Error removing cart item:', error)
 		throw new Error('Failed to remove cart item')
+	}
+}
+
+export const clearCart = async (guestId: string, dbClient: Db | Tx = db) => {
+	try {
+		const userCart = await dbClient.query.cart.findFirst({
+			where: eq(cart.guest_id, guestId),
+		})
+
+		await dbClient.delete(cartItem).where(eq(cartItem.cart_id, userCart!.id))
+	} catch (error) {
+		console.error('Error clearing cart:', error)
+		throw new Error('Failed to clear cart')
 	}
 }

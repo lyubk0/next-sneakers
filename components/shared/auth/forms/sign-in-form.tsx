@@ -2,7 +2,7 @@
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
-import { useSignIn } from '@/hooks/queries/auth/use-sign-in'
+import { useSignIn } from '@/hooks/tanstack/auth-mutations'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LockPasswordIcon, Mail01Icon } from '@hugeicons/core-free-icons'
@@ -44,14 +44,15 @@ export const SignInForm = ({ className }: Props) => {
 						label='Email'
 						required
 						leftIcon={Mail01Icon}
-						placeholder='Електронна пошта'
+						placeholder='Email'
 					/>
 					<FormInput
+						type='password'
 						name='password'
 						label='Password'
 						required
 						leftIcon={LockPasswordIcon}
-						placeholder='Пароль'
+						placeholder='Password'
 					/>
 
 					<Controller
@@ -67,19 +68,19 @@ export const SignInForm = ({ className }: Props) => {
 									checked={field.value}
 									onCheckedChange={field.onChange}
 								/>
-								Запам&apos;ятати мене
+								Remember me
 							</label>
 						)}
 					/>
 				</div>
 
 				<Button
-					loading={signInMutation.isPending}
+					isLoading={signInMutation.isPending}
 					type='submit'
 					size={'xl'}
 					className='w-full mt-5'
 				>
-					Увійти
+					Log In
 				</Button>
 			</form>
 		</FormProvider>

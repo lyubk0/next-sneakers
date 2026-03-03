@@ -1,10 +1,11 @@
-import { CartItem as CartItemType } from '@/@types/cart-item'
+import { CartItem as CartItemType } from '@/@types/cart-item-types'
 
 import { CartItemCounter } from '@/components/shared/cart-drawer/cart-item-counter'
-import { useRemoveCartItem } from '@/hooks/queries/cart/use-remove-cart-item'
+import { useRemoveCartItem } from '@/hooks/tanstack/cart/cart-mutations'
 import { cn } from '@/lib/utils'
 import { Trash } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'
+import { Calligraph } from 'calligraph'
 import Image from 'next/image'
 import Link from 'next/link'
 import { Title } from '../../ui/title'
@@ -21,13 +22,13 @@ export const CartDrawerItem = ({ cartItem, className }: Props) => {
 			className={cn(
 				className,
 				'flex w-full relative h-max transition-all duration-200',
-				isRemoving && 'opacity-50 pointer-events-none'
+				isRemoving && 'opacity-50 pointer-events-none',
 			)}
 		>
 			<div className='flex gap-4 w-full items-start'>
 				<div className='bg-muted rounded-xl w-[110px] h-[110px] flex items-center justify-center'>
 					<Image
-						src={'/krossi.png'}
+						src={cartItem.product.images[0]}
 						alt={cartItem.product.name}
 						width={90}
 						height={90}
@@ -37,9 +38,7 @@ export const CartDrawerItem = ({ cartItem, className }: Props) => {
 				<div className='flex flex-col gap-4 h-full flex-1 justify-between'>
 					<div className='flex items-start w-full justify-between gap-3'>
 						<div className='flex  flex-col gap-0'>
-							<Link
-								href={`/${cartItem?.product?.category?.slug}/${cartItem.product.slug}`}
-							>
+							<Link href={`/${cartItem.product.slug}`}>
 								{' '}
 								<Title
 									size='xs'
@@ -48,13 +47,14 @@ export const CartDrawerItem = ({ cartItem, className }: Props) => {
 									{cartItem.product.name}
 								</Title>
 							</Link>
-							<div className='flex text-muted-foreground font-semibold text-sm  tracking-[0.014em] gap-0.5'>
-								<span className=''>Size:</span>
+							<div className='flex  font-bold text-sm  tracking-[0.014em] gap-0.5'>
 								<span>{cartItem.size.eur_size}</span>
 							</div>
 						</div>
 						<p className='font-semibold text-sm'>
-							${cartItem.product.price * cartItem.quantity}
+							<Calligraph className='text-sm' variant='number'>
+								{`$${cartItem.product.price * cartItem.quantity}`}
+							</Calligraph>
 						</p>
 					</div>
 

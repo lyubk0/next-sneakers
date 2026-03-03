@@ -1,3 +1,8 @@
+import { clearCart } from '@/actions/cart'
+import { createOrder } from '@/actions/order'
+import { db } from '@/db/drizzle'
+import { order } from '@/db/schema/order'
+import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
 import Stripe from 'stripe'
 
@@ -11,21 +16,46 @@ export async function POST(req: Request) {
 
 	try {
 		const rawBody = await req.text()
+
+		if (!endpointSecret) {
+			return new NextResponse('Stripe webhook secret not configured', {
+				status: 500,
+			})
+		}
+
+		event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret)
+
 		event = stripe.webhooks.constructEvent(rawBody, sig, endpointSecret!)
-	} catch (err: any) {
-		console.error('Webhook signature verification failed:', err.message)
-		return new NextResponse(`Webhook Error: ${err.message}`, { status: 400 })
+	} catch (err: unknown) {
+		const message = err instanceof Error ? err.message : 'Unknown webhook error'
+
+		return new NextResponse(`Webhook Error: ${message}`, { status: 400 })
 	}
 
 	switch (event.type) {
-		case 'checkout.session.completed':
-			console.log('Payment completed')
-			break
+		case 'checkout.session.completed': {
+			const session = event.data.object as Stripe.Checkout.Session
 
-		case 'invoice.payment_succeeded':
-			console.log('Subscription payment succeeded')
-			break
+			if (session.payment_status !== 'paid') break
 
+			const exists = await db.query.order.findFirst({
+				where: eq(order.stripeSessionId, session.id),
+			})
+
+			if (exists) break
+
+			await db.transaction(async tx => {
+				await createOrder(session, tx)
+				const guestId = session.metadata?.guestId
+				if (!guestId) {
+					throw new Error('Guest ID is missing in session metadata')
+				}
+
+				await clearCart(guestId, tx)
+			})
+
+			break
+		}
 		default:
 			console.log(`Unhandled event type: ${event.type}`)
 	}
