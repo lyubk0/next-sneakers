@@ -31,9 +31,7 @@ export async function generateStaticParams() {
 }
 
 interface Props {
-	params: {
-		slug: string
-	}
+	params: Promise<{ slug: string }>
 }
 
 export default async function ProductPage({ params }: Props) {
