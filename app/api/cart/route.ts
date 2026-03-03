@@ -1,24 +1,10 @@
+import { CART_WITH } from '@/constants/cart-with-constant'
 import { db } from '@/db/drizzle'
 import { cart } from '@/db/schema'
 import { calculateTotal } from '@/lib/calculate-total'
 import { getGuestId } from '@/lib/get-guest-id'
 import { eq } from 'drizzle-orm'
 import { NextResponse } from 'next/server'
-
-export const CART_WITH = {
-	items: {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		orderBy: (items: any, { desc }: any) => [desc(items.created_at)],
-		with: {
-			product: {
-				with: {
-					sizes: true,
-				},
-			},
-			size: true,
-		},
-	},
-} as const
 
 export async function GET() {
 	try {
