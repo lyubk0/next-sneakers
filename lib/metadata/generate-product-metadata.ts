@@ -29,7 +29,7 @@ export const generateProductMetadata = async (
 		twitter: {
 			card: 'summary_large_image',
 			title: product.name,
-			description: `${product.price} ₽`,
+			description: `$${product.price}`,
 			images: [product.images[0]],
 		},
 	}
