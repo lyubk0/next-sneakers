@@ -16,7 +16,7 @@ export const generateProductMetadata = async (
 		title: `Next Sneakers | ${product.name}`,
 		openGraph: {
 			title: product.name,
-			description: `${product.price} ₽`,
+			description: `$${product.price}`,
 			images: [
 				{
 					url: product.images[0],
