@@ -6,13 +6,20 @@ import { useRouter } from 'next/navigation'
 
 export const useSignIn = () => {
 	return useMutation({
-		mutationFn: async (data: SignInFormData) =>
-			await signIn.email({
+		mutationFn: async (data: SignInFormData) => {
+			const result = await signIn.email({
 				email: data.email,
 				password: data.password,
 				callbackURL: '/',
 				rememberMe: data.rememberMe,
-			}),
+			})
+
+			if (result.error) {
+				throw result.error
+			}
+
+			return result.data
+		},
 	})
 }
 
@@ -31,6 +38,7 @@ export const useSignUp = () => {
 		},
 	})
 }
+
 export const useSignOut = () => {
 	const router = useRouter()
 	return useMutation({

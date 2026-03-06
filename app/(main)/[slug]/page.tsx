@@ -1,6 +1,7 @@
 import { DetailsSection } from '@/app/(main)/[slug]/_components/details-section'
 import { Container } from '@/components/shared/container'
 import { db } from '@/db/drizzle'
+import { generateProductMetadata } from '@/lib/metadata/generate-product-metadata'
 import { ApiServer } from '@/services/api-server'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
@@ -8,13 +9,7 @@ import { ImageSectionWrapper } from './_components/image-section/image-section-w
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params
-	const product = await ApiServer.product.getProductBySlug({
-		productSlug: slug,
-	})
-
-	return {
-		title: product ? `Next Sneakers | ${product.name}` : 'Next Sneakers',
-	}
+	return generateProductMetadata(slug)
 }
 
 export const revalidate = false

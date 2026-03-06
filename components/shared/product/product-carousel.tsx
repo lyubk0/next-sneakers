@@ -10,7 +10,7 @@ import {
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import { MouseEvent } from 'react'
+import { MouseEvent, useState } from 'react'
 
 interface Props {
 	images: string[]
@@ -33,6 +33,8 @@ export const ProductCarousel = ({
 	onNext,
 	className,
 }: Props) => {
+	const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({})
+
 	return (
 		<Carousel
 			className={cn(
@@ -50,14 +52,36 @@ export const ProductCarousel = ({
 			/>
 			<CarouselContent className='h-full w-full'>
 				{images.map(img => (
-					<CarouselItem key={img} className='flex justify-center items-center '>
-						<div className='relative m-10 w-full aspect-square'>
+					<CarouselItem key={img} className='flex justify-center items-center'>
+						<div className='relative  m-10 w-full aspect-square'>
+							{!loadedImages[img] && (
+								<div
+									className='absolute inset-0 animate-pulse'
+									style={{
+										backgroundColor: 'oklch(0.9061 0 0 / 0.7216)',
+										WebkitMaskImage: 'url(/blue-krossi.png)',
+										maskImage: 'url(/blue-krossi.png)',
+										WebkitMaskRepeat: 'no-repeat',
+										maskRepeat: 'no-repeat',
+										WebkitMaskSize: 'contain',
+										maskSize: 'contain',
+										WebkitMaskPosition: 'center',
+										maskPosition: 'center',
+									}}
+								/>
+							)}
 							<Image
 								loading='lazy'
 								src={img}
 								alt={''}
 								fill
-								className='object-contain'
+								className={cn(
+									'object-contain transition-opacity duration-300',
+									loadedImages[img] ? 'opacity-100' : 'opacity-0',
+								)}
+								onLoad={() =>
+									setLoadedImages(prev => ({ ...prev, [img]: true }))
+								}
 							/>
 						</div>
 					</CarouselItem>

@@ -2,11 +2,14 @@
 
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
+import { ErrorText } from '@/components/ui/error-text'
 import { useSignIn } from '@/hooks/tanstack/auth-mutations'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LockPasswordIcon, Mail01Icon } from '@hugeicons/core-free-icons'
+import { useEffect } from 'react'
 import { Controller, FormProvider, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { FormInput } from '../../form-components/form-input'
 import { SignInFormData, signInSchema } from './schemas/sign-in-form-schema'
 
@@ -28,9 +31,25 @@ export const SignInForm = ({ className }: Props) => {
 
 	const signInMutation = useSignIn()
 
+	const rootError = form.formState.errors.root?.message
+
 	const onSubmit = async (data: SignInFormData) => {
-		await signInMutation.mutateAsync(data)
+		try {
+			await signInMutation.mutateAsync(data)
+		} catch (error) {
+			const status = (error as any)?.status
+			if (status === 401 || status === 400) {
+				form.setError('root', { message: 'Invalid email or password' })
+			} else {
+				toast.error('Something went wrong. Please try again later.')
+			}
+		}
 	}
+
+	useEffect(() => {
+		const subscription = form.watch(() => form.clearErrors('root'))
+		return () => subscription.unsubscribe()
+	}, [])
 
 	return (
 		<FormProvider {...form}>
@@ -55,6 +74,7 @@ export const SignInForm = ({ className }: Props) => {
 						placeholder='Password'
 					/>
 
+					{rootError && <ErrorText>{rootError}</ErrorText>}
 					<Controller
 						name='rememberMe'
 						control={control}

@@ -2,10 +2,15 @@
 
 import { Product } from '@/@types/product'
 import { ANIMATED_EMOJIS } from '@/constants/animated-emojis-constant'
+import { useInfiniteLoading } from '@/hooks/infinite-loading'
 import { useFiltersCount } from '@/hooks/use-filters-count'
-import { AnimatePresence, easeOut, motion } from 'motion/react'
+import {
+	cardVariants,
+	getCardTransition,
+	transition,
+} from '@/lib/motion/product-list-motion'
+import { AnimatePresence, motion } from 'motion/react'
 import Link from 'next/link'
-import { useEffect, useRef } from 'react'
 import { SomethingWentWrong } from '../something-went-wrong'
 import { ProductCard } from './product-card'
 import { ProductCardSkeleton } from './product-card-skeleton'
@@ -22,17 +27,6 @@ interface Props {
 
 const mockData = [...Array(8)]
 
-const cardVariants = {
-	hidden: { opacity: 0, scale: 0.92 },
-	visible: { opacity: 1, scale: 1 },
-	exit: { opacity: 0, scale: 0.92 },
-}
-
-const transition = {
-	duration: 0.15,
-	ease: easeOut,
-}
-
 export const ProductList = ({
 	items,
 	isPending,
@@ -42,20 +36,11 @@ export const ProductList = ({
 	className,
 }: Props) => {
 	const { count } = useFiltersCount()
-	const sentinelRef = useRef<HTMLDivElement>(null)
-
-	useEffect(() => {
-		const observer = new IntersectionObserver(
-			entries => {
-				if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-					onLoadMore?.()
-				}
-			},
-			{ threshold: 0.1 },
-		)
-		if (sentinelRef.current) observer.observe(sentinelRef.current)
-		return () => observer.disconnect()
-	}, [hasNextPage, isFetchingNextPage, onLoadMore])
+	const sentinelRef = useInfiniteLoading({
+		hasNextPage,
+		isFetchingNextPage,
+		onLoadMore,
+	})
 
 	return (
 		<>
@@ -88,10 +73,7 @@ export const ProductList = ({
 								initial='hidden'
 								animate='visible'
 								exit='exit'
-								transition={{
-									...transition,
-									delay: (i % 8) * 0.04,
-								}}
+								transition={getCardTransition(i)}
 							>
 								<ProductCardSkeleton />
 							</motion.li>
@@ -105,26 +87,31 @@ export const ProductList = ({
 								initial='hidden'
 								animate='visible'
 								exit='exit'
-								transition={{ ...transition, delay: (i % 8) * 0.04 }}
+								transition={getCardTransition(i)}
 							>
 								<Link href={`/${item.slug}`}>
 									<ProductCard product={item} />
 								</Link>
 							</motion.div>
 						))}
+
+					{isFetchingNextPage &&
+						mockData.map((_, i) => (
+							<motion.li
+								key={`next-skeleton-${i}`}
+								variants={cardVariants}
+								initial='hidden'
+								animate='visible'
+								exit='exit'
+								transition={getCardTransition(i)}
+							>
+								<ProductCardSkeleton />
+							</motion.li>
+						))}
 				</AnimatePresence>
 			</ProductGrid>
 
-			{/* Триггер подгрузки */}
 			<div ref={sentinelRef} className='h-1' />
-
-			{isFetchingNextPage && (
-				<ProductGrid>
-					{mockData.map((_, i) => (
-						<ProductCardSkeleton key={`next-skeleton-${i}`} />
-					))}
-				</ProductGrid>
-			)}
 		</>
 	)
 }
