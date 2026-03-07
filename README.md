@@ -1,36 +1,110 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 👟 Next Sneakers
 
-## Getting Started
+A modern e-commerce web application for browsing and purchasing sneakers.
 
-First, run the development server:
+This project focuses on building a scalable and interactive shopping experience using modern frontend technologies. Users can explore products, filter sneakers by different parameters, view detailed product information, authenticate their accounts, and securely purchase items.
+
+---
+
+# 🌐 Live Demo
+
+🔗 **Application:** https://next-sneakers-kappa.vercel.app/
+
+---
+
+# 🎥 Demo
+
+You can add a video demonstrating the functionality of the application.
+
+https://github.com/user-attachments/assets/74b234c1-390e-4103-a01c-303f1fe84920
+
+---
+
+# 📷 Screenshots
+
+### Desktop
+<img src="https://github.com/user-attachments/assets/5198af72-3b13-4853-a44a-e83bf6dc0163" width="800"/>
+
+### Mobile
+<img src="https://github.com/user-attachments/assets/9f20f889-bf94-4c90-9d52-fab7b00cfa26" width="300"/>
+
+
+---
+
+# 🛠 Tech Stack
+
+### Frontend
+
+* Next.js / React.js
+* TypeScript
+* Tailwind CSS / ShadcnUI
+* Zustand
+* Nuqs
+* Tanstack Query / Axios
+* React Hook Form / Zod
+* Stripe
+* Better auth
+
+### Backend
+
+* API Routes
+* Drizzle ORM
+
+---
+
+
+---
+
+# ⚙️ Getting Started
+
+### 1️⃣ Clone the repository
+
+```bash
+https://github.com/lyubk0/next-sneakers
+```
+
+### 2️⃣ Navigate to the project
+
+```bash
+cd next-sneakers
+```
+
+### 3️⃣ Install dependencies
+
+```bash
+npm install
+```
+
+or
+
+```bash
+pnpm install
+```
+
+### 4️⃣ Run the development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open in browser:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```
+http://localhost:3000
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+# 🚀 Deployment
 
-To learn more about Next.js, take a look at the following resources:
+The easiest way to deploy this application is using **Vercel**.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+vercel deploy
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
