@@ -11,6 +11,7 @@ import {
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { MouseEvent, useState } from 'react'
+import { ProductImageMask } from './product-image-mask'
 
 interface Props {
 	images: string[]
@@ -53,23 +54,13 @@ export const ProductCarousel = ({
 			<CarouselContent className='h-full w-full'>
 				{images.map(img => (
 					<CarouselItem key={img} className='flex justify-center items-center'>
-						<div className='relative  m-10 w-full aspect-square'>
-							{!loadedImages[img] && (
-								<div
-									className='absolute inset-0 animate-pulse'
-									style={{
-										backgroundColor: 'oklch(0.9061 0 0 / 0.7216)',
-										WebkitMaskImage: 'url(/blue-krossi.png)',
-										maskImage: 'url(/blue-krossi.png)',
-										WebkitMaskRepeat: 'no-repeat',
-										maskRepeat: 'no-repeat',
-										WebkitMaskSize: 'contain',
-										maskSize: 'contain',
-										WebkitMaskPosition: 'center',
-										maskPosition: 'center',
-									}}
-								/>
-							)}
+						<div className='relative m-10 w-full aspect-square'>
+							<ProductImageMask
+								className={cn(
+									'transition-opacity duration-300',
+									loadedImages[img] ? 'opacity-0 animate-none' : 'opacity-100',
+								)}
+							/>
 							<Image
 								loading='lazy'
 								src={img}
