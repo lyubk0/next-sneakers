@@ -27,7 +27,6 @@ export const useToggleFavorite = () => {
 				queryKey: favoriteKeys.isFavorite(productId),
 			})
 
-			// Обновляем InfiniteData
 			queryClient.setQueriesData<
 				InfiniteData<{ items: Product[]; nextCursor?: number }>
 			>({ queryKey: productKeys.all }, old => {

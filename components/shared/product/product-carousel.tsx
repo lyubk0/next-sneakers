@@ -57,7 +57,7 @@ export const ProductCarousel = ({
 						<div className='relative m-10 w-full aspect-square'>
 							<ProductImageMask
 								className={cn(
-									'transition-opacity duration-300',
+									'transition-opacity w-full duration-300',
 									loadedImages[img] ? 'opacity-0 animate-none' : 'opacity-100',
 								)}
 							/>
