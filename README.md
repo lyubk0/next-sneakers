@@ -14,8 +14,6 @@ This project focuses on building a scalable and interactive shopping experience 
 
 # 🎥 Demo
 
-You can add a video demonstrating the functionality of the application.
-
 https://github.com/user-attachments/assets/74b234c1-390e-4103-a01c-303f1fe84920
 
 ---
