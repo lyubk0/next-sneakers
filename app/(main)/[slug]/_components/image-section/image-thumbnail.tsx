@@ -1,5 +1,6 @@
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
+import { useState } from 'react'
 
 interface Props {
 	imgUrl?: string
@@ -14,6 +15,8 @@ export const ImageThumbnail = ({
 	onClick,
 	className,
 }: Props) => {
+	const [isLoaded, setIsLoaded] = useState(false)
+
 	return (
 		<div
 			onClick={onClick}
@@ -25,11 +28,14 @@ export const ImageThumbnail = ({
 		>
 			<Image
 				src={imgUrl || '/krossi.png'}
-				alt={''}
+				alt=''
 				height={100}
 				width={100}
-				quality={100}
-				className='w-[70%] h-[70%] object-contain'
+				className={cn(
+					'w-[70%] h-[70%] object-contain transition-[opacity,filter] duration-300',
+					isLoaded ? 'blur-0' : 'blur-md',
+				)}
+				onLoad={() => setIsLoaded(true)}
 			/>
 		</div>
 	)

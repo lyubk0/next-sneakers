@@ -8,7 +8,7 @@ import {
 } from '@/components/ui/accordion'
 import { CheckboxLabel } from '@/components/ui/checkbox-label'
 import { SEXES } from '@/constants/product-constants'
-import { useSexFilter } from '@/hooks/nuqs'
+import { useFilters } from '@/hooks/nuqs'
 import { FiltersTitle } from '../filters-title'
 
 interface Props {
@@ -16,7 +16,7 @@ interface Props {
 }
 
 export const SexesFilterSection = ({ className }: Props) => {
-	const { selectedSexes, toggleSex } = useSexFilter()
+	const { selectedSexes, toggleSex } = useFilters()
 	return (
 		<AccordionItem value='sexes'>
 			<AccordionTrigger>

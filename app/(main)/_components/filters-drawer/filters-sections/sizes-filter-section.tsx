@@ -4,7 +4,7 @@ import {
 	AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { useSizeFilter } from '@/hooks/nuqs/use-size-filters'
+import { useFilters } from '@/hooks/nuqs'
 import { sizeKeys } from '@/hooks/tanstack/sizes-queries'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
@@ -19,7 +19,7 @@ export const SizesFilterSection = ({ className }: Props) => {
 
 	const sizes = queryClient.getQueryData(sizeKeys.all) as string[]
 
-	const { selectedSizes, toggleSize } = useSizeFilter()
+	const { selectedSizes, toggleSize } = useFilters()
 	return (
 		<AccordionItem value='sizes'>
 			<AccordionTrigger>

@@ -32,7 +32,6 @@ export const CartDrawerItem = ({ cartItem, className }: Props) => {
 						alt={cartItem.product.name}
 						width={90}
 						height={90}
-						quality={100}
 					/>
 				</div>
 				<div className='flex flex-col gap-4 h-full flex-1 justify-between'>

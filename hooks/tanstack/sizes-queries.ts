@@ -9,5 +9,6 @@ export const useSizes = () => {
 	return useQuery({
 		queryKey: sizeKeys.all,
 		queryFn: () => ApiClient.sizes.getAll(),
+		staleTime: Infinity,
 	})
 }

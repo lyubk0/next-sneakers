@@ -5,7 +5,7 @@ import BrandChips from '@/app/(main)/_components/brands-chips'
 import { Skeleton } from '@/components/ui/skeleton'
 import { ToggleTabs } from '@/components/ui/toggle-tabs'
 import { SEXES } from '@/constants/product-constants'
-import { useSexFilter } from '@/hooks/nuqs/use-sex-filter'
+import { useFilters } from '@/hooks/nuqs/filters/use-filters'
 import { useBrands } from '@/hooks/tanstack/brand-queries'
 import { useColors } from '@/hooks/tanstack/color-queries'
 import { useSizes } from '@/hooks/tanstack/sizes-queries'
@@ -26,12 +26,10 @@ export const TopBar = ({ className }: Props) => {
 	const { isPending: isSizesPending } = useSizes()
 
 	const { count } = useFiltersCount()
-
 	const { toggle } = useFiltersModalStore()
-
-	const { selectedSexes, selectSingleSex, clearSexes } = useSexFilter()
-
 	const { isMobile } = useIsMobile()
+
+	const { selectedSexes, selectSingleSex, clearSexes } = useFilters()
 
 	const handleSexChange = (value: Sex | 'all') => {
 		if (value === 'all') {

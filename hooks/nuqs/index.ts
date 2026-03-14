@@ -1,3 +1,2 @@
-export { useBrandsFilter } from './use-brands-filter'
-export { usePriceRangeFilter } from './use-price-range-filter'
-export { useSexFilter } from './use-sex-filter'
+export { useFilters } from './filters/use-filters'
+export { useResetFilters } from './filters/use-reset-filters'

@@ -7,12 +7,10 @@ import {
 	CommandEmpty,
 	CommandGroup,
 	CommandInput,
-	CommandItem,
 	CommandList,
 } from '@/components/ui/command'
-import { Title } from '@/components/ui/title'
-import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { SearchCommandItem } from './search-command-item'
 
 interface Props {
 	open: boolean
@@ -64,42 +62,14 @@ export const SearchCommand = ({
 						searchValue === debouncedSearchValue && (
 							<CommandEmpty>
 								No sneakers matched{' '}
-								<span className='font-semibold'>
-									`&quot;{searchValue}`&quot;
-								</span>
+								<span className='font-semibold'>&quot;{searchValue}&quot;</span>
 							</CommandEmpty>
 						)}
 
 					{searchResults && searchResults.length > 0 && (
 						<CommandGroup>
 							{searchResults.map(product => (
-								<CommandItem
-									onSelect={() => handleSelect(product.slug)}
-									key={product.id}
-								>
-									<div className='flex gap-4'>
-										<div className='bg-muted rounded-xl aspect-square w-[90px] shrink-0 flex items-center justify-center'>
-											<Image
-												src={product.images[0]}
-												alt={product.name}
-												width={70}
-												height={70}
-												quality={100}
-											/>
-										</div>
-										<div className='flex gap-1 flex-col'>
-											<Title
-												size='xs'
-												className='font-semibold tracking-[0.014em] !text-sm'
-											>
-												{product.name}
-											</Title>
-											<span className='text-sm font-semibold'>
-												${product.price}
-											</span>
-										</div>
-									</div>
-								</CommandItem>
+								<SearchCommandItem product={product} onSelect={handleSelect} />
 							))}
 						</CommandGroup>
 					)}

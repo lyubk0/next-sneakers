@@ -1,9 +1,9 @@
-import { usePriceRangeFilter } from '@/hooks/nuqs'
+import { useFilters } from '@/hooks/nuqs'
 import { useDebounce } from '@/hooks/use-debounce'
 import { useEffect, useState } from 'react'
 
 export const useLocalPriceRange = () => {
-	const { priceFrom, priceTo, setPriceRange } = usePriceRangeFilter()
+	const { priceFrom, priceTo, setPriceRange } = useFilters()
 	const [localPrice, setLocalPrice] = useState<[number, number]>([
 		Number(priceFrom) || 0,
 		Number(priceTo) || 1000,

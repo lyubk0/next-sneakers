@@ -32,6 +32,7 @@
 		"@smastrom/react-rating": "^1.5.0",
 		"@tabler/icons-react": "^3.35.0",
 		"@tanstack/react-query": "^5.90.2",
+		"@tanstack/react-query-devtools": "^5.91.3",
 		"axios": "^1.13.2",
 		"better-auth": "^1.5.4",
 		"calligraph": "^1.2.0",

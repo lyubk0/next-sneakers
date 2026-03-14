@@ -42,7 +42,6 @@ export const useProductsByGroup = (groupSlug: string) => {
 	return useQuery({
 		queryKey: productKeys.group(groupSlug),
 		queryFn: () => ApiClient.product.getProductsByGroupSlug(groupSlug),
-		staleTime: Infinity,
 		enabled: !!groupSlug,
 	})
 }

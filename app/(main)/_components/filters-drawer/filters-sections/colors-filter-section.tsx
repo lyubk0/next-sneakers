@@ -4,7 +4,7 @@ import {
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion'
-import { useColorsFilter } from '@/hooks/nuqs/use-colors-filter'
+import { useFilters } from '@/hooks/nuqs/filters/use-filters'
 import { colorKeys } from '@/hooks/tanstack/color-queries'
 import { useQueryClient } from '@tanstack/react-query'
 import { FiltersColorChip } from '../filters-color-chip'
@@ -19,7 +19,8 @@ export const ColorsFilterSection = ({ className }: Props) => {
 
 	const colors = queryClient.getQueryData(colorKeys.all) as Color[]
 
-	const { selectedColors, toggleColor } = useColorsFilter()
+	const { selectedColors, toggleColor } = useFilters()
+
 	return (
 		<AccordionItem value='colors'>
 			<AccordionTrigger>

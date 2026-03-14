@@ -11,7 +11,6 @@ import {
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
 import { MouseEvent, useState } from 'react'
-import { ProductImageMask } from './product-image-mask'
 
 interface Props {
 	images: string[]
@@ -40,6 +39,7 @@ export const ProductCarousel = ({
 		<Carousel
 			className={cn(
 				'relative group-hover/card:bg-[#f0f0f0] duration-100 ease-out select-none bg-muted flex justify-center items-center rounded-2xl aspect-square',
+				className,
 			)}
 			opts={{ align: 'start', watchDrag: true, duration: 15 }}
 			setApi={setApi}
@@ -55,20 +55,14 @@ export const ProductCarousel = ({
 				{images.map(img => (
 					<CarouselItem key={img} className='flex justify-center items-center'>
 						<div className='relative m-10 w-full aspect-square'>
-							<ProductImageMask
-								className={cn(
-									'transition-opacity w-full duration-300',
-									loadedImages[img] ? 'opacity-0 animate-none' : 'opacity-100',
-								)}
-							/>
 							<Image
 								loading='lazy'
 								src={img}
-								alt={''}
+								alt=''
 								fill
 								className={cn(
-									'object-contain transition-opacity duration-300',
-									loadedImages[img] ? 'opacity-100' : 'opacity-0',
+									'object-contain transition-[opacity,filter] duration-300',
+									loadedImages[img] ? 'blur-0' : 'blur-md',
 								)}
 								onLoad={() =>
 									setLoadedImages(prev => ({ ...prev, [img]: true }))

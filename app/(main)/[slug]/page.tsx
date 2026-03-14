@@ -5,15 +5,13 @@ import { generateProductMetadata } from '@/lib/metadata/generate-product-metadat
 import { ApiServer } from '@/services/api-server'
 import { Metadata } from 'next'
 import { notFound } from 'next/navigation'
+import { Suspense } from 'react'
 import { ImageSectionWrapper } from './_components/image-section/image-section-wrapper'
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
 	const { slug } = await params
 	return generateProductMetadata(slug)
 }
-
-export const revalidate = false
-export const dynamic = 'force-dynamic'
 
 export async function generateStaticParams() {
 	const products = await db.query.product.findMany({
@@ -36,8 +34,6 @@ export default async function ProductPage({ params }: Props) {
 		productSlug: slug,
 	})
 
-	console.log(product)
-
 	if (!product) {
 		notFound()
 	}
@@ -45,8 +41,12 @@ export default async function ProductPage({ params }: Props) {
 	return (
 		<Container className='max-w-[1280px] pb-4'>
 			<div className='flex flex-col md:flex-row gap-10'>
-				<ImageSectionWrapper product={product} />
-				<DetailsSection product={product} />
+				<Suspense fallback={null}>
+					<ImageSectionWrapper product={product} />
+				</Suspense>
+				<Suspense fallback={null}>
+					<DetailsSection product={product} />
+				</Suspense>
 			</div>
 		</Container>
 	)

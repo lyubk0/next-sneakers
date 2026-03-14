@@ -35,7 +35,6 @@ export const ProductVariant = ({
 				alt={''}
 				height={100}
 				width={100}
-				quality={100}
 				className={cn(
 					'w-[70%] h-[70%] object-contain transition-opacity duration-300',
 					isLoaded ? 'opacity-100' : 'opacity-0',

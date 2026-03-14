@@ -2,6 +2,7 @@
 
 import { TooltipProvider } from '@/components/ui/tooltip'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { PropsWithChildren } from 'react'
 import { Toaster } from 'react-hot-toast'
@@ -10,10 +11,18 @@ interface Props {
 	className?: string
 }
 
+const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			staleTime: 1000 * 60 * 5,
+		},
+	},
+})
+
 export const Providers = ({ children }: PropsWithChildren<Props>) => {
-	const queryClient = new QueryClient()
 	return (
 		<QueryClientProvider client={queryClient}>
+			<ReactQueryDevtools initialIsOpen={false} />
 			<TooltipProvider>
 				<Toaster
 					position='bottom-center'

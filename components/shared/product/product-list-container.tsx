@@ -1,13 +1,7 @@
 'use client'
 
 import { ProductList } from '@/components/shared/product/product-list'
-import {
-	useBrandsFilter,
-	usePriceRangeFilter,
-	useSexFilter,
-} from '@/hooks/nuqs'
-import { useColorsFilter } from '@/hooks/nuqs/use-colors-filter'
-import { useSizeFilter } from '@/hooks/nuqs/use-size-filters'
+import { useFilters } from '@/hooks/nuqs/filters/use-filters'
 import { useProducts } from '@/hooks/tanstack/product-queries'
 import { cn } from '@/lib/utils'
 import { useEffect } from 'react'
@@ -17,11 +11,14 @@ interface Props {
 }
 
 export const ProductListContainer = ({ className }: Props) => {
-	const { selectedBrandsQuery } = useBrandsFilter()
-	const { selectedSexes } = useSexFilter()
-	const { priceFrom, priceTo } = usePriceRangeFilter()
-	const { selectedSizes } = useSizeFilter()
-	const { selectedColors } = useColorsFilter()
+	const {
+		selectedBrandsQuery,
+		selectedSexes,
+		priceFrom,
+		priceTo,
+		selectedSizes,
+		selectedColors,
+	} = useFilters()
 
 	const { data, isPending, isFetchingNextPage, hasNextPage, fetchNextPage } =
 		useProducts({
