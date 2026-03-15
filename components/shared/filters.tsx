@@ -3,11 +3,11 @@
 import { Accordion } from '@/components/ui/accordion'
 import { cn } from '@/lib/utils'
 import { useIsFetching } from '@tanstack/react-query'
-import { BrandsFilterSection } from './filters-sections/brands-filter-section'
-import { ColorsFilterSection } from './filters-sections/colors-filter-section'
-import { PriceRangeFilterSection } from './filters-sections/price-range-filter-section'
-import { SexesFilterSection } from './filters-sections/sexes-filter-section'
-import { SizesFilterSection } from './filters-sections/sizes-filter-section'
+import { BrandsFilterSection } from '../../app/(main)/_components/filters-drawer/filters-sections/brands-filter-section'
+import { ColorsFilterSection } from '../../app/(main)/_components/filters-drawer/filters-sections/colors-filter-section'
+import { PriceRangeFilterSection } from '../../app/(main)/_components/filters-drawer/filters-sections/price-range-filter-section'
+import { SexesFilterSection } from '../../app/(main)/_components/filters-drawer/filters-sections/sexes-filter-section'
+import { SizesFilterSection } from '../../app/(main)/_components/filters-drawer/filters-sections/sizes-filter-section'
 
 interface Props {
 	className?: string

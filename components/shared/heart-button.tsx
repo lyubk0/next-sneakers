@@ -31,7 +31,7 @@ export const HeartButton = ({
 			navigator.vibrate?.(30)
 		}
 
-		await toggleFavorite(productId)
+		toggleFavorite(productId)
 	}
 
 	return (

@@ -14,7 +14,7 @@ import useIsMobile from '@/hooks/use-is-mobile'
 import { useFiltersModalStore } from '@/store/use-filters-modal-store'
 import { Container } from '../../container'
 import { FiltersButton } from './filters-button'
-import { FiltersDrawer } from './filters-drawer'
+import { FiltersDrawerMobile } from './filters-drawer-mobile'
 
 interface Props {
 	className?: string
@@ -67,9 +67,9 @@ export const TopBar = ({ className }: Props) => {
 					{isColorsPending || isSizesPending || isBrandsPending ? (
 						<Skeleton className='w-[80px] rounded-full ml-auto h-9' />
 					) : isMobile ? (
-						<FiltersDrawer>
+						<FiltersDrawerMobile>
 							<FiltersButton className='px-0' filtersCount={count} />
-						</FiltersDrawer>
+						</FiltersDrawerMobile>
 					) : (
 						<FiltersButton filtersCount={count} onClick={() => toggle()} />
 					)}

@@ -1,21 +1,19 @@
-import { Filters } from '@/app/(main)/_components/filters-drawer/filters'
 import {
 	Drawer,
 	DrawerClose,
 	DrawerContent,
 	DrawerFooter,
-	DrawerHeader,
-	DrawerTitle,
 	DrawerTrigger,
 } from '@/components/ui/drawer'
 import { cn } from '@/lib/utils'
 import { PropsWithChildren } from 'react'
+import { FiltersDrawerContent } from '../../filters-drawer-content'
 
 interface Props {
 	className?: string
 }
 
-export const FiltersDrawer = ({
+export const FiltersDrawerMobile = ({
 	className,
 	children,
 }: PropsWithChildren<Props>) => {
@@ -25,12 +23,9 @@ export const FiltersDrawer = ({
 				{children}
 			</DrawerTrigger>
 			<DrawerContent className='h-[80%]'>
-				<DrawerHeader>
-					<DrawerTitle>Filters</DrawerTitle>
-				</DrawerHeader>
-				<Filters />
+				<FiltersDrawerContent />
 				<DrawerFooter>
-					<DrawerClose></DrawerClose>
+					<DrawerClose />
 				</DrawerFooter>
 			</DrawerContent>
 		</Drawer>
