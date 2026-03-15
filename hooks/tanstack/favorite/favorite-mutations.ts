@@ -5,8 +5,14 @@ import {
 	useMutation,
 	useQueryClient,
 } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
 import { productKeys } from '../product-queries'
 import { favoriteKeys } from './favorite-queries'
+
+type ProductsInfinite = InfiniteData<{
+	items: Product[]
+	nextCursor?: number
+}>
 
 export const useToggleFavorite = () => {
 	const queryClient = useQueryClient()
@@ -16,60 +22,52 @@ export const useToggleFavorite = () => {
 
 		onMutate: async (productId: number) => {
 			await queryClient.cancelQueries({ queryKey: productKeys.all })
-			await queryClient.cancelQueries({
-				queryKey: favoriteKeys.isFavorite(productId),
-			})
 
-			const previousProducts = queryClient.getQueriesData({
+			const previousProducts = queryClient.getQueriesData<ProductsInfinite>({
 				queryKey: productKeys.all,
 			})
-			const previousProduct = queryClient.getQueriesData({
-				queryKey: favoriteKeys.isFavorite(productId),
-			})
 
-			queryClient.setQueriesData<
-				InfiniteData<{ items: Product[]; nextCursor?: number }>
-			>({ queryKey: productKeys.all }, old => {
-				if (!old?.pages) return old
-				return {
-					...old,
-					pages: old.pages.map(page => ({
-						...page,
-						items: page.items.map(p =>
-							p.id === productId ? { ...p, isFavorite: !p.isFavorite } : p,
-						),
-					})),
-				}
-			})
+			const previousFavorite = queryClient.getQueryData<Product>(
+				favoriteKeys.isFavorite(productId),
+			)
 
-			queryClient.setQueriesData<Product>(
-				{ queryKey: favoriteKeys.isFavorite(productId) },
+			// optimistic update
+			queryClient.setQueriesData<ProductsInfinite>(
+				{ queryKey: productKeys.all },
+				old => {
+					if (!old?.pages) return old
+
+					return {
+						...old,
+						pages: old.pages.map(page => ({
+							...page,
+							items: page.items.map(p =>
+								p.id === productId ? { ...p, isFavorite: !p.isFavorite } : p,
+							),
+						})),
+					}
+				},
+			)
+
+			queryClient.setQueryData<Product>(
+				favoriteKeys.isFavorite(productId),
 				old => (old ? { ...old, isFavorite: !old.isFavorite } : old),
 			)
 
-			return { previousProducts, previousProduct }
+			return { previousProducts, previousFavorite }
 		},
 
-		onSuccess: (data, productId) => {
-			queryClient.setQueriesData<
-				InfiniteData<{ items: Product[]; nextCursor?: number }>
-			>({ queryKey: productKeys.all }, old => {
-				if (!old?.pages) return old
-				return {
-					...old,
-					pages: old.pages.map(page => ({
-						...page,
-						items: page.items.map(p =>
-							p.id === productId ? { ...p, isFavorite: data.added } : p,
-						),
-					})),
-				}
+		onError: (_, productId, context) => {
+			context?.previousProducts.forEach(([key, data]) => {
+				queryClient.setQueryData(key, data)
 			})
 
-			queryClient.setQueriesData<Product>(
-				{ queryKey: favoriteKeys.isFavorite(productId) },
-				old => (old ? { ...old, isFavorite: data.added } : old),
+			queryClient.setQueryData(
+				favoriteKeys.isFavorite(productId),
+				context?.previousFavorite,
 			)
+
+			toast.error('Failed to toggle favorite')
 		},
 	})
 }

@@ -245,8 +245,8 @@ function CarouselDots({ className, ...props }: React.ComponentProps<'div'>) {
 	return (
 		<div
 			className={cn(
-				'absolute bottom-4 left-1/2 !opacity-100 -translate-x-1/2 rounded-full flex justify-center gap-1',
-				'md:!opacity-0 md:group-hover:!opacity-100 md:left-4 md:translate-x-0 md:top-0 md:transition-opacity md:duration-200',
+				'absolute bottom-4 h-max left-1/2 !opacity-100 -translate-x-1/2 rounded-full flex justify-center gap-1',
+				'md:!opacity-0 md:group-hover:!opacity-100  md:left-4 md:translate-x-0 md:top-0 md:transition-opacity md:duration-200',
 				className,
 			)}
 			data-slot='carousel-dots'

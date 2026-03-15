@@ -29,10 +29,12 @@ export const Providers = ({ children }: PropsWithChildren<Props>) => {
 					reverseOrder={false}
 					toastOptions={{
 						style: {
-							borderRadius: '99px',
+							color: 'white',
+							fontSize: '14px',
+							borderRadius: '18px',
 							border: 'none',
-							background: 'white',
-							backgroundColor: 'white',
+							background: 'rgb(26 26 26)',
+							backgroundColor: 'rgb(26 26 26)',
 							boxShadow: `
         0 0 15px rgba(0, 0, 0, 0.031),
         0 2px 30px rgba(0, 0, 0, 0.078),

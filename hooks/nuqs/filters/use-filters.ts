@@ -6,6 +6,17 @@ import { filtersSchema } from './filters-schema'
 export const useFilters = () => {
 	const [filters, setFilters] = useQueryStates(filtersSchema)
 
+	const resetFilters = () => {
+		setFilters({
+			sizes: null,
+			colors: null,
+			priceFrom: null,
+			priceTo: null,
+			sex: null,
+			brands: null,
+		})
+	}
+
 	// --- Sizes ---
 	const toggleSize = (size: string) => {
 		setFilters(prev => {
@@ -61,6 +72,7 @@ export const useFilters = () => {
 	}
 
 	return {
+		resetFilters,
 		setFilters,
 		// Sizes
 		selectedSizes: filters.sizes ?? [],
