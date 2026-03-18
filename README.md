@@ -12,7 +12,7 @@ This project focuses on building a scalable and interactive shopping experience 
 
 ---
 
-# 🎥 Demo
+# 🎥 Demo (Demo screenshots and videos may not reflect the current version of the website)
 
 https://github.com/user-attachments/assets/74b234c1-390e-4103-a01c-303f1fe84920
 
