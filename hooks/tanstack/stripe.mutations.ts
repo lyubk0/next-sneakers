@@ -6,7 +6,7 @@ import toast from 'react-hot-toast'
 export const useCreateCheckoutSession = () => {
 	return useMutation({
 		mutationFn: async (cart: Cart) => {
-			await createCheckoutSession(cart)
+			return await createCheckoutSession(cart)
 		},
 		onError: () => {
 			toast.error("Can't create checkout for you right now")
