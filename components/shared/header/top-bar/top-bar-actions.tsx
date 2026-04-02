@@ -26,21 +26,21 @@ export const TopBarActions = ({ className }: Props) => {
 
 	const isLoading = isBrandsPending || isColorsPending || isSizesPending
 
-	const FiltersAction = () => {
-		if (isLoading)
-			return <Skeleton className='w-[80px] rounded-full ml-auto h-8' />
-		if (isMobile)
-			return (
-				<FiltersDrawerMobile>
-					<FiltersButton className='px-0' filtersCount={count} />
-				</FiltersDrawerMobile>
-			)
-		return <FiltersButton filtersCount={count} onClick={toggle} />
-	}
-
 	return (
 		<div className='flex h-9 items-center gap-2 justify-between'>
-			<FiltersAction />
+			{isLoading ? (
+				<Skeleton className='w-[80px] rounded-full ml-auto h-8' />
+			) : isMobile ? (
+				<>
+					<FiltersDrawerMobile>
+						{' '}
+						<FiltersButton className='px-0' filtersCount={count} />
+					</FiltersDrawerMobile>
+				</>
+			) : (
+				<FiltersButton filtersCount={count} onClick={toggle} />
+			)}
+
 			<Separator orientation='vertical' />
 			<SortButton />
 		</div>
