@@ -1,7 +1,7 @@
 import { ALL_SEXES_VALUES } from '@/constants/filters.constants'
 import { Sex } from '@/constants/product.constants'
 import { useQueryStates } from 'nuqs'
-import { filtersSchema } from './filters-schema'
+import { filtersSchema } from './search-params.nuqs'
 
 export const useFilters = () => {
 	const [filters, setFilters] = useQueryStates(filtersSchema)

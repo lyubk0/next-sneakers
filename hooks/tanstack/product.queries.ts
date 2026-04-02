@@ -15,8 +15,15 @@ interface ProductFilters {
 export const productKeys = {
 	all: ['products'] as const,
 	lists: () => [...productKeys.all, 'list'] as const,
-	filtered: (filters: ProductFilters & { sort?: SortValue; page?: number }) =>
-		[...productKeys.lists(), filters] as const,
+	filtered: (filters: ProductFilters & { sort?: SortValue; page?: number }) => {
+		const { sexes, sizes, brands, colors, priceFrom, priceTo, sort, page } =
+			filters
+		return [
+			...productKeys.lists(),
+			{ sexes, sizes, brands, colors, priceFrom, priceTo, sort, page },
+		] as const
+	},
+
 	group: (groupSlug: string) =>
 		[...productKeys.all, 'group', groupSlug] as const,
 }
@@ -24,11 +31,11 @@ export const productKeys = {
 export const useProducts = ({
 	brands = [],
 	sexes = [],
-	priceFrom,
-	priceTo,
+	priceFrom = 0,
+	priceTo = 1000,
 	sizes = [],
 	colors = [],
-	sort,
+	sort = 'recommended',
 	page = 1,
 }: ProductFilters & { sort?: SortValue; page?: number }) => {
 	const filters = {

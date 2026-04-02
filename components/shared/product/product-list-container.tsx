@@ -29,8 +29,8 @@ export const ProductListContainer = ({ className }: Props) => {
 	const { data, isPending } = useProducts({
 		brands: selectedBrandsQuery || [],
 		sexes: selectedSexes,
-		priceFrom: priceFrom || undefined,
-		priceTo: priceTo || undefined,
+		priceFrom: priceFrom,
+		priceTo: priceTo,
 		sizes: selectedSizes,
 		colors: selectedColors,
 		sort,
