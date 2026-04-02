@@ -65,7 +65,10 @@ export const ProductListContainer = ({ className }: Props) => {
 				<PaginationControl
 					page={page}
 					totalPages={data?.pagination.totalPages ?? 1}
-					onPageChange={setPage}
+					onPageChange={page => {
+						window.scrollTo({ top: 0, behavior: 'smooth' })
+						setPage(page)
+					}}
 					className='mt-8 mb-4'
 				/>
 			) : null}
