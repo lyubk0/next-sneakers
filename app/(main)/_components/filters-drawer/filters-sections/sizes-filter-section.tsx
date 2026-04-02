@@ -1,11 +1,13 @@
+'use client'
+
 import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion'
 import { Button } from '@/components/ui/button'
-import { useFilters } from '@/hooks/nuqs'
-import { sizeKeys } from '@/hooks/tanstack/sizes-queries'
+import { useFilters } from '@/hooks/nuqs/filters/use-filters'
+import { sizeKeys } from '@/hooks/tanstack/sizes.queries'
 import { cn } from '@/lib/utils'
 import { useQueryClient } from '@tanstack/react-query'
 import { FiltersTitle } from '../filters-title'
@@ -29,7 +31,6 @@ export const SizesFilterSection = ({ className }: Props) => {
 				<div className='grid grid-cols-5 gap-2'>
 					{sizes?.map(size => (
 						<Button
-							isScaled={false}
 							onClick={() => toggleSize(size)}
 							key={size}
 							className={cn(

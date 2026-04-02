@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button'
 import { Checkbox } from '@/components/ui/checkbox'
 import { ErrorText } from '@/components/ui/error-text'
-import { useSignIn } from '@/hooks/tanstack/auth-mutations'
+import { useSignIn } from '@/hooks/tanstack/auth.mutations'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { LockPasswordIcon, Mail01Icon } from '@hugeicons/core-free-icons'

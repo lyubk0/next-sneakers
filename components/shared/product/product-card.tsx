@@ -1,7 +1,7 @@
 'use client'
 
-import { Product } from '@/@types/product'
-import { useCarouselSync } from '@/hooks/use-carousel-sync'
+import { Product } from '@/@types/product.types'
+import { useCarouselSync } from '@/hooks/use-carousel-sync.hooks'
 import { cn } from '@/lib/utils'
 import { motion } from 'motion/react'
 import { MouseEvent } from 'react'
@@ -27,6 +27,7 @@ export const ProductCard = ({ product, className }: Props) => {
 		>
 			<ProductCarousel
 				images={product.images}
+				productTitle={product.name}
 				productId={product.id}
 				isFavorite={product.isFavorite || false}
 				setApi={setApi}

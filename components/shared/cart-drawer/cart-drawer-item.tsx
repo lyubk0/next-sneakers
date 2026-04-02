@@ -1,7 +1,7 @@
-import { CartItem as CartItemType } from '@/@types/cart-item-types'
+import { CartItem as CartItemType } from '@/@types/cart-item.types'
 
 import { CartItemCounter } from '@/components/shared/cart-drawer/cart-item-counter'
-import { useRemoveCartItem } from '@/hooks/tanstack/cart/cart-mutations'
+import { useRemoveCartItem } from '@/hooks/tanstack/cart/cart.mutations'
 import { cn } from '@/lib/utils'
 import { Trash } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'

@@ -2,7 +2,6 @@
 
 import { Accordion } from '@/components/ui/accordion'
 import { cn } from '@/lib/utils'
-import { useIsFetching } from '@tanstack/react-query'
 import { BrandsFilterSection } from '../../app/(main)/_components/filters-drawer/filters-sections/brands-filter-section'
 import { ColorsFilterSection } from '../../app/(main)/_components/filters-drawer/filters-sections/colors-filter-section'
 import { PriceRangeFilterSection } from '../../app/(main)/_components/filters-drawer/filters-sections/price-range-filter-section'
@@ -14,16 +13,8 @@ interface Props {
 }
 
 export const Filters = ({ className }: Props) => {
-	const isFetching = useIsFetching({ queryKey: ['products'] }) > 0
-
 	return (
-		<div
-			className={cn(
-				className,
-				'flex flex-col ',
-				isFetching && 'pointer-events-none opacity-50',
-			)}
-		>
+		<div className={cn(className, 'flex flex-col ')}>
 			<Accordion type='multiple'>
 				<SexesFilterSection />
 				<BrandsFilterSection />

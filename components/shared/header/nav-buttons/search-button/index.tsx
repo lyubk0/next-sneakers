@@ -1,5 +1,6 @@
-import { useSearchProducts } from '@/hooks/tanstack/search-products-queries'
-import { useDebounce } from '@/hooks/use-debounce'
+import { useDefaultProducts } from '@/hooks/tanstack/product.queries'
+import { useSearchProducts } from '@/hooks/tanstack/search-products.queries'
+import { useDebounce } from '@/hooks/use-debounce.hooks'
 import { FavouriteIcon, Search01Icon } from '@hugeicons/core-free-icons'
 import Link from 'next/link'
 import { useState } from 'react'
@@ -14,20 +15,26 @@ export const SearchButton = ({ className }: Props) => {
 	const [open, setOpen] = useState(false)
 	const [searchValue, setSearchValue] = useState('')
 
-	const debouncedSearch = useDebounce(searchValue, 400)
+	const debouncedSearchValue = useDebounce(searchValue, 400)
 
-	const { data: searchResults, isFetching } = useSearchProducts(debouncedSearch)
+	const { data: searchResults, isFetching } =
+		useSearchProducts(debouncedSearchValue)
+	const { data: defaultProducts, isFetching: isDefaultFetching } =
+		useDefaultProducts()
 
+	const results = searchValue ? searchResults : defaultProducts?.items
+	const isLoading =
+		isFetching || isDefaultFetching || searchValue !== debouncedSearchValue
 	return (
 		<>
 			<SearchCommand
 				open={open}
 				setOpen={setOpen}
 				searchValue={searchValue}
-				searchResults={searchResults}
+				searchResults={results}
 				setSearchValue={setSearchValue}
-				isLoading={isFetching}
-				debouncedSearchValue={debouncedSearch}
+				isLoading={isLoading}
+				debouncedSearchValue={debouncedSearchValue}
 			/>
 			<NavButton onClick={() => setOpen(true)} Icon={Search01Icon} />
 			<Link href='/favorites'>

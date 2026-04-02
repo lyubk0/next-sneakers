@@ -1,6 +1,6 @@
 'use client'
 
-import { useToggleFavorite } from '@/hooks/tanstack/favorite/favorite-mutations'
+import { useToggleFavorite } from '@/hooks/tanstack/favorite/favorite.mutations'
 import { cn } from '@/lib/utils'
 import { FavouriteIcon } from '@hugeicons/core-free-icons'
 import { HugeiconsIcon } from '@hugeicons/react'

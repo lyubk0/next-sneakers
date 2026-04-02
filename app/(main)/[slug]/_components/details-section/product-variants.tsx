@@ -1,4 +1,4 @@
-import { useProductsByGroup } from '@/hooks/tanstack/product-queries'
+import { useProductsByGroup } from '@/hooks/tanstack/product.queries'
 import { cn } from '@/lib/utils'
 import Link from 'next/link'
 import { ProductVariant } from './product-variant'

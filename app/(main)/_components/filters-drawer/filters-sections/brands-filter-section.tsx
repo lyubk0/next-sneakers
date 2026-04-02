@@ -1,14 +1,14 @@
 'use client'
 
-import { Brand } from '@/@types/brand-types'
+import { Brand } from '@/@types/brand.types'
 import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion'
 import { CheckboxLabel } from '@/components/ui/checkbox-label'
-import { brandKeys } from '@/hooks/tanstack/brand-queries'
-import { useBrandsMultiselect } from '@/hooks/use-brands-multiselect'
+import { brandKeys } from '@/hooks/tanstack/brand.queries'
+import { useBrandsMultiselect } from '@/hooks/use-brands-multiselect.hooks'
 import { useQueryClient } from '@tanstack/react-query'
 import { FiltersTitle } from '../filters-title'
 

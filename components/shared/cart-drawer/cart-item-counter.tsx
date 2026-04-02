@@ -1,6 +1,6 @@
 'use client'
 
-import { useUpdateCartItemQuantity } from '@/hooks/tanstack/cart/cart-mutations'
+import { useUpdateCartItemQuantity } from '@/hooks/tanstack/cart/cart.mutations'
 import { cn } from '@/lib/utils'
 import { IconMinus, IconPlus } from '@tabler/icons-react'
 

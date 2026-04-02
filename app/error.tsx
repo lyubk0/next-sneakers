@@ -1,7 +1,7 @@
 'use client' // Error boundaries must be Client Components
 
 import { SomethingWentWrong } from '@/components/shared/something-went-wrong'
-import { ANIMATED_EMOJIS } from '@/constants/animated-emojis-constant'
+import { ANIMATED_EMOJIS } from '@/constants/animated-emojis.constants'
 import { useEffect } from 'react'
 
 export default function ErrorPage({

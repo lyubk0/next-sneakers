@@ -1,4 +1,4 @@
-import { Product } from '@/@types/product'
+import { Product } from '@/@types/product.types'
 import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
@@ -25,7 +25,6 @@ export const ProductSizeSelector = ({
 			{product.sizes.map(s => (
 				<Button
 					key={s.id}
-					isScaled={false}
 					onClick={() => setSize(s.eur_size as string)}
 					className={cn(
 						'size-10 !w-13 text-foreground font-semibold text-center bg-transparent rounded-md border-border hover:bg-transparent  border-2',

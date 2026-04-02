@@ -7,8 +7,8 @@ import {
 } from '@/components/ui/accordion'
 import { Input } from '@/components/ui/input'
 import { Slider } from '@/components/ui/slider'
+import { useLocalPriceRange } from '../../../../../hooks/use-local-price-range.hooks'
 import { FiltersTitle } from '../filters-title'
-import { useLocalPriceRange } from './use-local-price-range-hook'
 
 interface Props {
 	className?: string

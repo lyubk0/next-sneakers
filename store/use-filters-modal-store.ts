@@ -5,7 +5,7 @@ interface FiltersDrawerState {
 	toggle: (open?: boolean) => void
 }
 
-export const useFiltersModalStore = create<FiltersDrawerState>()(set => ({
+export const useFiltersDrawerStore = create<FiltersDrawerState>()(set => ({
 	open: false,
 	toggle: open => {
 		if (open) return set({ open })

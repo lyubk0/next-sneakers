@@ -1,4 +1,4 @@
-import { Header } from '@/components/shared/header'
+import { Header } from '@/components/shared/header/header'
 import { Metadata } from 'next'
 import { ReactNode } from 'react'
 

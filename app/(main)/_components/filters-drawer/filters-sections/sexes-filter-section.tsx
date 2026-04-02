@@ -1,14 +1,13 @@
 'use client'
 
-import { Sex } from '@/@types/product'
 import {
 	AccordionContent,
 	AccordionItem,
 	AccordionTrigger,
 } from '@/components/ui/accordion'
 import { CheckboxLabel } from '@/components/ui/checkbox-label'
-import { SEXES } from '@/constants/product-constants'
-import { useFilters } from '@/hooks/nuqs'
+import { Sex, SEXES } from '@/constants/product.constants'
+import { useFilters } from '@/hooks/nuqs/filters/use-filters'
 import { FiltersTitle } from '../filters-title'
 
 interface Props {

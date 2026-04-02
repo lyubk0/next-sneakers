@@ -2,8 +2,8 @@
 
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { useBrands } from '@/hooks/tanstack/brand-queries'
-import { useBrandsMultiselect } from '@/hooks/use-brands-multiselect'
+import { useBrands } from '@/hooks/tanstack/brand.queries'
+import { useBrandsMultiselect } from '@/hooks/use-brands-multiselect.hooks'
 
 const mockBrands = [...Array(3)]
 
@@ -13,7 +13,7 @@ export default function BrandChips() {
 		useBrandsMultiselect(brands || [])
 
 	return (
-		<div className='flex overflow-x-auto no-scrollbar gap-4'>
+		<div className='flex items-center gap-4 '>
 			{isPending &&
 				mockBrands.map((_, i) => (
 					<Skeleton key={i} className='h-9 w-24 rounded-full' />

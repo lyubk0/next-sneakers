@@ -1,11 +1,10 @@
-import { Sex } from '@/@types/product'
-import { ALL_SEXES_VALUES } from '@/constants/filters-constants'
+import { ALL_SEXES_VALUES } from '@/constants/filters.constants'
+import { Sex } from '@/constants/product.constants'
 import { useQueryStates } from 'nuqs'
 import { filtersSchema } from './filters-schema'
 
 export const useFilters = () => {
 	const [filters, setFilters] = useQueryStates(filtersSchema)
-
 	const resetFilters = () => {
 		setFilters({
 			sizes: null,

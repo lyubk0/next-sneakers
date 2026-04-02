@@ -1,7 +1,7 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
-import { useSignUp } from '@/hooks/tanstack/auth-mutations'
+import { useSignUp } from '@/hooks/tanstack/auth.mutations'
 import { cn } from '@/lib/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {

@@ -1,5 +1,5 @@
-import { product } from 'db/schema/product'
-import { size } from 'db/schema/size'
+import { product } from '@/db/schema/product.schema'
+import { size } from '@/db/schema/size.schema'
 import 'dotenv/config'
 import fs from 'fs'
 import { db } from './drizzle'

@@ -1,7 +1,7 @@
 'use client'
 
-import { Product } from '@/@types/product'
-import { useCarouselSync } from '@/hooks/use-carousel-sync'
+import { Product } from '@/@types/product.types'
+import { useCarouselSync } from '@/hooks/use-carousel-sync.hooks'
 import { motion } from 'motion/react'
 
 import { ProductCarousel } from '@/components/shared/product/product-carousel'
@@ -31,6 +31,7 @@ export const ImageSection = ({
 			<ProductCarousel
 				images={product.images}
 				productId={product.id}
+				productTitle={product.name}
 				isFavorite={product.isFavorite || false}
 				isFavoriteLoading={isFavoriteLoading}
 				setApi={setApi}

@@ -1,5 +1,5 @@
 import { db } from '@/db/drizzle'
-import { product } from '@/db/schema/product'
+import { product } from '@/db/schema/product.schema'
 import { ilike } from 'drizzle-orm'
 import { NextRequest, NextResponse } from 'next/server'
 

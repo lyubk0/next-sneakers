@@ -1,4 +1,4 @@
-import { Product } from '@/@types/product'
+import { Product } from '@/@types/product.types'
 import { CommandItem } from '@/components/ui/command'
 import { Title } from '@/components/ui/title'
 import Image from 'next/image'

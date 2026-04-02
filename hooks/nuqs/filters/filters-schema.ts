@@ -1,10 +1,10 @@
-import { ALL_SEXES_VALUES } from '@/constants/filters-constants'
+import { ALL_SEXES_VALUES } from '@/constants/filters.constants'
 import {
 	parseAsArrayOf,
 	parseAsInteger,
 	parseAsString,
 	parseAsStringLiteral,
-} from 'nuqs'
+} from 'nuqs/server'
 
 export const filtersSchema = {
 	sizes: parseAsArrayOf(parseAsString),

@@ -1,14 +1,14 @@
 'use client'
 
-import { Product } from '@/@types/product'
+import { Product } from '@/@types/product.types'
 import { Title } from '@/components/ui/title'
 import { useQueryState } from 'nuqs'
 import toast from 'react-hot-toast'
 import { ProductSizeSelector } from './product-size-selector'
 
 import { Button } from '@/components/ui/button'
-import { useAddToCart } from '@/hooks/tanstack/cart/cart-mutations'
-import { useCart } from '@/hooks/tanstack/cart/cart-queries'
+import { useAddToCart } from '@/hooks/tanstack/cart/cart.mutations'
+import { useCart } from '@/hooks/tanstack/cart/cart.queries'
 import '@smastrom/react-rating/style.css'
 import { ProductVariants } from './product-variants'
 

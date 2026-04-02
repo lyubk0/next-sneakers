@@ -6,7 +6,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { CartButton } from './nav-buttons/cart-button'
 import { SearchButton } from './nav-buttons/search-button'
-import { UserButton } from './nav-buttons/user-button'
+import { UserButton } from './nav-buttons/user-button/user-button'
 
 interface Props {
 	className?: string

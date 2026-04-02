@@ -1,6 +1,6 @@
 import { Container } from '@/components/shared/container'
 import { SomethingWentWrong } from '@/components/shared/something-went-wrong'
-import { ANIMATED_EMOJIS } from '@/constants/animated-emojis-constant'
+import { ANIMATED_EMOJIS } from '@/constants/animated-emojis.constants'
 
 export default function NotFound() {
 	return (

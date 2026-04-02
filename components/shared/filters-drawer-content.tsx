@@ -3,8 +3,8 @@
 import { Filters } from '@/components/shared/filters'
 import { Button } from '@/components/ui/button'
 import { DrawerHeader, DrawerTitle } from '@/components/ui/drawer'
-import { useFilters } from '@/hooks/nuqs'
-import { useFiltersCount } from '@/hooks/use-filters-count'
+import { useFilters } from '@/hooks/nuqs/filters/use-filters'
+import { useFiltersCount } from '@/hooks/use-filters-count.hooks'
 import { cn } from '@/lib/utils'
 
 export const FiltersDrawerContent = () => {

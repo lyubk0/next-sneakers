@@ -1,7 +1,7 @@
 'use client'
 
-import { Product } from '@/@types/product'
-import { useIsFavorite } from '@/hooks/tanstack/favorite/favorite-queries'
+import { Product } from '@/@types/product.types'
+import { useIsFavorite } from '@/hooks/tanstack/favorite/favorite.queries'
 import { ImageSection } from '.'
 
 interface Props {

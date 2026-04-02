@@ -10,10 +10,11 @@ import {
 } from '@/components/ui/carousel'
 import { cn } from '@/lib/utils'
 import Image from 'next/image'
-import { MouseEvent, useState } from 'react'
+import { MouseEvent } from 'react'
 
 interface Props {
 	images: string[]
+	productTitle: string
 	productId: number
 	isFavorite: boolean
 	isFavoriteLoading?: boolean
@@ -25,6 +26,7 @@ interface Props {
 
 export const ProductCarousel = ({
 	images,
+	productTitle,
 	productId,
 	isFavorite,
 	isFavoriteLoading,
@@ -33,8 +35,6 @@ export const ProductCarousel = ({
 	onNext,
 	className,
 }: Props) => {
-	const [loadedImages, setLoadedImages] = useState<Record<string, boolean>>({})
-
 	return (
 		<Carousel
 			className={cn(
@@ -51,27 +51,24 @@ export const ProductCarousel = ({
 				className='absolute right-4 top-4 z-10'
 				iconSize={20}
 			/>
+
 			<CarouselContent className='h-full w-full'>
-				{images.map(img => (
+				{images.map((img, index) => (
 					<CarouselItem key={img} className='flex justify-center items-center'>
 						<div className='relative m-10 w-full aspect-square'>
 							<Image
-								loading='lazy'
 								src={img}
-								alt=''
+								alt={productTitle}
 								fill
-								className={cn(
-									'object-contain transition-[opacity,filter] duration-300',
-									loadedImages[img] ? 'blur-0' : 'blur-md',
-								)}
-								onLoad={() =>
-									setLoadedImages(prev => ({ ...prev, [img]: true }))
-								}
+								sizes='(max-width: 768px) 90vw, (max-width: 1280px) 40vw, 320px'
+								loading={index === 0 ? 'eager' : 'lazy'}
+								className='object-contain'
 							/>
 						</div>
 					</CarouselItem>
 				))}
 			</CarouselContent>
+
 			<CarouselPrevious onClick={onPrev} />
 			<CarouselNext onClick={onNext} />
 			<CarouselDots className='mt-4 opacity-0 group-hover/card:opacity-100 duration-150 ease-out' />

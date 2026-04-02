@@ -1,4 +1,4 @@
-import { CART_WITH } from '@/constants/cart-with-constant'
+import { CART_WITH } from '@/constants/cart-with.constants'
 import { db } from '@/db/drizzle'
 import { cart } from '@/db/schema'
 import { calculateTotal } from '@/lib/calculate-total'
