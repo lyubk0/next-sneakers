@@ -1,19 +1,6 @@
 import { Product } from '@/@types/product.types'
-import { Sex } from '@/constants/product.constants'
-import { SortValue } from '@/constants/sort.constants'
+import { ProductSearchParams } from '@/constants/products-search-params.constants'
 import axios from 'axios'
-
-interface GetAllParams {
-	limit?: number
-	brands?: number[]
-	sexes?: Sex[]
-	priceFrom?: number
-	priceTo?: number
-	sizes?: string[]
-	colors?: string[]
-	sort?: SortValue
-	page?: number
-}
 
 interface Pagination {
 	page: number
@@ -34,7 +21,10 @@ export const getAll = async ({
 	colors,
 	sort,
 	page,
-}: GetAllParams): Promise<{ items: Product[]; pagination: Pagination }> => {
+}: ProductSearchParams): Promise<{
+	items: Product[]
+	pagination: Pagination
+}> => {
 	try {
 		const query = new URLSearchParams()
 

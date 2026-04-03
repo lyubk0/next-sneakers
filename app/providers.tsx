@@ -1,6 +1,7 @@
 'use client'
 
 import { TooltipProvider } from '@/components/ui/tooltip'
+import { productKeys } from '@/hooks/tanstack/product.queries'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
@@ -19,6 +20,9 @@ const queryClient = new QueryClient({
 	},
 })
 
+queryClient.setQueryDefaults(productKeys.lists(), {
+	gcTime: 0,
+})
 export const Providers = ({ children }: PropsWithChildren<Props>) => {
 	return (
 		<QueryClientProvider client={queryClient}>

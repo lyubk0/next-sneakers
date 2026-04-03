@@ -17,7 +17,6 @@ export const addToCart = async (productData: NewCartItem) => {
 			throw new Error('Guest ID not found')
 		}
 
-		console.log('Adding to cart for guestId:', guestId)
 		const userCart = await db.query.cart.findFirst({
 			where: eq(cart.guest_id, guestId),
 		})

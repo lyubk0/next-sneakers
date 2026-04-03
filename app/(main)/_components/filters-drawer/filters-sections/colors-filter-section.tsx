@@ -22,7 +22,6 @@ export const ColorsFilterSection = ({ className }: Props) => {
 	const colors = queryClient.getQueryData(colorKeys.all) as Color[]
 
 	const { selectedColors, toggleColor, selectedSizes } = useFilters()
-	console.log(selectedColors)
 	return (
 		<AccordionItem value='colors'>
 			<AccordionTrigger>

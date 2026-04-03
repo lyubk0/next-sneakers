@@ -1,6 +1,5 @@
 import { GetAllProductsApiResponse } from '@/app/api/products/route'
-import { Sex } from '@/constants/product.constants'
-import { SortValue } from '@/constants/sort.constants'
+import { ProductSearchParams } from '@/constants/products-search-params.constants'
 import { db } from '@/db/drizzle'
 import { favorite, product, size } from '@/db/schema'
 import { getGuestId } from '@/lib/get-guest-id'
@@ -9,20 +8,8 @@ import { and, eq, exists, gte, inArray, lte, sql } from 'drizzle-orm'
 
 const DEFAULT_LIMIT = 8
 
-export interface GetProductsParams {
-	brands?: number[]
-	sexes?: Sex[]
-	priceFrom?: number
-	priceTo?: number
-	sizes?: string[]
-	colors?: string[]
-	sort?: SortValue
-	page?: number
-	limit?: number
-}
-
 export async function getProducts(
-	params: GetProductsParams = {},
+	params: ProductSearchParams = {},
 ): Promise<GetAllProductsApiResponse> {
 	const {
 		brands = [],

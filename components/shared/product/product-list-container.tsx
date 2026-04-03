@@ -5,6 +5,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { useFilters } from '@/hooks/nuqs/filters/use-filters'
 import { useSort } from '@/hooks/nuqs/use-sort'
 import { useProducts } from '@/hooks/tanstack/product.queries'
+import { parseProductSearchParams } from '@/lib/parse-product-search-params.utils'
 import { cn } from '@/lib/utils'
 import { parseAsInteger, useQueryState } from 'nuqs'
 import { useEffect } from 'react'
@@ -26,16 +27,18 @@ export const ProductListContainer = ({ className }: Props) => {
 	const { sort } = useSort()
 	const [page, setPage] = useQueryState('page', parseAsInteger.withDefault(1))
 
-	const { data, isPending } = useProducts({
-		brands: selectedBrandsQuery || [],
-		sexes: selectedSexes,
-		priceFrom: priceFrom,
-		priceTo: priceTo,
-		sizes: selectedSizes,
-		colors: selectedColors,
-		sort,
-		page,
-	})
+	const { data, isPending } = useProducts(
+		parseProductSearchParams({
+			brands: selectedBrandsQuery,
+			sexes: selectedSexes,
+			priceFrom,
+			priceTo,
+			sizes: selectedSizes,
+			colors: selectedColors,
+			sort,
+			page,
+		}),
+	)
 
 	useEffect(() => {
 		setPage(1)

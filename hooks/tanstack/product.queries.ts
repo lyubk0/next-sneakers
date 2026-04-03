@@ -1,54 +1,19 @@
-import { Sex } from '@/constants/product.constants'
-import { SortValue } from '@/constants/sort.constants'
+import { ProductSearchParams } from '@/constants/products-search-params.constants'
 import { ApiClient } from '@/services/api-client'
 import { useQuery } from '@tanstack/react-query'
-
-interface ProductFilters {
-	brands?: number[]
-	sexes?: Sex[]
-	priceFrom?: number
-	priceTo?: number
-	sizes?: string[]
-	colors?: string[]
-}
 
 export const productKeys = {
 	all: ['products'] as const,
 	lists: () => [...productKeys.all, 'list'] as const,
-	filtered: (filters: ProductFilters & { sort?: SortValue; page?: number }) => {
-		const { sexes, sizes, brands, colors, priceFrom, priceTo, sort, page } =
-			filters
-		return [
-			...productKeys.lists(),
-			{ sexes, sizes, brands, colors, priceFrom, priceTo, sort, page },
-		] as const
+	filtered: (filters: ProductSearchParams) => {
+		return [...productKeys.lists(), filters] as const
 	},
 
 	group: (groupSlug: string) =>
 		[...productKeys.all, 'group', groupSlug] as const,
 }
 
-export const useProducts = ({
-	brands = [],
-	sexes = [],
-	priceFrom = 0,
-	priceTo = 1000,
-	sizes = [],
-	colors = [],
-	sort = 'recommended',
-	page = 1,
-}: ProductFilters & { sort?: SortValue; page?: number }) => {
-	const filters = {
-		brands,
-		sexes,
-		priceFrom,
-		priceTo,
-		sizes,
-		colors,
-		sort,
-		page,
-	}
-
+export const useProducts = (filters: ProductSearchParams) => {
 	return useQuery({
 		queryKey: productKeys.filtered(filters),
 		queryFn: () => ApiClient.product.getAll(filters),
