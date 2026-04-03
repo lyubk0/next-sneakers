@@ -1,8 +1,11 @@
 'use client'
 
 import { TooltipProvider } from '@/components/ui/tooltip'
-import { productKeys } from '@/hooks/tanstack/product.queries'
-import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import {
+	QueryClient,
+	QueryClientProvider,
+	isServer,
+} from '@tanstack/react-query'
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools'
 import { NuqsAdapter } from 'nuqs/adapters/next/app'
 import { PropsWithChildren } from 'react'
@@ -12,21 +15,37 @@ interface Props {
 	className?: string
 }
 
-const queryClient = new QueryClient({
-	defaultOptions: {
-		queries: {
-			staleTime: 1000 * 60 * 5,
+function makeQueryClient() {
+	return new QueryClient({
+		defaultOptions: {
+			queries: {
+				staleTime: 1000 * 60 * 5,
+			},
 		},
-	},
-})
+	})
+}
 
-queryClient.setQueryDefaults(productKeys.lists(), {
-	gcTime: 0,
-})
+let browserQueryClient: QueryClient | undefined
+
+function getQueryClient() {
+	if (isServer) {
+		return makeQueryClient()
+	}
+
+	if (!browserQueryClient) {
+		browserQueryClient = makeQueryClient()
+	}
+
+	return browserQueryClient
+}
+
 export const Providers = ({ children }: PropsWithChildren<Props>) => {
+	const queryClient = getQueryClient()
+
 	return (
 		<QueryClientProvider client={queryClient}>
 			<ReactQueryDevtools initialIsOpen={false} />
+
 			<TooltipProvider>
 				<Toaster
 					position='bottom-center'
@@ -48,6 +67,7 @@ export const Providers = ({ children }: PropsWithChildren<Props>) => {
 						},
 					}}
 				/>
+
 				<NuqsAdapter>{children}</NuqsAdapter>
 			</TooltipProvider>
 		</QueryClientProvider>

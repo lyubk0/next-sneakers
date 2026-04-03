@@ -31,8 +31,7 @@ export default async function HomePage({ searchParams }: Props) {
 
 	await queryClient.prefetchQuery({
 		queryKey: productKeys.filtered(safetySearchParams),
-		queryFn: async () =>
-			await ApiServer.product.getProducts(safetySearchParams),
+		queryFn: () => ApiServer.product.getProducts(safetySearchParams),
 	})
 
 	return (
