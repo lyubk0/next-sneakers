@@ -3,6 +3,7 @@ import { SignUpFormData } from '@/components/shared/auth/forms/schemas/sign-up-f
 import { signIn, signOut, signUp } from '@/lib/auth-client'
 import { useMutation } from '@tanstack/react-query'
 import { useRouter } from 'next/navigation'
+import toast from 'react-hot-toast'
 
 export const useSignIn = () => {
 	return useMutation({
@@ -15,30 +16,44 @@ export const useSignIn = () => {
 			})
 
 			if (result.error) {
-				throw result.error
+				throw new Error(result.error.message || 'Something went wrong')
 			}
 
 			return result.data
+		},
+
+		onError: (error: any) => {
+			const message = error?.message ?? 'Something went wrong'
+			toast.error(message)
 		},
 	})
 }
 
 export const useSignUp = () => {
-	const router = useRouter()
 	return useMutation({
-		mutationFn: async (data: SignUpFormData) =>
-			await signUp.email({
+		mutationFn: async (data: SignUpFormData) => {
+			const result = await signUp.email({
 				name: data.fullName,
 				email: data.email,
 				password: data.password,
-				callbackURL: '/',
-			}),
+			})
+
+			if (result.error) {
+				throw new Error(result.error.message)
+			}
+
+			return result.data
+		},
+
+		onError: (error: Error) => {
+			toast.error(error.message ?? 'Something went wrong')
+		},
+
 		onSuccess: () => {
-			router.push('/')
+			toast.success('Please check your email to verify your account')
 		},
 	})
 }
-
 export const useSignOut = () => {
 	const router = useRouter()
 	return useMutation({

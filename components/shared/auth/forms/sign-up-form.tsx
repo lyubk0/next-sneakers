@@ -31,6 +31,7 @@ export const SignUpForm = ({ className }: Props) => {
 
 	const onSubmit = async (data: SignUpFormData) => {
 		await signUpMutation.mutateAsync(data)
+		form.reset()
 	}
 
 	return (

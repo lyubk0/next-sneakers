@@ -9,7 +9,6 @@ import { ProductSizeSelector } from './product-size-selector'
 import { Button } from '@/components/ui/button'
 import { useAddToCart } from '@/hooks/tanstack/cart/cart.mutations'
 import { useCart } from '@/hooks/tanstack/cart/cart.queries'
-import '@smastrom/react-rating/style.css'
 import { ProductVariants } from './product-variants'
 
 interface Props {
